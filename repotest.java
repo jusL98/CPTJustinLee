@@ -8,5 +8,6 @@ public class repotest{
 		con.println("CPT Time!");
 		con.println("Test1");
 		con.println("Test2");
+		con.println("Test3");
 	}
 }
