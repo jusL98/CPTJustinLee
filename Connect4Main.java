@@ -26,6 +26,7 @@ public class Connect4Main {
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
 			System.out.println("TEST: Option 1 Selected");
+			playGame(con);
 			
 		}
 		// Option 2 Activated - View Leaderboard
@@ -45,8 +46,36 @@ public class Connect4Main {
 		}
 	}
 	
-	public static void playGame(){
+	
+	public static void playGame(Console con){
+		String p1Name = "";
+		String p2Name = "";
+		int p1Wins = 0;
+		int p2Wins = 0;
 		
+		if(p1Name.isEmpty()){
+			con.print("Player 1, enter your name: ");
+			p1Name = con.readLine();
+			while(p1Name.isEmpty()){
+				con.println("Name cannot be empty");
+				con.println();
+				
+				con.print("Player 1, enter your name: ");
+				p1Name = con.readLine();
+			}
+		}
+		
+		if(p2Name.isEmpty()){
+			con.print("Player 2, enter your name: ");
+			p2Name = con.readLine();
+			while(p1Name.isEmpty()){
+				con.println("Name cannot be empty");
+				con.println();
+				
+				con.print("Player 2, enter your name: ");
+				p2Name = con.readLine();
+			}
+		}
 	}
 	
 	public static void viewLeaderboard(){
