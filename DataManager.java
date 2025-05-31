@@ -1,30 +1,42 @@
 import arc.*;
 
 public class DataManager {
-	
+	/*
+	 * getTheme method - Returns theme data in an array from "themes.txt" based on the provided theme name.
+	 * If theme name not located, returns "INVALID" string values in the array.
+	 */
 	public static String[] getTheme(String strSelectedTheme) {
-		TextInputFile themes = new TextInputFile("themes.txt");
+		// Locate theme that matches strSelectedTheme parameter and fill all values
+		TextInputFile themesFile = new TextInputFile("themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
 		String strBoardColor = "";
 		String strBoardTitle = "";
 		boolean boolKeepSearching = true;
-		String strTheme[] = new String[5];
-		
-		// Locate theme that matches strSelectedTheme parameter and fill all values
-		while(themes.eof() != true && boolKeepSearching == true){
-			strThemeName = themes.readLine();
+		while(themesFile.eof() != true && boolKeepSearching == true){
+			strThemeName = themesFile.readLine();
 			if(strThemeName.equalsIgnoreCase(strSelectedTheme)){
 				boolKeepSearching = false;
 			}
-			strP1Color = themes.readLine();
-			strP2Color = themes.readLine();
-			strBoardColor = themes.readLine();
-			strBoardTitle = themes.readLine();
+			strP1Color = themesFile.readLine();
+			strP2Color = themesFile.readLine();
+			strBoardColor = themesFile.readLine();
+			strBoardTitle = themesFile.readLine();
+		}
+		themesFile.close();
+		
+		// If strSelectedTheme does not exist, set all values to "INVALID"
+		if(boolKeepSearching == true){
+			strThemeName = "INVALID";
+			strP1Color = "INVALID";
+			strP2Color = "INVALID";
+			strBoardColor = "INVALID";
+			strBoardTitle = "INVALID";
 		}
 		
-		// Fill array with values of selected theme
+		// Create and fill array with values of selected theme
+		String strTheme[] = new String[5];
 		strTheme[0] = strThemeName;
 		strTheme[1] = strP1Color;
 		strTheme[2] = strP2Color;
@@ -33,35 +45,34 @@ public class DataManager {
 		
 		System.out.println("TEST: Theme Properties -> " + strThemeName + "  " + strP1Color + "  " +  strP2Color + "  " +  strBoardColor + "  " + strBoardTitle); // TEST
 		
-		themes.close();
 		return strTheme;
 	}
 	
 	public static String[][] getLeaderboard() {
 		// Count number of entries in leaderboard data file
-		TextInputFile leaderboard = new TextInputFile("leaderboard.txt");
+		TextInputFile leaderboardFile = new TextInputFile("leaderboard.txt");
 		String strName;
 		int intWins;
 		int intNumEntries = 0;
-		while(leaderboard.eof() != true){
-			strName = leaderboard.readLine();
-			intWins = leaderboard.readInt();
+		while(leaderboardFile.eof() != true){
+			strName = leaderboardFile.readLine();
+			intWins = leaderboardFile.readInt();
 			
 			intNumEntries++;
 		}
-		leaderboard.close();
+		leaderboardFile.close();
 		
 		System.out.println("TEST: Num LB Entries -> " + intNumEntries); // TEST
 		
 		// Create and fill leaderboard array with values from data file
-		leaderboard = new TextInputFile("leaderboard.txt");
+		leaderboardFile = new TextInputFile("leaderboard.txt");
 		String strEntries[][] = new String[intNumEntries][2];
 		int intCount;
 		for(intCount = 0; intCount < intNumEntries; intCount++){
-			strEntries[intCount][0] = leaderboard.readLine();
-			strEntries[intCount][1] = leaderboard.readLine();
+			strEntries[intCount][0] = leaderboardFile.readLine();
+			strEntries[intCount][1] = leaderboardFile.readLine();
 		}
-		leaderboard.close();
+		leaderboardFile.close();
 		
 		// Sort leaderboard array in descending order (highest to least wins)
 		int intCount2;
@@ -87,20 +98,18 @@ public class DataManager {
 	}
 	
 	public static String getLastTheme() {
+		// Get last theme from lasttheme data file
 		TextInputFile lastThemeFile = new TextInputFile("lasttheme.txt");
-		String lastTheme = "";
-			if (!lastThemeFile.eof()) {
-				lastTheme = lastThemeFile.readLine();
-			}
-			lastThemeFile.close();
-		return lastTheme;
+		String strLastTheme = "";
+		strLastTheme = lastThemeFile.readLine(); // only 1 line should exist in the file at any given time
+		lastThemeFile.close();
+			
+		return strLastTheme;
 	}
-	
-	
+
 	public static void main(String[] args) {
-		String test[] = getTheme("christmas");
-		
-		for(String tes:test){
+		String test[] = getTheme("christamas");
+		for(String tes : test){
 			System.out.println(tes);
 		}
 		
