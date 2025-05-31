@@ -2,7 +2,8 @@ import arc.*;
 
 public class DataManager {
 	/*
-	 * getTheme method - Returns theme data in an array from "themes.txt" based on the provided theme name.
+	 * getTheme method:
+	 * Returns theme data in an array from "themes.txt" based on the provided theme name.
 	 * If theme name not located, returns "INVALID" string values in the array.
 	 */
 	public static String[] getTheme(String strSelectedTheme) {
@@ -44,10 +45,18 @@ public class DataManager {
 		strTheme[4] = strBoardTitle;
 		
 		System.out.println("TEST: Theme Properties -> " + strThemeName + "  " + strP1Color + "  " +  strP2Color + "  " +  strBoardColor + "  " + strBoardTitle); // TEST
+		System.out.println();
 		
 		return strTheme;
 	}
 	
+	
+	/*
+	 * getLeaderboard method:
+	 * Returns a sorted leaderboard 2D array of {player, name} based on most to least wins.
+	 * Only returns top 10 scores.
+	 * If no entries in leaderboard exist, array will be empty.
+	 */
 	public static String[][] getLeaderboard() {
 		// Count number of entries in leaderboard data file
 		TextInputFile leaderboardFile = new TextInputFile("leaderboard.txt");
@@ -63,6 +72,7 @@ public class DataManager {
 		leaderboardFile.close();
 		
 		System.out.println("TEST: Num LB Entries -> " + intNumEntries); // TEST
+		System.out.println();
 		
 		// Create and fill leaderboard array with values from data file
 		leaderboardFile = new TextInputFile("leaderboard.txt");
@@ -97,6 +107,12 @@ public class DataManager {
 		return strEntries;
 	}
 	
+	
+	/*
+	 * getLastTheme method:
+	 * Returns the theme name of the last theme loaded in the last round/session from "lasttheme.txt". 
+	 * Then, should use load theme to load the data of the last theme following this method call.
+	 */
 	public static String getLastTheme() {
 		// Get last theme from lasttheme data file
 		TextInputFile lastThemeFile = new TextInputFile("lasttheme.txt");
@@ -107,6 +123,27 @@ public class DataManager {
 		return strLastTheme;
 	}
 
+		
+	/*
+	 * createNewTeheme method:
+	 * Appends the new theme data entered in the parameters to "themes.txt".
+	 * Removes leading and trailing spaces from any of the parameters.
+	 */
+	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title){
+		// Adds new theme data into themese data file
+		TextOutputFile themesFile = new TextOutputFile("themes.txt", true);
+		themesFile.println(strThemeName.strip());
+		themesFile.println(p1_colour.strip());
+		themesFile.println(p2_colour.strip());
+		themesFile.println(board_colour.strip());
+		themesFile.println(board_title.strip());
+		themesFile.close();
+	}
+
+	/*
+	 * main method:
+	 * Used for temporary testing only
+	 */
 	public static void main(String[] args) {
 		String test[] = getTheme("christamas");
 		for(String tes : test){
@@ -120,5 +157,7 @@ public class DataManager {
 		}
 		
 		System.out.println(getLastTheme());
+		
+		createNewTheme("candy", "0,0,0", "255,255,20", "8,8,8", "Sweet 4");
 	}
 }
