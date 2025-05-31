@@ -8,4 +8,3 @@ christmas
 0, 255, 0
 100, 50, 0
 Ho Ho Ho 4
-a

@@ -2,7 +2,7 @@ import arc.*;
 
 public class DataManager {
 	
-	public static void loadTheme(String strSelectedTheme) {
+	public static String[] getTheme(String strSelectedTheme) {
 		TextInputFile themes = new TextInputFile("themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
@@ -10,6 +10,7 @@ public class DataManager {
 		String strBoardColor = "";
 		String strBoardTitle = "";
 		boolean boolKeepSearching = true;
+		String strTheme[] = new String[5];
 		
 		// Locate theme that matches strSelectedTheme parameter and fill all values
 		while(themes.eof() != true && boolKeepSearching == true){
@@ -23,12 +24,20 @@ public class DataManager {
 			strBoardTitle = themes.readLine();
 		}
 		
+		// Fill array with values of selected theme
+		strTheme[0] = strThemeName;
+		strTheme[1] = strP1Color;
+		strTheme[2] = strP2Color;
+		strTheme[3] = strBoardColor;
+		strTheme[4] = strBoardTitle;
+		
 		System.out.println("TEST: Theme Properties -> " + strThemeName + "  " + strP1Color + "  " +  strP2Color + "  " +  strBoardColor + "  " + strBoardTitle); // TEST
 		
 		themes.close();
+		return strTheme;
 	}
 	
-	public static String[][] viewLeaderboard() {
+	public static String[][] getLeaderboard() {
 		// Count number of entries in leaderboard data file
 		TextInputFile leaderboard = new TextInputFile("leaderboard.txt");
 		String strName;
@@ -77,12 +86,30 @@ public class DataManager {
 		return strEntries;
 	}
 	
+	public static String getLastTheme() {
+		TextInputFile lastThemeFile = new TextInputFile("lasttheme.txt");
+		String lastTheme = "";
+			if (!lastThemeFile.eof()) {
+				lastTheme = lastThemeFile.readLine();
+			}
+			lastThemeFile.close();
+		return lastTheme;
+	}
+	
+	
 	public static void main(String[] args) {
-		loadTheme("christmas");
-		String strLBEntries[][] =  viewLeaderboard();
+		String test[] = getTheme("christmas");
+		
+		for(String tes:test){
+			System.out.println(tes);
+		}
+		
+		String strLBEntries[][] = getLeaderboard();
 		
 		for(int intCount = 0; intCount < strLBEntries.length; intCount++){
 			System.out.println(strLBEntries[intCount][0] + ", " + strLBEntries[intCount][1]);
 		}
+		
+		System.out.println(getLastTheme());
 	}
 }
