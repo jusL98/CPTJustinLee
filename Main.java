@@ -1,13 +1,20 @@
 import arc.*;
+import java.awt.Color;
 
 public class Main {
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
 		
+		mainMenu(con);
+		
+	}
+	
+	public static void mainMenu(Console con) {
 		// Connect 4 Logo TO BE CREATED
 		
 		con.println("Welcome to Connect 4!\n");
 		
+		con.println("-------------------------------------------");
 		int intSelection;
 		con.println("MAIN MENU");
 		con.println(" [1] - Play Game ");
@@ -15,6 +22,7 @@ public class Main {
 		con.println(" [3] - Load Theme ");
 		con.println(" [4] - Create Theme ");
 		intSelection = getValidInput(con,4);
+		con.println("-------------------------------------------");
 		
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
@@ -39,12 +47,10 @@ public class Main {
 		else if(intSelection == 4){
 			System.out.println("TEST: Main Menu Option 4 Selected"); // TEST
 			System.out.println();
-			
 		}
 	}
 	
-	
-	public static void playGame(Console con){
+	public static void playGame(Console con) {
 		String p1Name = "";
 		String p2Name = "";
 		int p1Wins = 0;
@@ -53,24 +59,24 @@ public class Main {
 		if(p1Name.isEmpty()){
 			con.print("Player 1, enter your name: ");
 			p1Name = con.readLine();
-			while(p1Name.isEmpty()){
+			while(p1Name.trim().isEmpty()){
 				con.println("Name cannot be empty");
 				con.println();
 				
 				con.print("Player 1, enter your name: ");
-				p1Name = con.readLine();
+				p1Name = con.readLine().trim();
 			}
 		}
 		
 		if(p2Name.isEmpty()){
 			con.print("Player 2, enter your name: ");
 			p2Name = con.readLine();
-			while(p1Name.isEmpty()){
+			while(p2Name.trim().isEmpty()){
 				con.println("Name cannot be empty");
 				con.println();
 				
 				con.print("Player 2, enter your name: ");
-				p2Name = con.readLine();
+				p2Name = con.readLine().trim();
 			}
 		}
 	}
@@ -90,5 +96,10 @@ public class Main {
 		}
 		
 		return intInput;
+	}
+	
+	public static void newScreen(Console con) {
+		con.setBackgroundColor(Color.BLACK);
+		con.clear();
 	}
 }
