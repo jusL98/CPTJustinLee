@@ -129,7 +129,7 @@ public class DataManager {
 	 * Appends the new theme data entered in the parameters to "themes.txt".
 	 * Removes leading and trailing spaces from any of the parameters.
 	 */
-	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title){
+	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title) {
 		// Adds new theme data into themese data file
 		TextOutputFile themesFile = new TextOutputFile("themes.txt", true);
 		themesFile.println(strThemeName.strip());

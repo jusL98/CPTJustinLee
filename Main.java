@@ -1,6 +1,6 @@
 import arc.*;
 
-public class Connect4Main {
+public class Main {
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
 		
@@ -14,34 +14,31 @@ public class Connect4Main {
 		con.println(" [2] - View Leaderboard ");
 		con.println(" [3] - Load Theme ");
 		con.println(" [4] - Create Theme ");
-		con.print("  -> Your Selection: ");
-		intSelection = con.readInt();
-		while(!(intSelection >= 1 && intSelection <= 4)){ // keep asking until valid option selected
-			con.println("  Invalid Entry. Select an option #1-4.");
-			con.println();
-			con.print("  -> Your Selection: ");
-			intSelection = con.readInt();
-		}
+		intSelection = getValidInput(con,4);
 		
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
-			System.out.println("TEST: Option 1 Selected");
+			System.out.println("TEST: Main Menu Option 1 Selected"); // TEST
+			System.out.println();
 			playGame(con);
 			
 		}
 		// Option 2 Activated - View Leaderboard
 		else if(intSelection == 2){
-			System.out.println("TEST: Option 2 Selected");
+			System.out.println("TEST: Main Menu Option 2 Selected"); // TEST
+			System.out.println();
 			
 		}
 		// Option 3 Activated - Load Theme
 		else if(intSelection == 3){
-			System.out.println("TEST: Option 3 Selected");
+			System.out.println("TEST: Main Menu Option 3 Selected"); // TEST
+			System.out.println();
 			
 		}
 		// Option 4 Activated - Create Theme
 		else if(intSelection == 4){
-			System.out.println("TEST: Option 4 Selected");
+			System.out.println("TEST: Main Menu Option 4 Selected"); // TEST
+			System.out.println();
 			
 		}
 	}
@@ -78,15 +75,20 @@ public class Connect4Main {
 		}
 	}
 	
-	public static void viewLeaderboard(){
-		
-	}
 	
-	public static void loadTheme(){
+	public static int getValidInput(Console con, int intMax) {
+		int intInput;
+		while(true) {
+			con.print("  -> Your Selection: ");
+			intInput = con.readInt();
+			
+			if(intInput >= 1 && intInput <= intMax){
+				break;
+			}else{
+				con.println("     INVALID. Enter a number #1-" + intMax + ".\n");
+			}
+		}
 		
-	}
-	
-	public static void createTheme(){
-		
+		return intInput;
 	}
 }
