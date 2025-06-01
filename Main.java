@@ -1,17 +1,17 @@
 import arc.*;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 public class Main {
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
 		
-		mainMenu(con);
+		// TODO: create a quit button
 		
-	}
-	
-	public static void mainMenu(Console con) {
-		// Connect 4 Logo TO BE CREATED
-		
+		// TODO: logo to be replaced with custom one, set size properly and position properly
+		//BufferedImage imgLogo = con.loadImage("C4Test.png");
+		//con.drawImage(imgLogo, 0, 0);
+
 		con.println("Welcome to Connect 4!\n");
 		
 		con.println("-------------------------------------------");
@@ -21,6 +21,7 @@ public class Main {
 		con.println(" [2] - View Leaderboard ");
 		con.println(" [3] - Load Theme ");
 		con.println(" [4] - Create Theme ");
+		con.println();
 		intSelection = getValidInput(con,4);
 		con.println("-------------------------------------------");
 		
@@ -29,7 +30,6 @@ public class Main {
 			System.out.println("TEST: Main Menu Option 1 Selected"); // TEST
 			System.out.println();
 			playGame(con);
-			
 		}
 		// Option 2 Activated - View Leaderboard
 		else if(intSelection == 2){
@@ -48,50 +48,46 @@ public class Main {
 			System.out.println("TEST: Main Menu Option 4 Selected"); // TEST
 			System.out.println();
 		}
+		
 	}
 	
+	// Main Menu Options
 	public static void playGame(Console con) {
-		String p1Name = "";
-		String p2Name = "";
-		int p1Wins = 0;
-		int p2Wins = 0;
+		newScreen(con);
+
+		String strP1Name;
+		String strP2Name;
 		
-		if(p1Name.isEmpty()){
-			con.print("Player 1, enter your name: ");
-			p1Name = con.readLine();
-			while(p1Name.trim().isEmpty()){
-				con.println("Name cannot be empty");
-				con.println();
-				
-				con.print("Player 1, enter your name: ");
-				p1Name = con.readLine().trim();
-			}
-		}
-		
-		if(p2Name.isEmpty()){
-			con.print("Player 2, enter your name: ");
-			p2Name = con.readLine();
-			while(p2Name.trim().isEmpty()){
-				con.println("Name cannot be empty");
-				con.println();
-				
-				con.print("Player 2, enter your name: ");
-				p2Name = con.readLine().trim();
-			}
-		}
+		strP1Name = getPlayerName(con, 1);
+		con.println("\n===========================================\n");
+		strP2Name = getPlayerName(con, 2);  
 	}
 	
+	
+	// Helper Methods
+	public static String getPlayerName(Console con, int intPlayerNum) {
+		String strName = "";
+		while (strName.trim().isEmpty()) {
+            con.print("Player " + intPlayerNum + ", enter your name: ");
+            strName = con.readLine().trim();
+            if (strName.isEmpty()) {
+                con.println("     [INVALID] Name cannot be empty.");
+				con.println();
+            }
+        }
+        return strName;
+	}
 	
 	public static int getValidInput(Console con, int intMax) {
 		int intInput;
 		while(true) {
-			con.print("  -> Your Selection: ");
+			con.print("Your Selection: ");
 			intInput = con.readInt();
 			
 			if(intInput >= 1 && intInput <= intMax){
 				break;
 			}else{
-				con.println("     INVALID. Enter a number #1-" + intMax + ".\n");
+				con.println("     [INVALID] Enter a number #1-" + intMax + ".\n");
 			}
 		}
 		
@@ -99,7 +95,7 @@ public class Main {
 	}
 	
 	public static void newScreen(Console con) {
-		con.setBackgroundColor(Color.BLACK);
-		con.clear();
+		con.setBackgroundColor(Color.BLACK); // clears image
+		con.clear(); // clears text
 	}
 }
