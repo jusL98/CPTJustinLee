@@ -76,9 +76,12 @@ public class Main {
 	public static void viewLeaderboardScreen(Console con){
 		newScreen(con);
 		
-		String strLeaderboard[][] = 
+		String strLeaderboard[][] = DataManager.getLeaderboard();
 		
-		DataManager.getLeaderboard();
+		for(int intCount = 0; intCount < strLeaderboard.length; intCount++){
+			System.out.println(strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+		}
+		
 	}
 	
 	public static void loadThemeScreen(Console con){

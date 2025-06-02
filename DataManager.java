@@ -53,16 +53,18 @@ public class DataManager {
 		}
 		
 		// Return only the top 10 scores of the leaderboard by creating a new array
+		String strLB[][];
 		if(strEntries.length > 10){
-			String strTop10[][] = new String[10][2];
+			strLB = new String[10][2];
 			for(intCount = 0; intCount < 10; intCount++){
-				strTop10[intCount][0] = strEntries[intCount][0];
-				strTop10[intCount][1] = strEntries[intCount][1];
+				strLB[intCount][0] = strEntries[intCount][0];
+				strLB[intCount][1] = strEntries[intCount][1];
 			}
-			return strTop10;
+		}else{
+			strLB = strEntries;
 		}
 		
-		return strEntries;
+		return strLB;
 	}
 	
 	
@@ -147,6 +149,7 @@ public class DataManager {
 		themesFile.println(board_title.strip());
 		themesFile.close();
 	}
+
 
 	/*
 	 * main method:
