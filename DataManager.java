@@ -2,56 +2,6 @@ import arc.*;
 
 public class DataManager {
 	/*
-	 * getTheme method:
-	 * Returns theme data in an array from "themes.txt" based on the provided theme name.
-	 * If theme name not located, returns "INVALID" string values in the array.
-	 */
-	public static String[] getTheme(String strSelectedTheme) {
-		// Locate theme that matches strSelectedTheme parameter and fill all values
-		TextInputFile themesFile = new TextInputFile("themes.txt");
-		String strThemeName = "";
-		String strP1Color = "";
-		String strP2Color = "";
-		String strBoardColor = "";
-		String strBoardTitle = "";
-		boolean boolKeepSearching = true;
-		while(themesFile.eof() != true && boolKeepSearching == true){
-			strThemeName = themesFile.readLine();
-			if(strThemeName.equalsIgnoreCase(strSelectedTheme)){
-				boolKeepSearching = false;
-			}
-			strP1Color = themesFile.readLine();
-			strP2Color = themesFile.readLine();
-			strBoardColor = themesFile.readLine();
-			strBoardTitle = themesFile.readLine();
-		}
-		themesFile.close();
-		
-		// If strSelectedTheme does not exist, set all values to "INVALID"
-		if(boolKeepSearching == true){
-			strThemeName = "INVALID";
-			strP1Color = "INVALID";
-			strP2Color = "INVALID";
-			strBoardColor = "INVALID";
-			strBoardTitle = "INVALID";
-		}
-		
-		// Create and fill array with values of selected theme
-		String strTheme[] = new String[5];
-		strTheme[0] = strThemeName;
-		strTheme[1] = strP1Color;
-		strTheme[2] = strP2Color;
-		strTheme[3] = strBoardColor;
-		strTheme[4] = strBoardTitle;
-		
-		System.out.println("TEST: Theme Properties -> " + strThemeName + "  " + strP1Color + "  " +  strP2Color + "  " +  strBoardColor + "  " + strBoardTitle); // TEST
-		System.out.println();
-		
-		return strTheme;
-	}
-	
-	
-	/*
 	 * getLeaderboard method:
 	 * Returns a sorted leaderboard 2D array of {player, name} based on most to least wins.
 	 * Only returns top 10 scores.
@@ -102,9 +52,67 @@ public class DataManager {
 			}
 		}
 		
-		// TBD - only return top 10 scores
+		// Return only the top 10 scores of the leaderboard by creating a new array
+		if(strEntries.length > 10){
+			String strTop10[][] = new String[10][2];
+			for(intCount = 0; intCount < 10; intCount++){
+				strTop10[intCount][0] = strEntries[intCount][0];
+				strTop10[intCount][1] = strEntries[intCount][1];
+			}
+			return strTop10;
+		}
 		
 		return strEntries;
+	}
+	
+	
+	/*
+	 * getTheme method:
+	 * Returns theme data in an array from "themes.txt" based on the provided theme name.
+	 * If theme name not located, returns "INVALID" string values in the array.
+	 */
+	public static String[] getTheme(String strSelectedTheme) {
+		// Locate theme that matches strSelectedTheme parameter and fill all values
+		TextInputFile themesFile = new TextInputFile("themes.txt");
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
+		boolean boolKeepSearching = true;
+		while(themesFile.eof() != true && boolKeepSearching == true){
+			strThemeName = themesFile.readLine();
+			if(strThemeName.equalsIgnoreCase(strSelectedTheme)){
+				boolKeepSearching = false;
+			}
+			strP1Color = themesFile.readLine();
+			strP2Color = themesFile.readLine();
+			strBoardColor = themesFile.readLine();
+			strBoardTitle = themesFile.readLine();
+		}
+		themesFile.close();
+		
+		// If strSelectedTheme does not exist, set all values to "INVALID"
+		if(boolKeepSearching == true){
+			strThemeName = "INVALID";
+			strP1Color = "INVALID";
+			strP2Color = "INVALID";
+			strBoardColor = "INVALID";
+			strBoardTitle = "INVALID";
+		}
+		
+		// Create and fill array with values of selected theme
+		String strTheme[] = new String[5];
+		strTheme[0] = strThemeName;
+		strTheme[1] = strP1Color;
+		strTheme[2] = strP2Color;
+		strTheme[3] = strBoardColor;
+		strTheme[4] = strBoardTitle;
+		
+		System.out.println("TEST: Theme Properties -> " + strThemeName + "  " + strP1Color + "  " +  strP2Color + "  " +  strBoardColor + "  " + strBoardTitle); // TEST
+		System.out.println();
+		
+		return strTheme;
 	}
 	
 	
@@ -142,7 +150,7 @@ public class DataManager {
 
 	/*
 	 * main method:
-	 * Used for temporary testing only
+	 * Used for temporary testing only within this file.
 	 */
 	public static void main(String[] args) {
 		String test[] = getTheme("christamas");

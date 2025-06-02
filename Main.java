@@ -32,40 +32,64 @@ public class Main {
 		if(intSelection == 1){
 			System.out.println("TEST: Main Menu Option 1 Selected"); // TEST
 			System.out.println();
-			playGame(con);
+			
+			playGameScreen(con);
 		}
 		// Option 2 Activated - View Leaderboard
 		else if(intSelection == 2){
 			System.out.println("TEST: Main Menu Option 2 Selected"); // TEST
 			System.out.println();
 			
+			viewLeaderboardScreen(con);
 		}
 		// Option 3 Activated - Load Theme
 		else if(intSelection == 3){
 			System.out.println("TEST: Main Menu Option 3 Selected"); // TEST
 			System.out.println();
 			
+			loadThemeScreen(con);
+			
 		}
 		// Option 4 Activated - Create Theme
 		else if(intSelection == 4){
 			System.out.println("TEST: Main Menu Option 4 Selected"); // TEST
 			System.out.println();
+			
+			createThemeScreen(con);
 		}
 		
 	}
 	
 	// Main Menu Options
-	public static void playGame(Console con) {
+	public static void playGameScreen(Console con) {
 		newScreen(con);
 
 		String strP1Name;
 		String strP2Name;
 		
 		strP1Name = getPlayerName(con, 1);
-		con.println("\n===========================================\n");
+		con.println("\n ------------------------------------------- \n");
 		strP2Name = getPlayerName(con, 2);  
 	}
 	
+	
+	public static void viewLeaderboardScreen(Console con){
+		newScreen(con);
+		
+		String strLeaderboard[][] = 
+		
+		DataManager.getLeaderboard();
+	}
+	
+	public static void loadThemeScreen(Console con){
+		newScreen(con);
+		
+	}
+	
+	public static void createThemeScreen(Console con){
+		newScreen(con);
+		
+	}
 	
 	// Helper Methods
 	public static String getPlayerName(Console con, int intPlayerNum) {
