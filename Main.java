@@ -12,18 +12,21 @@ public class Main {
 		//BufferedImage imgLogo = con.loadImage("C4Test.png");
 		//con.drawImage(imgLogo, 0, 0);
 
-		con.println("Welcome to Connect 4!\n");
+		con.println(" =========================================== ");
+		con.println("            Welcome to Connect 4!            ");
+		con.println(" =========================================== ");
 		
-		con.println("-------------------------------------------");
+		con.println();
+ 
 		int intSelection;
-		con.println("MAIN MENU");
-		con.println(" [1] - Play Game ");
-		con.println(" [2] - View Leaderboard ");
-		con.println(" [3] - Load Theme ");
-		con.println(" [4] - Create Theme ");
+		con.println("                  MAIN MENU                  ");
+		con.println(" ------------------------------------------- ");
+		con.println("    [1] - Play Game ");
+		con.println("    [2] - View Leaderboard ");
+		con.println("    [3] - Load Theme ");
+		con.println("    [4] - Create Theme ");
 		con.println();
 		intSelection = getValidInput(con,4);
-		con.println("-------------------------------------------");
 		
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
@@ -68,26 +71,27 @@ public class Main {
 	public static String getPlayerName(Console con, int intPlayerNum) {
 		String strName = "";
 		while (strName.trim().isEmpty()) {
-            con.print("Player " + intPlayerNum + ", enter your name: ");
+            con.print(" Player " + intPlayerNum + ", enter your name: ");
             strName = con.readLine().trim();
             if (strName.isEmpty()) {
-                con.println("     [INVALID] Name cannot be empty.");
+                con.println("    [INVALID] Name cannot be empty.");
 				con.println();
             }
         }
+        
         return strName;
 	}
 	
 	public static int getValidInput(Console con, int intMax) {
 		int intInput;
 		while(true) {
-			con.print("Your Selection: ");
+			con.print(" Your Selection: ");
 			intInput = con.readInt();
 			
 			if(intInput >= 1 && intInput <= intMax){
 				break;
 			}else{
-				con.println("     [INVALID] Enter a number #1-" + intMax + ".\n");
+				con.println("    [INVALID] Enter a number #1-" + intMax + ".\n");
 			}
 		}
 		
@@ -95,6 +99,7 @@ public class Main {
 	}
 	
 	public static void newScreen(Console con) {
+		con.sleep(100);
 		con.setBackgroundColor(Color.BLACK); // clears image
 		con.clear(); // clears text
 	}
