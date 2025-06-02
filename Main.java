@@ -60,7 +60,17 @@ public class Main {
 		
 	}
 	
-	// Main Menu Options
+	
+	
+	// ************************************************************************
+	// CONNECT 4 SCREEN METHODS - for each option of main menu
+	// ************************************************************************
+	
+	/*
+	 * playGameScreen method:
+	 * Activated when "[1] - Play Game" is selected in the main menu.
+	 * Contains the main Connect 4 game play and logic.
+	 */
 	public static void playGameScreen(Console con) {
 		newScreen(con);
 
@@ -73,42 +83,60 @@ public class Main {
 	}
 	
 	
+	/*
+	 * playGameScreen method:
+	 * Activated when "[2] - View Leaderboard" is selected in the main menu.
+	 * Displays the top 3 players with most wins within a session.
+	 * Displays the next 7 players of the top 10.
+	 */
 	public static void viewLeaderboardScreen(Console con){
 		newScreen(con);
-		
 		String strLeaderboard[][] = DataManager.getLeaderboard();
 		
+		con.println("                 LEADERBOARD                 ");
+		con.println(" ------------------------------------------- ");
 		for(int intCount = 0; intCount < strLeaderboard.length; intCount++){
-			System.out.println(strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+			con.println(strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
 		}
 		
+		// TODO: display top 3 then the rest of the bottom 7 - need to handle if there are less than 3 leaderboard entries.
+		// TODO: figure out if need to log players with 0 wins at end of session... first thought probably yes.
 	}
 	
+	
+	/*
+	 * loadThemeScreen method:
+	 * Activated when "[3] - Load Theme" is selected in the main menu.
+	 * Allows the user to choose a theme to load and apply to change the game colour scheme.
+	 */
 	public static void loadThemeScreen(Console con){
 		newScreen(con);
 		
 	}
 	
+	
+	/*
+	 * createThemeScreene method:
+	 * Activated when "[4] - Create Theme" is selected in the main menu.
+	 * Allows the user to create a custom theme to add to the load theme options.
+	 */
 	public static void createThemeScreen(Console con){
 		newScreen(con);
 		
 	}
 	
-	// Helper Methods
-	public static String getPlayerName(Console con, int intPlayerNum) {
-		String strName = "";
-		while (strName.trim().isEmpty()) {
-            con.print(" Player " + intPlayerNum + ", enter your name: ");
-            strName = con.readLine().trim();
-            if (strName.isEmpty()) {
-                con.println("    [INVALID] Name cannot be empty.");
-				con.println();
-            }
-        }
-        
-        return strName;
-	}
 	
+	
+	// ************************************************************************
+	// HELPER/UTILITY METHODS - reusable components for common tasks
+	// ************************************************************************
+	
+	/* 
+	 * getValidInput method: 
+	 * Returns a valid numeric input from the user.
+	 * Filters out and handles numbers over or under a range of 1-intMax.
+	 * If input is invalid, prompts for input until valid input given.
+	 */
 	public static int getValidInput(Console con, int intMax) {
 		int intInput;
 		while(true) {
@@ -125,6 +153,34 @@ public class Main {
 		return intInput;
 	}
 	
+	
+	/*
+	 * getPlayerName method:
+	 * Returns a valid String input from the user for a valid name.
+	 * Used for gathering player name at the start of each Connect 4 session.
+	 * Filters out empty inputs and only whitespace inputs.
+	 * If input is invalid, prompts for input until valid input given.
+	 * Trims whitespace before and after the valid name.
+	 */
+	public static String getPlayerName(Console con, int intPlayerNum) {
+		String strName = "";
+		while (strName.trim().isEmpty()) {
+            con.print(" Player " + intPlayerNum + ", enter your name: ");
+            strName = con.readLine().trim();
+            if (strName.isEmpty()) {
+                con.println("    [INVALID] Name cannot be empty.");
+				con.println();
+            }
+        }
+        
+        return strName;
+	}
+	
+	
+	/* 
+	 * newScreen method: 
+	 * Used to clear the text and images of the screen after a 100mm pause.
+	 */
 	public static void newScreen(Console con) {
 		con.sleep(100);
 		con.setBackgroundColor(Color.BLACK); // clears image
