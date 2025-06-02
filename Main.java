@@ -1,10 +1,16 @@
 import arc.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.awt.Font;
+
 
 public class Main {
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
+		
+		// TODO: create start screen with play button and animation??
+		
+		
 		
 		// TODO: create a quit button
 		
@@ -73,9 +79,32 @@ public class Main {
 	 */
 	public static void playGameScreen(Console con) {
 		newScreen(con);
-
+		
+		// Draw the top white bar
+		con.setDrawColor(Color.WHITE);
+		con.fillRect(20,20,1240,60);
+		
+		// Set font and color for the text
+		Font fntTest = con.loadFont("Hack-Regular.ttf", 30); // TODO: maybe change the font by uploading custom bold one
+		con.setDrawFont(fntTest);
+		
+		con.setDrawColor(Color.BLACK);
+		String player1Text = "Connect 4";
+		int player1TextWidth = con.getTextFontMetrics().stringWidth(player1Text);
+		con.drawString(player1Text, 20 + (1240 - player1TextWidth) / 2, 20 + 15);
+		// TODO: need to figure out how to calculate the exact center vertically
+		
+		
+		// Draw the blue Connect 4 board area
+		con.setDrawColor(Color.BLUE);
+		con.fillRect(1280-20-600,100,600,600);
+		
+		
+		
 		String strP1Name;
 		String strP2Name;
+		
+		con.println("\n\n\n");
 		
 		strP1Name = getPlayerName(con, 1);
 		con.println("\n ------------------------------------------- \n");
@@ -101,6 +130,8 @@ public class Main {
 		
 		// TODO: display top 3 then the rest of the bottom 7 - need to handle if there are less than 3 leaderboard entries.
 		// TODO: figure out if need to log players with 0 wins at end of session... first thought probably yes.
+		// TODO: display a graphic to the side of the leaderboard so it doesn't look so empty... do the same for all screens other than playGame
+		//    - maybe a graphic that contains the name of the screen?? maybe animation???
 	}
 	
 	
