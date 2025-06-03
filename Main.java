@@ -161,17 +161,17 @@ public class Main {
 			
 			for(int intCount = 0; intCount < intNumEntries; intCount++){
 				if(intCount == 0){
-					con.println("                                " + "   GOLD:   " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+					con.println("                                " + "   GOLD:   " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
 				}else if(intCount == 1){
-					con.println("                                " + "   SILVER: " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+					con.println("                                " + "   SILVER: " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
 				}else if(intCount == 2){
-					con.println("                                " + "   BRONZE: " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+					con.println("                                " + "   BRONZE: " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
 					con.println();
 				}else if(intCount == 9){
-					con.println("                                " + "       " + (intCount+1) + ". " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+					con.println("                                " + "       " + (intCount+1) + ". " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
 				}
 				else{
-					con.println("                                " + "        " + (intCount+1) + ". " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+					con.println("                                " + "        " + (intCount+1) + ". " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
 				}
 			}
 			
