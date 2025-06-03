@@ -13,6 +13,7 @@ public class Main {
 		
 		
 		// TODO: create a quit button
+		// TODO: change Connect4Logo to not include name actually
 		BufferedImage imgLogo = con.loadImage("Connect4Logo.png"); // 500 x 150
 		con.drawImage(imgLogo, 1280/2 - 250, 0);
 		
@@ -32,14 +33,16 @@ public class Main {
 		con.println();
  
 		int intSelection;
-		con.println("                                                  MAIN MENU                 ");
+		con.println("                                                  MAIN MENU                ");
 		con.println("                                -------------------------------------------");
-		con.println("                                        [1] - Play Game");
-		con.println("                                        [2] - View Leaderboard");
-		con.println("                                        [3] - Load Theme");
-		con.println("                                        [4] - Create Theme");
+		con.println("                                        [1] - Play Game                    ");
+		con.println("                                        [2] - View Leaderboard             ");
+		con.println("                                        [3] - Load Theme                   ");
+		con.println("                                        [4] - Create Theme                 ");
 		con.println();
 		intSelection = getValidInput(con,4, "                                ");
+		
+		// TODO: find a way to clear the above if invalid input given...
 		
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
@@ -98,9 +101,7 @@ public class Main {
 		con.setDrawColor(Color.BLACK);
 		String strGameTitleText = "Connect 4";
 		int strGameTitleTextWidth = con.getTextFontMetrics().stringWidth(strGameTitleText);
-		con.drawString(strGameTitleText, 20 + (1280-20-20 - strGameTitleTextWidth) / 2, 20 + 15);
-		// TODO: need to figure out how to calculate the exact center vertically
-		
+		con.drawString(strGameTitleText, 20 + (1280-20-20 - strGameTitleTextWidth) / 2, 20 + 15);		
 		
 		// Draw the blue Connect 4 board area
 		con.setDrawColor(Color.BLUE);
@@ -140,18 +141,48 @@ public class Main {
 	public static void viewLeaderboardScreen(Console con){
 		newScreen(con);
 		String strLeaderboard[][] = DataManager.getLeaderboard();
+		int intNumEntries = strLeaderboard.length;
 		
-		con.println("                 LEADERBOARD                 ");
-		con.println(" ------------------------------------------- ");
-		for(int intCount = 0; intCount < strLeaderboard.length; intCount++){
-			con.println(strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+		con.println();
+		con.println("                                                LEADERBOARD                ");
+		con.println("                                -------------------------------------------");
+		
+		if(intNumEntries == 0){
+			con.println("                                " + "   You're the first two players ever.");
+			con.println("                                " + "   No top players yet... Good luck!");
+		}else{
+			con.print("                                ");
+			if(intNumEntries >= 10){
+				con.println("Try to beat these top 10 Connect 4 masters!");
+			}else{
+				con.println("Try to beat these Connect 4 masters!");
+			}
+			con.println();
+			
+			for(int intCount = 0; intCount < intNumEntries; intCount++){
+				if(intCount == 0){
+					con.println("                                " + "   GOLD:   " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+				}else if(intCount == 1){
+					con.println("                                " + "   SILVER: " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+				}else if(intCount == 2){
+					con.println("                                " + "   BRONZE: " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+					con.println();
+				}else if(intCount == 9){
+					con.println("                                " + "       " + (intCount+1) + ". " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+				}
+				else{
+					con.println("                                " + "        " + (intCount+1) + ". " + strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+				}
+			}
+			
+			if(intNumEntries >= 10){
+				con.println("\n                                Players not in top 10 aren't shown.");
+				con.println("                                Can you earn a spot?? Good luck!");
+			}
 		}
-		
-		// TODO: display top 3 then the rest of the bottom 7 - need to handle if there are less than 3 leaderboard entries.
-		// TODO: figure out if need to log players with 0 wins at end of session... first thought probably yes.
-		// TODO: display a graphic to the side of the leaderboard so it doesn't look so empty... do the same for all screens other than playGame
-		//    - maybe a graphic that contains the name of the screen?? maybe animation???
 	}
+	
+	// TODO: reformat wins display in leaderboard
 	
 	
 	/*
@@ -190,13 +221,13 @@ public class Main {
 	public static int getValidInput(Console con, int intMax, String strOffset) {
 		int intInput;
 		while(true) {
-			con.print(strOffset + " Your Selection: ");
+			con.print(strOffset + "Your Selection: ");
 			intInput = con.readInt();
 			
 			if(intInput >= 1 && intInput <= intMax){
 				break;
 			}else{
-				con.println(strOffset + "    [INVALID] Enter a number #1-" + intMax + ".\n");
+				con.println(strOffset + "   [INVALID] Enter a number #1-" + intMax + ".\n");
 			}
 		}
 		
