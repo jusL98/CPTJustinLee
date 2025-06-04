@@ -3,13 +3,12 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
 
-
 public class Main {
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
 		
 		// TODO: create start screen with play button and animation??
-		
+		// TODO: add in secret number (9898) into validInput method and put hints throughout the game of the secret number
 		
 		
 		// TODO: create a quit button
@@ -18,9 +17,6 @@ public class Main {
 		con.drawImage(imgLogo, 1280/2 - 250, 0);
 		
 		displayBanners(con, "MainMenuBanner.jpg");
-
-
-		int intSelection;
 
 		String strMainMenuDisplay = 
 									"\n\n\n\n\n\n\n" +
@@ -35,7 +31,8 @@ public class Main {
 									"                                        [2] - View Leaderboard             \n" +
 									"                                        [3] - Load Theme                   \n" +
 									"                                        [4] - Create Theme                 ";
-																		
+		
+		int intSelection;														
 		intSelection = getValidInput(con, 4, strMainMenuDisplay, "                                ");
 		con.println("                                Loading...");
 		con.sleep(1000);
@@ -144,6 +141,9 @@ public class Main {
 		String strLeaderboard[][] = DataManager.getLeaderboard();
 		int intNumEntries = strLeaderboard.length;
 		
+		System.out.println(intNumEntries);
+		
+		// Display leaderboard
 		con.println();
 		con.println("                                                LEADERBOARD                ");
 		con.println("                                -------------------------------------------");
@@ -160,19 +160,19 @@ public class Main {
 			}
 			con.println();
 			
-			for(int intCount = 0; intCount < intNumEntries; intCount++){
-				if(intCount == 0){
-					con.println("                                " + "   GOLD:   " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
-				}else if(intCount == 1){
-					con.println("                                " + "   SILVER: " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
-				}else if(intCount == 2){
-					con.println("                                " + "   BRONZE: " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+			for(int intCount = 1; intCount <= intNumEntries; intCount++){
+				if(intCount == 1){ // print for #1
+					con.println("                                " + "   GOLD:   " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
+				}else if(intCount == 2){ // print for #2
+					con.println("                                " + "   SILVER: " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
+				}else if(intCount == 3){ // print for #3
+					con.println("                                " + "   BRONZE: " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
 					con.println();
-				}else if(intCount == 9){
-					con.println("                                " + "       " + (intCount+1) + ". " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+				}else if(intCount == 10){ // print for #10 (formats 2 digits rather than 1 so alignment is correct)
+					con.println("                                " + "       " + (intCount) + ". " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
 				}
-				else{
-					con.println("                                " + "        " + (intCount+1) + ". " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+				else{ // print for #4-9
+					con.println("                                " + "        " + (intCount) + ". " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
 				}
 			}
 			
@@ -191,6 +191,46 @@ public class Main {
 	 */
 	public static void loadThemeScreen(Console con){
 		newScreen(con);
+		displayBanners(con, "LoadThemeBanner.jpg"); // TODO: create load theme screen
+		
+		TextInputFile themesFile = new TextInputFile("themes.txt");
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
+		
+		// Display load theme menu
+		String strLoadThemeMenu = 
+									"\n" + 
+									"                                                 LOAD THEME                \n" +
+									"                                -------------------------------------------\n" +
+									"                                Pick a theme to load to customize the game!" +
+									"\n";
+																		
+		int intCount = 1;
+		while(themesFile.eof() != true){
+			strThemeName = themesFile.readLine();
+			strP1Color = themesFile.readLine();
+			strP2Color = themesFile.readLine();
+			strBoardColor = themesFile.readLine();
+			strBoardTitle = themesFile.readLine();
+			if(intCount <= 9){ // prints menu items #1-9 (1 digit)
+				strLoadThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeName);
+			}else{ // fprints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
+				strLoadThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeName);
+			}
+			intCount++;
+		}
+		themesFile.close();
+				
+		int intSelection;														
+		intSelection = getValidInput(con, 15, strLoadThemeMenu, "                                ");
+		con.println("                                Loading...");
+		con.sleep(1000);
+		
+		
+
 		
 	}
 	
@@ -203,6 +243,8 @@ public class Main {
 	public static void createThemeScreen(Console con){
 		newScreen(con);
 		
+		// limit to 15 themes stored at a time
+		// give option to delete if full
 	}
 	
 	
