@@ -14,35 +14,31 @@ public class Main {
 		
 		// TODO: create a quit button
 		// TODO: change Connect4Logo to not include name actually
-		BufferedImage imgLogo = con.loadImage("Connect4Logo.png"); // 500 x 150
+		BufferedImage imgLogo = con.loadImage("assets/Connect4Logo.png"); // 500 x 150
 		con.drawImage(imgLogo, 1280/2 - 250, 0);
 		
-		
-		
-		// TODO: mabe make the banner slightly smaller in width
-		BufferedImage imgMainMenuBanner = con.loadImage("MainMenuBanner.jpg"); // 350 x 680
-		con.drawImage(imgMainMenuBanner, 20, 20);
-		con.drawImage(imgMainMenuBanner, 1280-350-20, 20);
+		displayBanners(con, "MainMenuBanner.jpg");
 
-		con.println("\n\n\n\n\n");
 
-		con.println("                                ===========================================");
-		con.println("                                            Welcome to Connect 4!          ");
-		con.println("                                ===========================================");
-		
-		con.println();
- 
 		int intSelection;
-		con.println("                                                  MAIN MENU                ");
-		con.println("                                -------------------------------------------");
-		con.println("                                        [1] - Play Game                    ");
-		con.println("                                        [2] - View Leaderboard             ");
-		con.println("                                        [3] - Load Theme                   ");
-		con.println("                                        [4] - Create Theme                 ");
-		con.println();
-		intSelection = getValidInput(con,4, "                                ");
-		
-		// TODO: find a way to clear the above if invalid input given...
+
+		String strMainMenuDisplay = 
+									"\n\n\n\n\n\n\n" +
+									"                                ===========================================\n" + 
+									"                                            Welcome to Connect 4!          \n" +
+									"                                ===========================================\n" +
+									"\n" + 
+ 
+									"                                                  MAIN MENU                \n" +
+									"                                -------------------------------------------\n" +
+									"                                        [1] - Play Game                    \n" +
+									"                                        [2] - View Leaderboard             \n" +
+									"                                        [3] - Load Theme                   \n" +
+									"                                        [4] - Create Theme                 ";
+																		
+		intSelection = getValidInput(con, 4, strMainMenuDisplay, "                                ");
+		con.println("                                Loading...");
+		con.sleep(1000);
 		
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
@@ -60,7 +56,7 @@ public class Main {
 		}
 		// Option 3 Activated - Load Theme
 		else if(intSelection == 3){
-			System.out.println("TEST: Main Menu Option 3 Selected"); // TEST
+			System.out.println("TEST: Main Menu Option 3 Selected"); // TESTc
 			System.out.println();
 			
 			loadThemeScreen(con);
@@ -112,17 +108,20 @@ public class Main {
 		int intP1Wins = 0;
 		int intP2Wins = 0;
 		
-		con.println("\n\n\n");
-		
-		strP1Name = getPlayerName(con, 1);
-		con.println("\n ------------------------------------------- \n");
-		strP2Name = getPlayerName(con, 2);  
-		
+		// Get player names and setup on-screen information display
+		strP1Name = getPlayerName(con, 1); // player 1
+		con.println("  Welcome " + strP1Name + "!");
+		con.sleep(1000);
+		con.clear();
 		con.setDrawColor(Color.BLACK);
 		String strP1Text = strP1Name + ": " +intP1Wins;
 		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
 		con.drawString(strP1Text, 20 + 20, 20 + 15);
 		
+		strP2Name = getPlayerName(con, 2); // player 2
+		con.println("  Welcome " + strP2Name + "!");
+		con.sleep(1000);
+		con.clear();
 		con.setDrawColor(Color.BLACK);
 		String strP2Text = strP2Name + ": " +intP2Wins;
 		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
@@ -140,6 +139,8 @@ public class Main {
 	 */
 	public static void viewLeaderboardScreen(Console con){
 		newScreen(con);
+		displayBanners(con, "LeaderboardBanner.jpg");
+		
 		String strLeaderboard[][] = DataManager.getLeaderboard();
 		int intNumEntries = strLeaderboard.length;
 		
@@ -182,8 +183,6 @@ public class Main {
 		}
 	}
 	
-	// TODO: reformat wins display in leaderboard
-	
 	
 	/*
 	 * loadThemeScreen method:
@@ -218,9 +217,12 @@ public class Main {
 	 * Filters out and handles numbers over or under a range of 1-intMax.
 	 * If input is invalid, prompts for input until valid input given.
 	 */
-	public static int getValidInput(Console con, int intMax, String strOffset) {
+	public static int getValidInput(Console con, int intMax, String strMenu, String strOffset) {
 		int intInput;
 		while(true) {
+			con.println(strMenu);
+			con.println();
+			
 			con.print(strOffset + "Your Selection: ");
 			intInput = con.readInt();
 			
@@ -228,6 +230,8 @@ public class Main {
 				break;
 			}else{
 				con.println(strOffset + "   [INVALID] Enter a number #1-" + intMax + ".\n");
+                con.sleep(500);
+                con.clear();
 			}
 		}
 		
@@ -246,11 +250,15 @@ public class Main {
 	public static String getPlayerName(Console con, int intPlayerNum) {
 		String strName = "";
 		while (strName.trim().isEmpty()) {
-            con.print(" Player " + intPlayerNum + ", enter your name: ");
+			con.println("\n\n\n");
+			con.println("  PLAYER " + intPlayerNum + ":");
+			con.println("  -----------------------------------\n");
+            con.print("  Player " + intPlayerNum + ", enter your name: ");
             strName = con.readLine().trim();
             if (strName.isEmpty()) {
                 con.println("    [INVALID] Name cannot be empty.");
-				con.println();
+                con.sleep(500);
+                con.clear();
             }
         }
         
@@ -266,5 +274,16 @@ public class Main {
 		con.sleep(100);
 		con.setBackgroundColor(Color.BLACK); // clears image
 		con.clear(); // clears text
+	}
+	
+	
+	/* 
+	 * displayBanner method: 
+	 * Used to display the decorative screen banner images.
+	 */
+	public static void displayBanners(Console con, String strImgFile) {
+		BufferedImage imgBanner = con.loadImage("assets/" + strImgFile); // 300 x 680
+		con.drawImage(imgBanner, 20, 20); // left banner
+		con.drawImage(imgBanner, 1280-300-20, 20); // right banner
 	}
 }
