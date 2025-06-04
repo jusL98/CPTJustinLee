@@ -200,6 +200,8 @@ public class Main {
 		String strBoardColor = "";
 		String strBoardTitle = "";
 		
+		String strThemeNames[] = new String[15];
+		
 		// Display load theme menu
 		String strLoadThemeMenu = 
 									"\n" + 
@@ -217,9 +219,11 @@ public class Main {
 			strBoardTitle = themesFile.readLine();
 			if(intCount <= 9){ // prints menu items #1-9 (1 digit)
 				strLoadThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeName);
-			}else{ // fprints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
+			}else{ // prints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
 				strLoadThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeName);
 			}
+			
+			strThemeNames[intCount-1] = strThemeName;
 			intCount++;
 		}
 		themesFile.close();
@@ -228,6 +232,7 @@ public class Main {
 		intSelection = getValidInput(con, 15, strLoadThemeMenu, "                                ");
 		con.println("                                Loading...");
 		con.sleep(1000);
+		
 		
 		
 
