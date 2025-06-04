@@ -13,26 +13,36 @@ public class Main {
 		
 		
 		// TODO: create a quit button
+		// TODO: change Connect4Logo to not include name actually
+		BufferedImage imgLogo = con.loadImage("Connect4Logo.png"); // 500 x 150
+		con.drawImage(imgLogo, 1280/2 - 250, 0);
 		
-		// TODO: logo to be replaced with custom one, set size properly and position properly
-		//BufferedImage imgLogo = con.loadImage("C4Test.png");
-		//con.drawImage(imgLogo, 0, 0);
+		
+		
+		// TODO: mabe make the banner slightly smaller in width
+		BufferedImage imgMainMenuBanner = con.loadImage("MainMenuBanner.jpg"); // 350 x 680
+		con.drawImage(imgMainMenuBanner, 20, 20);
+		con.drawImage(imgMainMenuBanner, 1280-350-20, 20);
 
-		con.println(" =========================================== ");
-		con.println("            Welcome to Connect 4!            ");
-		con.println(" =========================================== ");
+		con.println("\n\n\n\n\n");
+
+		con.println("                                ===========================================");
+		con.println("                                            Welcome to Connect 4!          ");
+		con.println("                                ===========================================");
 		
 		con.println();
  
 		int intSelection;
-		con.println("                  MAIN MENU                  ");
-		con.println(" ------------------------------------------- ");
-		con.println("    [1] - Play Game ");
-		con.println("    [2] - View Leaderboard ");
-		con.println("    [3] - Load Theme ");
-		con.println("    [4] - Create Theme ");
+		con.println("                                                  MAIN MENU                ");
+		con.println("                                -------------------------------------------");
+		con.println("                                        [1] - Play Game                    ");
+		con.println("                                        [2] - View Leaderboard             ");
+		con.println("                                        [3] - Load Theme                   ");
+		con.println("                                        [4] - Create Theme                 ");
 		con.println();
-		intSelection = getValidInput(con,4);
+		intSelection = getValidInput(con,4, "                                ");
+		
+		// TODO: find a way to clear the above if invalid input given...
 		
 		// Option 1 Activated - Play Game
 		if(intSelection == 1){
@@ -85,35 +95,45 @@ public class Main {
 		con.fillRect(20,20,1240,60);
 		
 		// Set font and color for the text
-		Font fntTest = con.loadFont("Hack-Regular.ttf", 30); // TODO: maybe change the font by uploading custom bold one
+		Font fntTest = con.loadFont("Hack-Regular.ttf", 20); // TODO: maybe change the font by uploading custom bold one
 		con.setDrawFont(fntTest);
 		
 		con.setDrawColor(Color.BLACK);
-		String player1Text = "Connect 4";
-		int player1TextWidth = con.getTextFontMetrics().stringWidth(player1Text);
-		con.drawString(player1Text, 20 + (1240 - player1TextWidth) / 2, 20 + 15);
-		// TODO: need to figure out how to calculate the exact center vertically
-		
+		String strGameTitleText = "Connect 4";
+		int strGameTitleTextWidth = con.getTextFontMetrics().stringWidth(strGameTitleText);
+		con.drawString(strGameTitleText, 20 + (1280-20-20 - strGameTitleTextWidth) / 2, 20 + 15);		
 		
 		// Draw the blue Connect 4 board area
 		con.setDrawColor(Color.BLUE);
 		con.fillRect(1280-20-600,100,600,600);
 		
-		
-		
 		String strP1Name;
 		String strP2Name;
+		int intP1Wins = 0;
+		int intP2Wins = 0;
 		
 		con.println("\n\n\n");
 		
 		strP1Name = getPlayerName(con, 1);
 		con.println("\n ------------------------------------------- \n");
 		strP2Name = getPlayerName(con, 2);  
+		
+		con.setDrawColor(Color.BLACK);
+		String strP1Text = strP1Name + ": " +intP1Wins;
+		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
+		con.drawString(strP1Text, 20 + 20, 20 + 15);
+		
+		con.setDrawColor(Color.BLACK);
+		String strP2Text = strP2Name + ": " +intP2Wins;
+		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
+		con.drawString(strP2Text, 1280-20-strP2TextWidth-20, 20 + 15);
+		
+		con.repaint();
 	}
 	
 	
 	/*
-	 * playGameScreen method:
+	 * viewLeaederboardScreen method:
 	 * Activated when "[2] - View Leaderboard" is selected in the main menu.
 	 * Displays the top 3 players with most wins within a session.
 	 * Displays the next 7 players of the top 10.
@@ -121,18 +141,48 @@ public class Main {
 	public static void viewLeaderboardScreen(Console con){
 		newScreen(con);
 		String strLeaderboard[][] = DataManager.getLeaderboard();
+		int intNumEntries = strLeaderboard.length;
 		
-		con.println("                 LEADERBOARD                 ");
-		con.println(" ------------------------------------------- ");
-		for(int intCount = 0; intCount < strLeaderboard.length; intCount++){
-			con.println(strLeaderboard[intCount][0] + ", " + strLeaderboard[intCount][1]);
+		con.println();
+		con.println("                                                LEADERBOARD                ");
+		con.println("                                -------------------------------------------");
+		
+		if(intNumEntries == 0){
+			con.println("                                " + "   You're the first two players ever.");
+			con.println("                                " + "   No top players yet... Good luck!");
+		}else{
+			con.print("                                ");
+			if(intNumEntries >= 10){
+				con.println("Try to beat these top 10 Connect 4 masters!");
+			}else{
+				con.println("Try to beat these Connect 4 masters!");
+			}
+			con.println();
+			
+			for(int intCount = 0; intCount < intNumEntries; intCount++){
+				if(intCount == 0){
+					con.println("                                " + "   GOLD:   " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+				}else if(intCount == 1){
+					con.println("                                " + "   SILVER: " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+				}else if(intCount == 2){
+					con.println("                                " + "   BRONZE: " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+					con.println();
+				}else if(intCount == 9){
+					con.println("                                " + "       " + (intCount+1) + ". " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+				}
+				else{
+					con.println("                                " + "        " + (intCount+1) + ". " + strLeaderboard[intCount][0] + " | " + strLeaderboard[intCount][1] + " wins");
+				}
+			}
+			
+			if(intNumEntries >= 10){
+				con.println("\n                                Players not in top 10 aren't shown.");
+				con.println("                                Can you earn a spot?? Good luck!");
+			}
 		}
-		
-		// TODO: display top 3 then the rest of the bottom 7 - need to handle if there are less than 3 leaderboard entries.
-		// TODO: figure out if need to log players with 0 wins at end of session... first thought probably yes.
-		// TODO: display a graphic to the side of the leaderboard so it doesn't look so empty... do the same for all screens other than playGame
-		//    - maybe a graphic that contains the name of the screen?? maybe animation???
 	}
+	
+	// TODO: reformat wins display in leaderboard
 	
 	
 	/*
@@ -168,16 +218,16 @@ public class Main {
 	 * Filters out and handles numbers over or under a range of 1-intMax.
 	 * If input is invalid, prompts for input until valid input given.
 	 */
-	public static int getValidInput(Console con, int intMax) {
+	public static int getValidInput(Console con, int intMax, String strOffset) {
 		int intInput;
 		while(true) {
-			con.print(" Your Selection: ");
+			con.print(strOffset + "Your Selection: ");
 			intInput = con.readInt();
 			
 			if(intInput >= 1 && intInput <= intMax){
 				break;
 			}else{
-				con.println("    [INVALID] Enter a number #1-" + intMax + ".\n");
+				con.println(strOffset + "   [INVALID] Enter a number #1-" + intMax + ".\n");
 			}
 		}
 		
