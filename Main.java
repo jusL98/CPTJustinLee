@@ -10,6 +10,9 @@ public class Main {
 		// TODO: create start screen with play button and animation??
 		// TODO: add in secret number (9898) into validInput method and put hints throughout the game of the secret number
 		
+		// TESTING COLOUR, TODO: Remove
+		Color clr = convertColorString("0, 255,  255");
+		con.setBackgroundColor(clr);
 		
 		// TODO: create a quit button
 		// TODO: change Connect4Logo to not include name actually
@@ -57,7 +60,6 @@ public class Main {
 			System.out.println();
 			
 			loadThemeScreen(con);
-			
 		}
 		// Option 4 Activated - Create Theme
 		else if(intSelection == 4){
@@ -82,6 +84,16 @@ public class Main {
 	 */
 	public static void playGameScreen(Console con) {
 		newScreen(con);
+		
+		// Load theme
+		String strLastTheme = DataManager.getLastTheme();
+		String strThemeData[] = DataManager.getTheme(strLastTheme);
+		String strThemeName = strThemeData[0];
+		String strP1Color = strThemeData[1];
+		String strP2Color = strThemeData[2];
+		String strBoardColor = strThemeData[3];
+		String strBoardTitle = strThemeData[4];
+		
 		
 		// Draw the top white bar
 		con.setDrawColor(Color.WHITE);
@@ -211,7 +223,7 @@ public class Main {
 									"\n";
 																		
 		int intCount = 1;
-		while(themesFile.eof() != true){
+		while(themesFile.eof() != true && intCount <= 15){
 			strThemeName = themesFile.readLine();
 			strP1Color = themesFile.readLine();
 			strP2Color = themesFile.readLine();
@@ -227,16 +239,25 @@ public class Main {
 			intCount++;
 		}
 		themesFile.close();
+			
+		System.out.print("TEST: Themes Array -> ");
+		for(intCount = 0; intCount < strThemeNames.length; intCount++){
+			System.out.print(strThemeNames[intCount] + "  "); // TEST
+		}
+		System.out.println();
+		System.out.println();
 				
 		int intSelection;														
 		intSelection = getValidInput(con, 15, strLoadThemeMenu, "                                ");
 		con.println("                                Loading...");
 		con.sleep(1000);
 		
+		String strSelectedTheme = strThemeNames[intSelection-1];
 		
+		String strThemeData[];
+		strThemeData = DataManager.getTheme(strSelectedTheme);
 		
-
-		
+		// TODO: use the theme data and apply it
 	}
 	
 	
@@ -247,9 +268,11 @@ public class Main {
 	 */
 	public static void createThemeScreen(Console con){
 		newScreen(con);
+		displayBanners(con, "CreateThemeBanner.jpg");
 		
 		// limit to 15 themes stored at a time
 		// give option to delete if full
+		// handle duplicate theme names
 	}
 	
 	
@@ -332,5 +355,39 @@ public class Main {
 		BufferedImage imgBanner = con.loadImage("assets/" + strImgFile); // 300 x 680
 		con.drawImage(imgBanner, 20, 20); // left banner
 		con.drawImage(imgBanner, 1280-300-20, 20); // right banner
+		con.repaint();
+	}
+	
+	/* 
+	 * convertColorString method: 
+	 * Used to convert an rgb color String into a Color object.
+	 */
+	public static Color convertColorString(String strRGB) {
+		String strCleanedRGB = strRGB.replace(" ", ""); // removes spaces before, after, in between
+		System.out.println("TEST: Cleaned RGB -> " + strCleanedRGB);
+		
+		int intR;
+		int intG;
+		int intB;
+		
+		String strR = strCleanedRGB.substring(0, strCleanedRGB.indexOf(","));
+		strCleanedRGB = strCleanedRGB.replaceFirst(strR+",", "");
+		intR = Integer.parseInt(strR);
+		
+		String strG = strCleanedRGB.substring(0, strCleanedRGB.indexOf(","));
+		strCleanedRGB = strCleanedRGB.replaceFirst(strG+",", "");
+		intG = Integer.parseInt(strG);
+		
+		String strB = strCleanedRGB.substring(0);
+		strCleanedRGB = strCleanedRGB.replaceFirst(strB, "");
+		intB = Integer.parseInt(strB);
+		
+		System.out.println("TEST: Cleaned RGB After -> " + strCleanedRGB);
+		System.out.println("TEST: RGB -> " + strR + "    " + strG + "    " + strB);
+		System.out.println();
+		
+		Color clrRGB = new Color(intR, intG, intB);
+		
+		return clrRGB;
 	}
 }

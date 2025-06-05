@@ -129,6 +129,9 @@ public class DataManager {
 		String strLastTheme = "";
 		strLastTheme = lastThemeFile.readLine(); // only 1 line should exist in the file at any given time
 		lastThemeFile.close();
+		
+		System.out.println("TEST: " + strLastTheme); // TEST
+		System.out.println();
 			
 		return strLastTheme;
 	}
@@ -148,6 +151,10 @@ public class DataManager {
 		themesFile.println(board_colour.strip());
 		themesFile.println(board_title.strip());
 		themesFile.close();
+		
+		System.out.println("APPENDED NEW THEME TO THEMES.TXT");
+		System.out.println("TEST: " + strThemeName.strip() + "  " + p1_colour.strip() + "  " + p2_colour.strip() + "  " + board_colour.strip() + "  " + board_title.strip()); // TEST
+		System.out.println();
 	}
 
 
@@ -156,18 +163,11 @@ public class DataManager {
 	 * Used for temporary testing only within this file.
 	 */
 	public static void main(String[] args) {
-		String test[] = getTheme("christamas");
-		for(String tes : test){
-			System.out.println(tes);
-		}
+		String strTestGetTheme[] = getTheme("candy");
 		
-		String strLBEntries[][] = getLeaderboard();
+		String strTestLeaderboard[][] = getLeaderboard();
 		
-		for(int intCount = 0; intCount < strLBEntries.length; intCount++){
-			System.out.println(strLBEntries[intCount][0] + ", " + strLBEntries[intCount][1]);
-		}
-		
-		System.out.println(getLastTheme());
+		String strTestGetLastTheme = getLastTheme();
 		
 		createNewTheme("candy", "0,0,0", "255,255,20", "8,8,8", "Sweet 4");
 	}
