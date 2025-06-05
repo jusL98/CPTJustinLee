@@ -10,10 +10,6 @@ public class Main {
 		// TODO: create start screen with play button and animation??
 		// TODO: add in secret number (9898) into validInput method and put hints throughout the game of the secret number
 		
-		// TESTING COLOUR, TODO: Remove
-		Color clr = convertColorString("0, 255,  255");
-		con.setBackgroundColor(clr);
-		
 		// TODO: create a quit button
 		// TODO: change Connect4Logo to not include name actually
 		BufferedImage imgLogo = con.loadImage("assets/Connect4Logo.png"); // 500 x 150
@@ -89,9 +85,9 @@ public class Main {
 		String strLastTheme = DataManager.getLastTheme();
 		String strThemeData[] = DataManager.getTheme(strLastTheme);
 		String strThemeName = strThemeData[0];
-		String strP1Color = strThemeData[1];
-		String strP2Color = strThemeData[2];
-		String strBoardColor = strThemeData[3];
+		Color clrP1Color = stringToColor(strThemeData[1]);
+		Color clrP2Color = stringToColor(strThemeData[2]);
+		Color clrBoardColor = stringToColor(strThemeData[3]);
 		String strBoardTitle = strThemeData[4];
 		
 		
@@ -359,10 +355,10 @@ public class Main {
 	}
 	
 	/* 
-	 * convertColorString method: 
-	 * Used to convert an rgb color String into a Color object.
+	 * stringToColor method: 
+	 * Used to convert an String in the format of an RGB colour code (xxx, xxx,  xxx  ) into a Color object.
 	 */
-	public static Color convertColorString(String strRGB) {
+	public static Color stringToColor(String strRGB) {
 		String strCleanedRGB = strRGB.replace(" ", ""); // removes spaces before, after, in between
 		System.out.println("TEST: Cleaned RGB -> " + strCleanedRGB);
 		
