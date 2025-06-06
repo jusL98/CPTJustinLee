@@ -119,6 +119,35 @@ public class DataManager {
 	
 	
 	/*
+	 * getNumThemes method:
+	 * Returns the number of themes that exist in "themes.txt".
+	 */
+	public static int getNumThemes() {
+		TextInputFile themesFile = new TextInputFile("themes.txt");
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
+		int intCount = 0;
+		
+		while(themesFile.eof() != true){
+			strThemeName = themesFile.readLine();
+			strP1Color = themesFile.readLine();
+			strP2Color = themesFile.readLine();
+			strBoardColor = themesFile.readLine();
+			strBoardTitle = themesFile.readLine();
+			intCount++;
+		}
+		themesFile.close();
+		
+		System.out.println("TEST: Num Themes -> " + intCount); // TEST
+		System.out.println();
+		
+		return intCount;
+	}
+	
+	/*
 	 * getLastTheme method:
 	 * Returns the theme name of the last theme loaded in the last round/session from "lasttheme.txt". 
 	 * Then, should use load theme to load the data of the last theme following this method call.
@@ -130,20 +159,36 @@ public class DataManager {
 		strLastTheme = lastThemeFile.readLine(); // only 1 line should exist in the file at any given time
 		lastThemeFile.close();
 		
-		System.out.println("TEST: " + strLastTheme); // TEST
+		System.out.println("TEST: Last Theme -> " + strLastTheme); // TEST
 		System.out.println();
 			
 		return strLastTheme;
 	}
+	
+	
+	/*
+	 * setLastTheme method:
+	 * Writes the name of the last theme loaded to "lasttheme.txt".
+	 */
+	public static void setLastTheme(String strThemeName) {
+		// Writes the last theme set into lasttheme data file
+		TextOutputFile themesFile = new TextOutputFile("lasttheme.txt");
+		themesFile.println(strThemeName);
+		themesFile.close();
+		
+		System.out.println("SET LAST THEME IN LASTTHEME.TXT");
+		System.out.println("TEST: Last Theme -> " + strThemeName); // TEST
+		System.out.println();
+	}
 
 		
 	/*
-	 * createNewTeheme method:
+	 * createNewTheme method:
 	 * Appends the new theme data entered in the parameters to "themes.txt".
 	 * Removes leading and trailing spaces from any of the parameters.
 	 */
 	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title) {
-		// Adds new theme data into themese data file
+		// Adds new theme data into themes data file
 		TextOutputFile themesFile = new TextOutputFile("themes.txt", true);
 		themesFile.println(strThemeName.strip());
 		themesFile.println(p1_colour.strip());
@@ -153,9 +198,38 @@ public class DataManager {
 		themesFile.close();
 		
 		System.out.println("APPENDED NEW THEME TO THEMES.TXT");
-		System.out.println("TEST: " + strThemeName.strip() + "  " + p1_colour.strip() + "  " + p2_colour.strip() + "  " + board_colour.strip() + "  " + board_title.strip()); // TEST
+		System.out.println("TEST: New Theme Data -> " + strThemeName.strip() + "  " + p1_colour.strip() + "  " + p2_colour.strip() + "  " + board_colour.strip() + "  " + board_title.strip()); // TEST
 		System.out.println();
 	}
+	
+	/*
+	 * deleteTheme method:
+	 * Deletes a theme from "themes.txt" based on the theme number (NOT INDEX... THEME # starts at 1).
+	 */
+	public static void deleteTheme(int intThemeNum) {
+		TextInputFile themesFile = new TextInputFile("themes.txt");
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
+		int intCount = 1;
+		
+		for(intCount = 1; intCount <= intThemeNum; intCount++){
+			strThemeName = themesFile.readLine();
+			strP1Color = themesFile.readLine();
+			strP2Color = themesFile.readLine();
+			strBoardColor = themesFile.readLine();
+			strBoardTitle = themesFile.readLine();
+			System.out.println(intCount);
+		}
+		themesFile.close();
+		
+		
+		System.out.println("THEME #" + (intCount-1) + " DELETED"); // TEST, intCount-1 for message because loop increments intCount once more for first time condition is not met
+		System.out.println();
+	}
+
 
 
 	/*
@@ -167,8 +241,17 @@ public class DataManager {
 		
 		String strTestLeaderboard[][] = getLeaderboard();
 		
+		setLastTheme("red");
+		
 		String strTestGetLastTheme = getLastTheme();
 		
-		createNewTheme("candy", "0,0,0", "255,255,20", "8,8,8", "Sweet 4");
+		int intNumThemes = getNumThemes();
+		
+		if(intNumThemes < 15){
+			createNewTheme("candy", "0,0,0", "255,255,20", "8,8,8", "Sweet 4");
+		}else{
+			System.out.println("MAX (15) THEMES EXIST. TEST THEME NOT CREATED.");
+			System.out.println(); 
+		}
 	}
 }

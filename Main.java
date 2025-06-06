@@ -90,7 +90,6 @@ public class Main {
 		Color clrBoardColor = stringToColor(strThemeData[3]);
 		String strBoardTitle = strThemeData[4];
 		
-		
 		// Draw the top white bar
 		con.setDrawColor(Color.WHITE);
 		con.fillRect(20,20,1240,60);
@@ -105,7 +104,7 @@ public class Main {
 		con.drawString(strGameTitleText, 20 + (1280-20-20 - strGameTitleTextWidth) / 2, 20 + 15);		
 		
 		// Draw the blue Connect 4 board area
-		con.setDrawColor(Color.BLUE);
+		con.setDrawColor(clrBoardColor);
 		con.fillRect(1280-20-600,100,600,600);
 		
 		String strP1Name;
@@ -249,16 +248,12 @@ public class Main {
 		con.sleep(1000);
 		
 		String strSelectedTheme = strThemeNames[intSelection-1];
-		
-		String strThemeData[];
-		strThemeData = DataManager.getTheme(strSelectedTheme);
-		
-		// TODO: use the theme data and apply it
+		DataManager.setLastTheme(strSelectedTheme);
 	}
 	
 	
 	/*
-	 * createThemeScreene method:
+	 * createThemeScreen method:
 	 * Activated when "[4] - Create Theme" is selected in the main menu.
 	 * Allows the user to create a custom theme to add to the load theme options.
 	 */
@@ -266,6 +261,62 @@ public class Main {
 		newScreen(con);
 		displayBanners(con, "CreateThemeBanner.jpg");
 		
+		TextInputFile themesFile = new TextInputFile("themes.txt");
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
+		String strThemeNames[] = new String[15];
+		
+		int intNumThemes = DataManager.getNumThemes();
+		
+		// Display create theme menu
+		String strCreateThemeMenu = 
+									"\n" + 
+									"                                                CREATE THEME               \n" +
+									"                                -------------------------------------------\n" +
+									"                                   Create and save a custom colour theme!" +
+									"\n";
+		
+		
+		// Check if 15 themes
+		if(intNumThemes == 15){
+			strCreateThemeMenu += ("\n                                Max (15) themes exist.");
+			strCreateThemeMenu += ("\n                                Select a theme to delete.");
+			strCreateThemeMenu += ("\n");
+			
+			int intCount = 1;
+			while(themesFile.eof() != true && intCount <= 15){
+				strThemeName = themesFile.readLine();
+				strP1Color = themesFile.readLine();
+				strP2Color = themesFile.readLine();
+				strBoardColor = themesFile.readLine();
+				strBoardTitle = themesFile.readLine();
+				if(intCount <= 9){ // prints menu items #1-9 (1 digit)
+					strCreateThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeName);
+				}else{ // prints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
+					strCreateThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeName);
+				}
+				
+				strThemeNames[intCount-1] = strThemeName;
+				intCount++;
+			}
+			themesFile.close();
+				
+			System.out.print("TEST: Themes Array -> ");
+			for(intCount = 0; intCount < strThemeNames.length; intCount++){
+				System.out.print(strThemeNames[intCount] + "  "); // TEST
+			}
+			System.out.println();
+			System.out.println();
+					
+			int intSelection;														
+			intSelection = getValidInput(con, 15, strCreateThemeMenu, "                                ");
+			DataManager.deleteTheme(intSelection);
+			con.println("                                Deleting Theme...");
+			con.sleep(1000);
+		}
 		// limit to 15 themes stored at a time
 		// give option to delete if full
 		// handle duplicate theme names
