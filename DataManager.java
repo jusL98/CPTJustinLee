@@ -97,9 +97,9 @@ public class DataManager {
 		// If strSelectedTheme does not exist, set all values to "INVALID"
 		if(boolKeepSearching == true){
 			strThemeName = "INVALID";
-			strP1Color = "INVALID";
-			strP2Color = "INVALID";
-			strBoardColor = "INVALID";
+			strP1Color = "0, 0, 0";
+			strP2Color = "0, 0, 0";
+			strBoardColor = "0, 0, 0";
 			strBoardTitle = "INVALID";
 		}
 		
@@ -208,6 +208,7 @@ public class DataManager {
 	 */
 	public static void deleteTheme(int intThemeNum) {
 		TextInputFile themesFile = new TextInputFile("themes.txt");
+	    TextOutputFile tempThemesFile = new TextOutputFile("tempthemes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
@@ -215,18 +216,37 @@ public class DataManager {
 		String strBoardTitle = "";
 		int intCount = 1;
 		
-		for(intCount = 1; intCount <= intThemeNum; intCount++){
+		// Stores everything except the theme to be deleted into a temporary file
+		for(intCount = 1; intCount <= getNumThemes(); intCount++){
 			strThemeName = themesFile.readLine();
 			strP1Color = themesFile.readLine();
 			strP2Color = themesFile.readLine();
 			strBoardColor = themesFile.readLine();
 			strBoardTitle = themesFile.readLine();
 			System.out.println(intCount);
+			
+			if(intCount != intThemeNum){
+				tempThemesFile.println(strThemeName);
+				tempThemesFile.println(strP1Color);
+				tempThemesFile.println(strP2Color);
+				tempThemesFile.println(strBoardColor);
+				tempThemesFile.println(strBoardTitle);
+			}
 		}
 		themesFile.close();
+		tempThemesFile.close();
 		
+		// Copies temp data file back into themes data file
+	    TextInputFile tempThemesFile2 = new TextInputFile("tempthemes.txt");
+		TextOutputFile themesFile2 = new TextOutputFile("themes.txt");
 		
-		System.out.println("THEME #" + (intCount-1) + " DELETED"); // TEST, intCount-1 for message because loop increments intCount once more for first time condition is not met
+		while(tempThemesFile2.eof() != true){
+			themesFile2.println(tempThemesFile2.readLine());
+		}
+		tempThemesFile2.close();
+		themesFile2.close();
+		
+		System.out.println("THEME #" + intThemeNum + " DELETED"); // TEST, intCount-1 for message because loop increments intCount once more for first time condition is not met
 		System.out.println();
 	}
 
@@ -246,6 +266,8 @@ public class DataManager {
 		String strTestGetLastTheme = getLastTheme();
 		
 		int intNumThemes = getNumThemes();
+		
+		// deleteTheme(2);
 		
 		if(intNumThemes < 15){
 			createNewTheme("candy", "0,0,0", "255,255,20", "8,8,8", "Sweet 4");
