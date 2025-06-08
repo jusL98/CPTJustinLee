@@ -17,6 +17,7 @@ public class Main {
 		
 		displayBanners(con, "MainMenuBanner.jpg");
 
+		// Main menu display
 		String strMainMenuDisplay = 
 									"\n\n\n\n\n\n\n" +
 									"                                ===========================================\n" + 
@@ -148,9 +149,9 @@ public class Main {
 		String strLeaderboard[][] = DataManager.getLeaderboard();
 		int intNumEntries = strLeaderboard.length;
 		
-		System.out.println(intNumEntries);
+		System.out.println("DISPLAYING " + intNumEntries + " LEADERBOARD ENTRIES"); // CONFIRMATION
 		
-		// Display leaderboard
+		// Leaderboard menu display
 		con.println();
 		con.println("                                                LEADERBOARD                ");
 		con.println("                                -------------------------------------------");
@@ -198,57 +199,48 @@ public class Main {
 	 */
 	public static void loadThemeScreen(Console con){
 		newScreen(con);
-		displayBanners(con, "LoadThemeBanner.jpg"); // TODO: create load theme screen
+		displayBanners(con, "LoadThemeBanner.jpg");
 		
-		TextInputFile themesFile = new TextInputFile("themes.txt");
-		String strThemeName = "";
-		String strP1Color = "";
-		String strP2Color = "";
-		String strBoardColor = "";
-		String strBoardTitle = "";
+		String strThemeNames[] = DataManager.getAllThemeNames();
 		
-		String strThemeNames[] = new String[15];
-		
-		// Display load theme menu
+		// Load Theme menu display
 		String strLoadThemeMenu = 
 									"\n" + 
 									"                                                 LOAD THEME                \n" +
 									"                                -------------------------------------------\n" +
 									"                                Pick a theme to load to customize the game!" +
 									"\n";
-																		
+				
+		int intNumThemes = strThemeNames.length;											
+	
+		if(intNumThemes == 0){
+			con.println(strLoadThemeMenu);
+			con.println("                                No themes currently exist. Create one!");
+			return;
+		}
+		
 		int intCount = 1;
-		while(themesFile.eof() != true && intCount <= 15){
-			strThemeName = themesFile.readLine();
-			strP1Color = themesFile.readLine();
-			strP2Color = themesFile.readLine();
-			strBoardColor = themesFile.readLine();
-			strBoardTitle = themesFile.readLine();
+		while(intCount <= intNumThemes){
 			if(intCount <= 9){ // prints menu items #1-9 (1 digit)
-				strLoadThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeName);
+				strLoadThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeNames[intCount-1]);
 			}else{ // prints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
-				strLoadThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeName);
+				strLoadThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeNames[intCount-1]);
 			}
-			
-			strThemeNames[intCount-1] = strThemeName;
 			intCount++;
 		}
-		themesFile.close();
-			
-		System.out.print("TEST: Themes Array -> ");
-		for(intCount = 0; intCount < strThemeNames.length; intCount++){
-			System.out.print(strThemeNames[intCount] + "  "); // TEST
-		}
-		System.out.println();
-		System.out.println();
 				
 		int intSelection;														
-		intSelection = getValidInput(con, 15, strLoadThemeMenu, "                                ");
+		intSelection = getValidInput(con, intNumThemes, strLoadThemeMenu, "                                ");
+		
+		// Set last theme to theme just loaded
+		DataManager.setLastTheme(strThemeNames[intSelection-1]);
+		
 		con.println("                                Loading...");
 		con.sleep(1000);
-		
-		String strSelectedTheme = strThemeNames[intSelection-1];
-		DataManager.setLastTheme(strSelectedTheme);
+		con.println();
+		con.println("                                THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED");
+		System.out.println("THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED"); // CONFIRMATION
+		System.out.println();
 	}
 	
 	
@@ -261,65 +253,67 @@ public class Main {
 		newScreen(con);
 		displayBanners(con, "CreateThemeBanner.jpg");
 		
-		TextInputFile themesFile = new TextInputFile("themes.txt");
-		String strThemeName = "";
-		String strP1Color = "";
-		String strP2Color = "";
-		String strBoardColor = "";
-		String strBoardTitle = "";
-		String strThemeNames[] = new String[15];
+		String strCreateThemeMenu;
 		
 		int intNumThemes = DataManager.getNumThemes();
+		String strThemeNames[];
 		
-		// Display create theme menu
-		String strCreateThemeMenu = 
+		// Check if 15 themes and handle deletion if needed
+		while(intNumThemes >= 15){
+			strThemeNames = DataManager.getAllThemeNames();
+			
+			// Create Theme menu display (DELETION VERSION)
+			strCreateThemeMenu = 
+									"\n" + 
+									"                                                CREATE THEME               \n" +
+									"                                -------------------------------------------\n" +
+									"                                   Create and save a custom colour theme!" +
+									"\n";
+			strCreateThemeMenu += ("\n                                Max (15) themes exist. Select one to delete.");
+			strCreateThemeMenu += ("\n");
+			
+			int intCount = 1;
+			while(intCount <= intNumThemes && intCount <= 15){
+				if(intCount <= 9){ // prints menu items #1-9 (1 digit)
+					strCreateThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeNames[intCount-1]);
+				}else{ // prints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
+					strCreateThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeNames[intCount-1]);
+				}
+				intCount++;
+			}
+					
+			int intSelection;														
+			intSelection = getValidInput(con, 15, strCreateThemeMenu, "                                ");
+			
+			DataManager.deleteTheme(intSelection);
+			
+			intNumThemes -= 1;
+			
+			con.println("                                Deleting Theme...");
+			con.sleep(1000);
+			con.println();
+			con.println("                                THEME " + strThemeNames[intSelection-1] + " SUCCESSFULLY DELETED");
+			System.out.println("THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY DELETED"); // CONFIRMATION
+			System.out.println();
+			
+			con.sleep(500);
+			con.clear();
+		}
+		
+		// Create new theme now that there are 14 or less themes existing
+		strCreateThemeMenu = 
 									"\n" + 
 									"                                                CREATE THEME               \n" +
 									"                                -------------------------------------------\n" +
 									"                                   Create and save a custom colour theme!" +
 									"\n";
 		
+		con.println(strCreateThemeMenu);
 		
-		// Check if 15 themes
-		if(intNumThemes == 15){
-			strCreateThemeMenu += ("\n                                Max (15) themes exist.");
-			strCreateThemeMenu += ("\n                                Select a theme to delete.");
-			strCreateThemeMenu += ("\n");
-			
-			int intCount = 1;
-			while(themesFile.eof() != true && intCount <= 15){
-				strThemeName = themesFile.readLine();
-				strP1Color = themesFile.readLine();
-				strP2Color = themesFile.readLine();
-				strBoardColor = themesFile.readLine();
-				strBoardTitle = themesFile.readLine();
-				if(intCount <= 9){ // prints menu items #1-9 (1 digit)
-					strCreateThemeMenu += ("\n                                " + "    " + intCount + ". " + strThemeName);
-				}else{ // prints menu items #10-15 (formats 2 digits rather than 1 so alignment is correct)
-					strCreateThemeMenu += ("\n                                " + "   " + intCount + ". " + strThemeName);
-				}
-				
-				strThemeNames[intCount-1] = strThemeName;
-				intCount++;
-			}
-			themesFile.close();
-				
-			System.out.print("TEST: Themes Array -> ");
-			for(intCount = 0; intCount < strThemeNames.length; intCount++){
-				System.out.print(strThemeNames[intCount] + "  "); // TEST
-			}
-			System.out.println();
-			System.out.println();
-					
-			int intSelection;														
-			intSelection = getValidInput(con, 15, strCreateThemeMenu, "                                ");
-			DataManager.deleteTheme(intSelection);
-			con.println("                                Deleting Theme...");
-			con.sleep(1000);
-		}
-		// limit to 15 themes stored at a time
-		// give option to delete if full
-		// handle duplicate theme names
+		// Get existing theme names to check for duplicates
+		strThemeNames = DataManager.getAllThemeNames();
+		
+		
 	}
 	
 	
@@ -411,7 +405,7 @@ public class Main {
 	 */
 	public static Color stringToColor(String strRGB) {
 		String strCleanedRGB = strRGB.replace(" ", ""); // removes spaces before, after, in between
-		System.out.println("TEST: Cleaned RGB -> " + strCleanedRGB);
+		System.out.println("TEST: Cleaned RGB -> " + strCleanedRGB); // TEST
 		
 		int intR;
 		int intG;
@@ -429,8 +423,8 @@ public class Main {
 		strCleanedRGB = strCleanedRGB.replaceFirst(strB, "");
 		intB = Integer.parseInt(strB);
 		
-		System.out.println("TEST: Cleaned RGB After -> " + strCleanedRGB);
-		System.out.println("TEST: RGB -> " + strR + "    " + strG + "    " + strB);
+		System.out.println("TEST: Cleaned RGB After -> " + strCleanedRGB); // TEST
+		System.out.println("TEST: RGB -> " + strR + "    " + strG + "    " + strB); // TEST
 		System.out.println();
 		
 		Color clrRGB = new Color(intR, intG, intB);

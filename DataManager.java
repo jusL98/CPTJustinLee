@@ -147,6 +147,44 @@ public class DataManager {
 		return intCount;
 	}
 	
+	
+	/*
+	 * getAllThemeNames method:
+	 * Returns an array of all existing theme names from the themes.txt file.
+	 * Used for checking duplicate theme names when creating new themes.
+	 */
+	public static String[] getAllThemeNames() {
+		int intNumThemes = getNumThemes();
+		String strThemeNames[];
+		if(intNumThemes < 15){
+			strThemeNames = new String[intNumThemes];
+		}else{
+			strThemeNames = new String[15]; // Max 15 themes
+		}
+
+		int intCount = 0;
+		TextInputFile themesFile = new TextInputFile("themes.txt");		
+		while(themesFile.eof() != true && intCount < strThemeNames.length) {
+			strThemeNames[intCount] = themesFile.readLine();
+			themesFile.readLine();
+			themesFile.readLine();
+			themesFile.readLine();
+			themesFile.readLine();
+			intCount++;
+		}
+		themesFile.close();
+		
+		System.out.print("TEST: Themes Array -> ");
+		for(intCount = 0; intCount < strThemeNames.length; intCount++){
+			System.out.print(strThemeNames[intCount] + "  "); // TEST
+		}
+		System.out.println();
+		System.out.println();
+		
+		return strThemeNames;
+	}
+	
+	
 	/*
 	 * getLastTheme method:
 	 * Returns the theme name of the last theme loaded in the last round/session from "lasttheme.txt". 
@@ -176,7 +214,7 @@ public class DataManager {
 		themesFile.println(strThemeName);
 		themesFile.close();
 		
-		System.out.println("SET LAST THEME IN LASTTHEME.TXT");
+		System.out.println("SET LAST THEME IN LASTTHEME.TXT"); // CONFIRMATION
 		System.out.println("TEST: Last Theme -> " + strThemeName); // TEST
 		System.out.println();
 	}
@@ -197,7 +235,7 @@ public class DataManager {
 		themesFile.println(board_title.strip());
 		themesFile.close();
 		
-		System.out.println("APPENDED NEW THEME TO THEMES.TXT");
+		System.out.println("APPENDED NEW THEME TO THEMES.TXT"); // CONFIRMATION
 		System.out.println("TEST: New Theme Data -> " + strThemeName.strip() + "  " + p1_colour.strip() + "  " + p2_colour.strip() + "  " + board_colour.strip() + "  " + board_title.strip()); // TEST
 		System.out.println();
 	}
@@ -214,16 +252,17 @@ public class DataManager {
 		String strP2Color = "";
 		String strBoardColor = "";
 		String strBoardTitle = "";
+		
 		int intCount = 1;
+		int intNumThemes = getNumThemes();
 		
 		// Stores everything except the theme to be deleted into a temporary file
-		for(intCount = 1; intCount <= getNumThemes(); intCount++){
+		for(intCount = 1; intCount <= intNumThemes; intCount++){
 			strThemeName = themesFile.readLine();
 			strP1Color = themesFile.readLine();
 			strP2Color = themesFile.readLine();
 			strBoardColor = themesFile.readLine();
 			strBoardTitle = themesFile.readLine();
-			System.out.println(intCount);
 			
 			if(intCount != intThemeNum){
 				tempThemesFile.println(strThemeName);
@@ -246,7 +285,7 @@ public class DataManager {
 		tempThemesFile2.close();
 		themesFile2.close();
 		
-		System.out.println("THEME #" + intThemeNum + " DELETED"); // TEST, intCount-1 for message because loop increments intCount once more for first time condition is not met
+		System.out.println("THEME #" + intThemeNum + " DELETED"); // CONFIRMATION, intCount-1 for message because loop increments intCount once more for first time condition is not met
 		System.out.println();
 	}
 
@@ -272,7 +311,7 @@ public class DataManager {
 		if(intNumThemes < 15){
 			createNewTheme("candy", "0,0,0", "255,255,20", "8,8,8", "Sweet 4");
 		}else{
-			System.out.println("MAX (15) THEMES EXIST. TEST THEME NOT CREATED.");
+			System.out.println("MAX (15) THEMES EXIST. TEST THEME NOT CREATED."); // CONFIRMATION
 			System.out.println(); 
 		}
 	}
