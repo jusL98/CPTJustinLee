@@ -380,7 +380,7 @@ public class Main {
 			}else{
 				intInput = InputValidation.stringToInteger(strInput);
 				
-				if(intInput >= 1 && intInput <= intMax){ // checks if integer is within range
+				if(InputValidation.isInRange(intInput, 1, intMax)){ // checks if integer is within range
 					break;
 				}else{
 					con.println("                                   [INVALID] Enter a number #1-" + intMax + ".\n");

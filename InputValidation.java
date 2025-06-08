@@ -36,6 +36,17 @@ public class InputValidation{
 	
 	
 	/*
+	 * isInRange method:
+	 * Checks if an integer value is within a range of intMin-intMax, inclusive.
+	 */
+	public static boolean isInRange(int intNum, int intMin, int intMax){
+		boolean boolIsInRange = (intNum >= intMin && intNum <= intMax);
+		
+		return boolIsInRange;
+	}
+	
+	
+	/*
 	 * main method:
 	 * Used for temporary testing only within this file.
 	 */
@@ -55,5 +66,12 @@ public class InputValidation{
 		System.out.println(stringToInteger("25 "));
 		System.out.println(stringToInteger(" 25"));
 		System.out.println(stringToInteger(" 25 "));
+		
+		System.out.println();
+		
+		System.out.println(isInRange(5, 2, 5)); // true
+		System.out.println(isInRange(2, 2, 5)); // true
+		System.out.println(isInRange(3, 2, 5)); // true
+		System.out.println(isInRange(0, 2, 5)); // false
 	}
 }
