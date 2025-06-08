@@ -86,9 +86,9 @@ public class Main {
 		String strLastTheme = DataManager.getLastTheme();
 		String strThemeData[] = DataManager.getTheme(strLastTheme);
 		String strThemeName = strThemeData[0];
-		Color clrP1Color = stringToColor(strThemeData[1]);
-		Color clrP2Color = stringToColor(strThemeData[2]);
-		Color clrBoardColor = stringToColor(strThemeData[3]);
+		Color clrP1Color = InputValidation.stringToColor(strThemeData[1]);
+		Color clrP2Color = InputValidation.stringToColor(strThemeData[2]);
+		Color clrBoardColor = InputValidation.stringToColor(strThemeData[3]);
 		String strBoardTitle = strThemeData[4];
 		
 		// Draw the top white bar
@@ -356,6 +356,29 @@ public class Main {
 	// ************************************************************************
 	// HELPER/UTILITY METHODS - reusable components for common tasks
 	// ************************************************************************
+		
+	/* 
+	 * newScreen method: 
+	 * Used to clear the text and images of the screen after a 100mm pause.
+	 */
+	public static void newScreen(Console con){
+		con.sleep(100);
+		con.setBackgroundColor(Color.BLACK); // clears image
+		con.clear(); // clears text
+	}
+	
+	
+	/* 
+	 * displayBanner method: 
+	 * Used to display the decorative screen banner images.
+	 */
+	public static void displayBanners(Console con, String strImgFile){
+		BufferedImage imgBanner = con.loadImage("assets/" + strImgFile); // 300 x 680
+		con.drawImage(imgBanner, 20, 20); // left banner
+		con.drawImage(imgBanner, 1280-300-20, 20); // right banner
+		con.repaint();
+	}
+	
 	
 	/* 
 	 * getValidMenuInput method: 
@@ -418,63 +441,6 @@ public class Main {
         }
         
         return strName;
-	}
-	
-	
-	/* 
-	 * newScreen method: 
-	 * Used to clear the text and images of the screen after a 100mm pause.
-	 */
-	public static void newScreen(Console con){
-		con.sleep(100);
-		con.setBackgroundColor(Color.BLACK); // clears image
-		con.clear(); // clears text
-	}
-	
-	
-	/* 
-	 * displayBanner method: 
-	 * Used to display the decorative screen banner images.
-	 */
-	public static void displayBanners(Console con, String strImgFile){
-		BufferedImage imgBanner = con.loadImage("assets/" + strImgFile); // 300 x 680
-		con.drawImage(imgBanner, 20, 20); // left banner
-		con.drawImage(imgBanner, 1280-300-20, 20); // right banner
-		con.repaint();
-	}
-	
-	
-	/* 
-	 * stringToColor method: 
-	 * Used to convert an String in the format of an RGB colour code (xxx, xxx,  xxx  ) into a Color object.
-	 */
-	public static Color stringToColor(String strRGB){
-		String strCleanedRGB = strRGB.replace(" ", ""); // removes spaces before, after, in between
-		System.out.println("TEST: Cleaned RGB -> " + strCleanedRGB); // TEST
-		
-		int intR;
-		int intG;
-		int intB;
-		
-		String strR = strCleanedRGB.substring(0, strCleanedRGB.indexOf(","));
-		strCleanedRGB = strCleanedRGB.replaceFirst(strR+",", "");
-		intR = Integer.parseInt(strR);
-		
-		String strG = strCleanedRGB.substring(0, strCleanedRGB.indexOf(","));
-		strCleanedRGB = strCleanedRGB.replaceFirst(strG+",", "");
-		intG = Integer.parseInt(strG);
-		
-		String strB = strCleanedRGB.substring(0);
-		strCleanedRGB = strCleanedRGB.replaceFirst(strB, "");
-		intB = Integer.parseInt(strB);
-		
-		System.out.println("TEST: Cleaned RGB After -> " + strCleanedRGB); // TEST
-		System.out.println("TEST: RGB -> " + strR + "    " + strG + "    " + strB); // TEST
-		System.out.println();
-		
-		Color clrRGB = new Color(intR, intG, intB);
-		
-		return clrRGB;
 	}
 	
 	

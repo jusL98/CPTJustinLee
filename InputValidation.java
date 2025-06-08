@@ -1,4 +1,5 @@
 import arc.*;
+import java.awt.Color;
 
 public class InputValidation{
 	/*
@@ -28,7 +29,7 @@ public class InputValidation{
 	/*
 	 * stringToInteger method:
 	 * Converts a string to integer.
-	 * Assumes the string has already been validated as an integer.
+	 * Assumes the string is a valid integer.
 	 */
 	public static int stringToInteger(String str){
 		return Integer.parseInt(str.trim());
@@ -43,6 +44,35 @@ public class InputValidation{
 		boolean boolIsInRange = (intNum >= intMin && intNum <= intMax);
 		
 		return boolIsInRange;
+	}
+	
+	
+	/* 
+	 * stringToColor method: 
+	 * Used to convert an String in the format of an RGB colour code (xxx, xxx,  xxx  ) into a Color object.
+	 * Assumes the string is a valid RGB format.
+	 */
+	public static Color stringToColor(String strRGB){
+		String strCleanedRGB = strRGB.replace(" ", ""); // removes spaces before, after, in between
+		
+		String strR = strCleanedRGB.substring(0, strCleanedRGB.indexOf(","));
+		strCleanedRGB = strCleanedRGB.replaceFirst(strR+",", "");
+		int intR = Integer.parseInt(strR);
+		
+		String strG = strCleanedRGB.substring(0, strCleanedRGB.indexOf(","));
+		strCleanedRGB = strCleanedRGB.replaceFirst(strG+",", "");
+		int intG = Integer.parseInt(strG);
+		
+		String strB = strCleanedRGB.substring(0);
+		strCleanedRGB = strCleanedRGB.replaceFirst(strB, "");
+		int intB = Integer.parseInt(strB);
+		
+		Color clrRGB = new Color(intR, intG, intB);
+		
+		System.out.println(intR + "|" + intG + "|" + intB + " USED TO CONVERT TO COLOR"); // CONFIRMATION
+		System.out.println();
+		
+		return clrRGB;
 	}
 	
 	
@@ -73,5 +103,17 @@ public class InputValidation{
 		System.out.println(isInRange(2, 2, 5)); // true
 		System.out.println(isInRange(3, 2, 5)); // true
 		System.out.println(isInRange(0, 2, 5)); // false
+		
+		System.out.println();
+		
+		Color c1 = stringToColor("255, 255, 255");
+		Color c2 = stringToColor("2, 255, 255");
+		Color c3 = stringToColor("22, 255, 255");
+		Color c4 = stringToColor("255, 2, 255");
+		Color c5 = stringToColor("255, 22, 255");
+		Color c6 = stringToColor("255, 255, 2");
+		Color c7 = stringToColor("255, 255, 22");
+		Color c8 = stringToColor("2, 2, 2");
+		Color c9 = stringToColor("22, 22, 22");
 	}
 }
