@@ -300,7 +300,14 @@ public class Main {
 			con.clear();
 		}
 		
+		
 		// Create new theme now that there are 14 or less themes existing
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
+		
 		strCreateThemeMenu = 
 									"\n" + 
 									"                                                CREATE THEME               \n" +
@@ -308,12 +315,40 @@ public class Main {
 									"                                   Create and save a custom colour theme!" +
 									"\n";
 		
-		con.println(strCreateThemeMenu);
-		
-		// Get existing theme names to check for duplicates
+		// Get desired theme name
 		strThemeNames = DataManager.getAllThemeNames();
+		String strDesiredThemeName = "";
+		boolean boolIsDuplicate = false;
+		while(strDesiredThemeName.trim().isEmpty() || boolIsDuplicate == true){
+			con.println(strCreateThemeMenu);
+			con.println("                                THEME NAME");
+            con.print("                                Enter a theme name: ");
+            strDesiredThemeName = con.readLine().trim();
+            
+            if(strDesiredThemeName.isEmpty()){
+                con.println("                                   [INVALID] Theme name cannot be empty.");
+                con.sleep(500);
+                con.clear();
+            }
+            
+			boolIsDuplicate = false;
+			int intCount;
+			for(intCount = 0; intCount < strThemeNames.length; intCount++){
+				if(strThemeNames[intCount] != null && strThemeNames[intCount].equals(strDesiredThemeName)){
+					boolIsDuplicate = true;
+					break;
+				}
+			}
+            if(boolIsDuplicate == true){
+                con.println("                                   [INVALID] Theme name already exists.");
+                con.sleep(500);
+                con.clear();
+			}
+        }
+        strThemeName = strDesiredThemeName;
+        System.out.println("DESIRED THEME NAME \"" + strThemeName + "\" VERIFIED"); // CONFIRMATION
 		
-		
+		// Get desired theme name
 	}
 	
 	
@@ -360,13 +395,13 @@ public class Main {
 	 */
 	public static String getPlayerName(Console con, int intPlayerNum) {
 		String strName = "";
-		while (strName.trim().isEmpty()) {
+		while(strName.trim().isEmpty()){
 			con.println("\n\n\n");
 			con.println("  PLAYER " + intPlayerNum + ":");
 			con.println("  -----------------------------------\n");
             con.print("  Player " + intPlayerNum + ", enter your name: ");
             strName = con.readLine().trim();
-            if (strName.isEmpty()) {
+            if(strName.isEmpty()){
                 con.println("    [INVALID] Name cannot be empty.");
                 con.sleep(500);
                 con.clear();
@@ -399,6 +434,7 @@ public class Main {
 		con.repaint();
 	}
 	
+	
 	/* 
 	 * stringToColor method: 
 	 * Used to convert an String in the format of an RGB colour code (xxx, xxx,  xxx  ) into a Color object.
@@ -430,5 +466,15 @@ public class Main {
 		Color clrRGB = new Color(intR, intG, intB);
 		
 		return clrRGB;
+	}
+	
+	
+	/*
+	 * getRGB method:
+	 * Used to get valid String input from the user for a valid RGB color.
+	 * Validates that input is in format "R, G, B" where R, G, B are integers 0-255.
+	 */
+	public static String getRGB(Console con, String strPrompt) {
+		return "";
 	}
 }

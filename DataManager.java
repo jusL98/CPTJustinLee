@@ -154,8 +154,15 @@ public class DataManager {
 	 * Used for checking duplicate theme names when creating new themes.
 	 */
 	public static String[] getAllThemeNames() {
-		int intNumThemes = getNumThemes();
+		TextInputFile themesFile = new TextInputFile("themes.txt");
+		String strThemeName = "";
+		String strP1Color = "";
+		String strP2Color = "";
+		String strBoardColor = "";
+		String strBoardTitle = "";
 		String strThemeNames[];
+		
+		int intNumThemes = getNumThemes();
 		if(intNumThemes < 15){
 			strThemeNames = new String[intNumThemes];
 		}else{
@@ -163,13 +170,14 @@ public class DataManager {
 		}
 
 		int intCount = 0;
-		TextInputFile themesFile = new TextInputFile("themes.txt");		
 		while(themesFile.eof() != true && intCount < strThemeNames.length) {
-			strThemeNames[intCount] = themesFile.readLine();
-			themesFile.readLine();
-			themesFile.readLine();
-			themesFile.readLine();
-			themesFile.readLine();
+			strThemeName = themesFile.readLine();
+			strThemeNames[intCount] = strThemeName;
+			strP1Color = themesFile.readLine();
+			strP2Color = themesFile.readLine();
+			strBoardColor = themesFile.readLine();
+			strBoardTitle = themesFile.readLine();
+			
 			intCount++;
 		}
 		themesFile.close();
