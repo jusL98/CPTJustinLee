@@ -33,7 +33,7 @@ public class Main {
 									"                                        [4] - Create Theme                 ";
 		
 		int intSelection;														
-		intSelection = getValidInput(con, 4, strMainMenuDisplay, "                                ");
+		intSelection = getValidInput(con, 4, strMainMenuDisplay);
 		con.println("                                Loading...");
 		con.sleep(1000);
 		
@@ -79,7 +79,7 @@ public class Main {
 	 * Activated when "[1] - Play Game" is selected in the main menu.
 	 * Contains the main Connect 4 game play and logic.
 	 */
-	public static void playGameScreen(Console con) {
+	public static void playGameScreen(Console con){
 		newScreen(con);
 		
 		// Load theme
@@ -230,7 +230,7 @@ public class Main {
 		}
 				
 		int intSelection;														
-		intSelection = getValidInput(con, intNumThemes, strLoadThemeMenu, "                                ");
+		intSelection = getValidInput(con, intNumThemes, strLoadThemeMenu);
 		
 		// Set last theme to theme just loaded
 		DataManager.setLastTheme(strThemeNames[intSelection-1]);
@@ -283,7 +283,7 @@ public class Main {
 			}
 					
 			int intSelection;														
-			intSelection = getValidInput(con, 15, strCreateThemeMenu, "                                ");
+			intSelection = getValidInput(con, 15, strCreateThemeMenu);
 			
 			DataManager.deleteTheme(intSelection);
 			
@@ -363,19 +363,19 @@ public class Main {
 	 * Filters out and handles numbers over or under a range of 1-intMax.
 	 * If input is invalid, prompts for input until valid input given.
 	 */
-	public static int getValidInput(Console con, int intMax, String strMenu, String strOffset) {
+	public static int getValidInput(Console con, int intMax, String strMenu){
 		int intInput;
 		while(true) {
 			con.println(strMenu);
 			con.println();
 			
-			con.print(strOffset + "Your Selection: ");
+			con.print("                                Your Selection: ");
 			intInput = con.readInt();
 			
 			if(intInput >= 1 && intInput <= intMax){
 				break;
 			}else{
-				con.println(strOffset + "   [INVALID] Enter a number #1-" + intMax + ".\n");
+				con.println("                                   [INVALID] Enter a number #1-" + intMax + ".\n");
                 con.sleep(500);
                 con.clear();
 			}
@@ -393,7 +393,7 @@ public class Main {
 	 * If input is invalid, prompts for input until valid input given.
 	 * Trims whitespace before and after the valid name.
 	 */
-	public static String getPlayerName(Console con, int intPlayerNum) {
+	public static String getPlayerName(Console con, int intPlayerNum){
 		String strName = "";
 		while(strName.trim().isEmpty()){
 			con.println("\n\n\n");
@@ -416,7 +416,7 @@ public class Main {
 	 * newScreen method: 
 	 * Used to clear the text and images of the screen after a 100mm pause.
 	 */
-	public static void newScreen(Console con) {
+	public static void newScreen(Console con){
 		con.sleep(100);
 		con.setBackgroundColor(Color.BLACK); // clears image
 		con.clear(); // clears text
@@ -427,7 +427,7 @@ public class Main {
 	 * displayBanner method: 
 	 * Used to display the decorative screen banner images.
 	 */
-	public static void displayBanners(Console con, String strImgFile) {
+	public static void displayBanners(Console con, String strImgFile){
 		BufferedImage imgBanner = con.loadImage("assets/" + strImgFile); // 300 x 680
 		con.drawImage(imgBanner, 20, 20); // left banner
 		con.drawImage(imgBanner, 1280-300-20, 20); // right banner
@@ -439,7 +439,7 @@ public class Main {
 	 * stringToColor method: 
 	 * Used to convert an String in the format of an RGB colour code (xxx, xxx,  xxx  ) into a Color object.
 	 */
-	public static Color stringToColor(String strRGB) {
+	public static Color stringToColor(String strRGB){
 		String strCleanedRGB = strRGB.replace(" ", ""); // removes spaces before, after, in between
 		System.out.println("TEST: Cleaned RGB -> " + strCleanedRGB); // TEST
 		
@@ -474,7 +474,7 @@ public class Main {
 	 * Used to get valid String input from the user for a valid RGB color.
 	 * Validates that input is in format "R, G, B" where R, G, B are integers 0-255.
 	 */
-	public static String getRGB(Console con, String strPrompt) {
+	public static String getRGB(Console con, String strPrompt){
 		return "";
 	}
 }

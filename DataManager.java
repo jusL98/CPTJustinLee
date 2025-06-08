@@ -1,13 +1,13 @@
 import arc.*;
 
-public class DataManager {
+public class DataManager{
 	/*
 	 * getLeaderboard method:
 	 * Returns a sorted leaderboard 2D array of {player, name} based on most to least wins.
 	 * Only returns top 10 scores.
 	 * If no entries in leaderboard exist, array will be empty.
 	 */
-	public static String[][] getLeaderboard() {
+	public static String[][] getLeaderboard(){
 		// Count number of entries in leaderboard data file
 		TextInputFile leaderboardFile = new TextInputFile("data/leaderboard.txt");
 		String strName;
@@ -73,7 +73,7 @@ public class DataManager {
 	 * Returns theme data in an array from "themes.txt" based on the provided theme name.
 	 * If theme name not located, returns "INVALID" string values in the array.
 	 */
-	public static String[] getTheme(String strSelectedTheme) {
+	public static String[] getTheme(String strSelectedTheme){
 		// Locate theme that matches strSelectedTheme parameter and fill all values
 		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
@@ -122,7 +122,7 @@ public class DataManager {
 	 * getNumThemes method:
 	 * Returns the number of themes that exist in "themes.txt".
 	 */
-	public static int getNumThemes() {
+	public static int getNumThemes(){
 		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
@@ -153,7 +153,7 @@ public class DataManager {
 	 * Returns an array of all existing theme names from the themes.txt file.
 	 * Used for checking duplicate theme names when creating new themes.
 	 */
-	public static String[] getAllThemeNames() {
+	public static String[] getAllThemeNames(){
 		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
@@ -198,7 +198,7 @@ public class DataManager {
 	 * Returns the theme name of the last theme loaded in the last round/session from "lasttheme.txt". 
 	 * Then, should use load theme to load the data of the last theme following this method call.
 	 */
-	public static String getLastTheme() {
+	public static String getLastTheme(){
 		// Get last theme from lasttheme data file
 		TextInputFile lastThemeFile = new TextInputFile("data/lasttheme.txt");
 		String strLastTheme = "";
@@ -216,7 +216,7 @@ public class DataManager {
 	 * setLastTheme method:
 	 * Writes the name of the last theme loaded to "lasttheme.txt".
 	 */
-	public static void setLastTheme(String strThemeName) {
+	public static void setLastTheme(String strThemeName){
 		// Writes the last theme set into lasttheme data file
 		TextOutputFile themesFile = new TextOutputFile("data/lasttheme.txt");
 		themesFile.println(strThemeName);
@@ -233,7 +233,7 @@ public class DataManager {
 	 * Appends the new theme data entered in the parameters to "themes.txt".
 	 * Removes leading and trailing spaces from any of the parameters.
 	 */
-	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title) {
+	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title){
 		// Adds new theme data into themes data file
 		TextOutputFile themesFile = new TextOutputFile("data/themes.txt", true);
 		themesFile.println(strThemeName.strip());
@@ -252,7 +252,7 @@ public class DataManager {
 	 * deleteTheme method:
 	 * Deletes a theme from "themes.txt" based on the theme number (NOT INDEX... THEME # starts at 1).
 	 */
-	public static void deleteTheme(int intThemeNum) {
+	public static void deleteTheme(int intThemeNum){
 		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 	    TextOutputFile tempThemesFile = new TextOutputFile("data/tempthemes.txt");
 		String strThemeName = "";
@@ -298,12 +298,11 @@ public class DataManager {
 	}
 
 
-
 	/*
 	 * main method:
 	 * Used for temporary testing only within this file.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		String strTestGetTheme[] = getTheme("candy");
 		
 		String strTestLeaderboard[][] = getLeaderboard();
