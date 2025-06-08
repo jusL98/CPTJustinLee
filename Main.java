@@ -364,20 +364,29 @@ public class Main {
 	 * If input is invalid, prompts for input until valid input given.
 	 */
 	public static int getValidMenuInput(Console con, int intMax, String strMenu){
+		String strInput;
 		int intInput;
 		while(true) {
 			con.println(strMenu);
 			con.println();
 			
 			con.print("                                Your Selection: ");
-			intInput = con.readInt();
+			strInput = con.readLine();
 			
-			if(intInput >= 1 && intInput <= intMax){
-				break;
+			if(!InputValidation.isValidInteger(strInput)){ // checks if input is an integer
+				con.println("                                   [INVALID] Please enter a valid number.");
+				con.sleep(500);
+				con.clear();
 			}else{
-				con.println("                                   [INVALID] Enter a number #1-" + intMax + ".\n");
-                con.sleep(500);
-                con.clear();
+				intInput = InputValidation.stringToInteger(strInput);
+				
+				if(intInput >= 1 && intInput <= intMax){ // checks if integer is within range
+					break;
+				}else{
+					con.println("                                   [INVALID] Enter a number #1-" + intMax + ".\n");
+					con.sleep(500);
+					con.clear();
+				}
 			}
 		}
 		

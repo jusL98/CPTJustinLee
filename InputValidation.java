@@ -5,11 +5,11 @@ public class InputValidation{
 	 * isValidInteger method:
 	 * Checks if a string contains only digits and can be converted to an integer.
 	 * Returns true if valid, false if not valid.
-	 * Does not support + or - signs. Does not validate for numbers that exceed what int can hold.
+	 * Does not support + or - signs.
 	 */
 	public static boolean isValidInteger(String strInput){
 		// Check if string is empty
-		if(strInput.trim().isEmpty()) {
+		if(strInput.trim().isEmpty() || strInput.length() >= 10){ // filters out numbers too large to fit in int - numbers with 10 digits but fit within int are lost but are not within range anyway for use case
 			return false;
 		}
 		
@@ -24,6 +24,7 @@ public class InputValidation{
 		return true;
 	}
 	
+	
 	/*
 	 * stringToInteger method:
 	 * Converts a string to integer.
@@ -32,6 +33,7 @@ public class InputValidation{
 	public static int stringToInteger(String str){
 		return Integer.parseInt(str.trim());
 	}
+	
 	
 	/*
 	 * main method:
@@ -45,7 +47,7 @@ public class InputValidation{
 		System.out.println(isValidInteger(" 25")); // true
 		System.out.println(isValidInteger(" 25 ")); // true
 		System.out.println(isValidInteger(" 2 5 ")); // false
-		System.out.println(isValidInteger("25252525252525252525")); // true but can't convert to int
+		System.out.println(isValidInteger("25252525252525252525")); // false bc can't convert to int
 		
 		System.out.println();
 		
