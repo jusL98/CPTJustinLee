@@ -9,7 +9,7 @@ public class DataManager {
 	 */
 	public static String[][] getLeaderboard() {
 		// Count number of entries in leaderboard data file
-		TextInputFile leaderboardFile = new TextInputFile("leaderboard.txt");
+		TextInputFile leaderboardFile = new TextInputFile("data/leaderboard.txt");
 		String strName;
 		int intWins;
 		int intNumEntries = 0;
@@ -25,7 +25,7 @@ public class DataManager {
 		System.out.println();
 		
 		// Create and fill leaderboard array with values from data file
-		leaderboardFile = new TextInputFile("leaderboard.txt");
+		leaderboardFile = new TextInputFile("data/leaderboard.txt");
 		String strEntries[][] = new String[intNumEntries][2];
 		int intCount;
 		for(intCount = 0; intCount < intNumEntries; intCount++){
@@ -75,7 +75,7 @@ public class DataManager {
 	 */
 	public static String[] getTheme(String strSelectedTheme) {
 		// Locate theme that matches strSelectedTheme parameter and fill all values
-		TextInputFile themesFile = new TextInputFile("themes.txt");
+		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
@@ -123,7 +123,7 @@ public class DataManager {
 	 * Returns the number of themes that exist in "themes.txt".
 	 */
 	public static int getNumThemes() {
-		TextInputFile themesFile = new TextInputFile("themes.txt");
+		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
@@ -154,7 +154,7 @@ public class DataManager {
 	 * Used for checking duplicate theme names when creating new themes.
 	 */
 	public static String[] getAllThemeNames() {
-		TextInputFile themesFile = new TextInputFile("themes.txt");
+		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
@@ -200,7 +200,7 @@ public class DataManager {
 	 */
 	public static String getLastTheme() {
 		// Get last theme from lasttheme data file
-		TextInputFile lastThemeFile = new TextInputFile("lasttheme.txt");
+		TextInputFile lastThemeFile = new TextInputFile("data/lasttheme.txt");
 		String strLastTheme = "";
 		strLastTheme = lastThemeFile.readLine(); // only 1 line should exist in the file at any given time
 		lastThemeFile.close();
@@ -218,7 +218,7 @@ public class DataManager {
 	 */
 	public static void setLastTheme(String strThemeName) {
 		// Writes the last theme set into lasttheme data file
-		TextOutputFile themesFile = new TextOutputFile("lasttheme.txt");
+		TextOutputFile themesFile = new TextOutputFile("data/lasttheme.txt");
 		themesFile.println(strThemeName);
 		themesFile.close();
 		
@@ -235,7 +235,7 @@ public class DataManager {
 	 */
 	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title) {
 		// Adds new theme data into themes data file
-		TextOutputFile themesFile = new TextOutputFile("themes.txt", true);
+		TextOutputFile themesFile = new TextOutputFile("data/themes.txt", true);
 		themesFile.println(strThemeName.strip());
 		themesFile.println(p1_colour.strip());
 		themesFile.println(p2_colour.strip());
@@ -253,8 +253,8 @@ public class DataManager {
 	 * Deletes a theme from "themes.txt" based on the theme number (NOT INDEX... THEME # starts at 1).
 	 */
 	public static void deleteTheme(int intThemeNum) {
-		TextInputFile themesFile = new TextInputFile("themes.txt");
-	    TextOutputFile tempThemesFile = new TextOutputFile("tempthemes.txt");
+		TextInputFile themesFile = new TextInputFile("data/themes.txt");
+	    TextOutputFile tempThemesFile = new TextOutputFile("data/tempthemes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
@@ -284,8 +284,8 @@ public class DataManager {
 		tempThemesFile.close();
 		
 		// Copies temp data file back into themes data file
-	    TextInputFile tempThemesFile2 = new TextInputFile("tempthemes.txt");
-		TextOutputFile themesFile2 = new TextOutputFile("themes.txt");
+	    TextInputFile tempThemesFile2 = new TextInputFile("data/tempthemes.txt");
+		TextOutputFile themesFile2 = new TextOutputFile("data/themes.txt");
 		
 		while(tempThemesFile2.eof() != true){
 			themesFile2.println(tempThemesFile2.readLine());
