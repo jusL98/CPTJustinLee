@@ -33,7 +33,7 @@ public class Main {
 									"                                        [4] - Create Theme                 ";
 		
 		int intSelection;														
-		intSelection = getValidInput(con, 4, strMainMenuDisplay);
+		intSelection = getValidMenuInput(con, 4, strMainMenuDisplay);
 		con.println("                                Loading...");
 		con.sleep(1000);
 		
@@ -230,7 +230,7 @@ public class Main {
 		}
 				
 		int intSelection;														
-		intSelection = getValidInput(con, intNumThemes, strLoadThemeMenu);
+		intSelection = getValidMenuInput(con, intNumThemes, strLoadThemeMenu);
 		
 		// Set last theme to theme just loaded
 		DataManager.setLastTheme(strThemeNames[intSelection-1]);
@@ -283,7 +283,7 @@ public class Main {
 			}
 					
 			int intSelection;														
-			intSelection = getValidInput(con, 15, strCreateThemeMenu);
+			intSelection = getValidMenuInput(con, 15, strCreateThemeMenu);
 			
 			DataManager.deleteTheme(intSelection);
 			
@@ -358,12 +358,12 @@ public class Main {
 	// ************************************************************************
 	
 	/* 
-	 * getValidInput method: 
+	 * getValidMenuInput method: 
 	 * Returns a valid numeric input from the user.
 	 * Filters out and handles numbers over or under a range of 1-intMax.
 	 * If input is invalid, prompts for input until valid input given.
 	 */
-	public static int getValidInput(Console con, int intMax, String strMenu){
+	public static int getValidMenuInput(Console con, int intMax, String strMenu){
 		int intInput;
 		while(true) {
 			con.println(strMenu);

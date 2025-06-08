@@ -25,6 +25,15 @@ public class InputValidation{
 	}
 	
 	/*
+	 * stringToInteger method:
+	 * Converts a string to integer.
+	 * Assumes the string has already been validated as an integer.
+	 */
+	public static int stringToInteger(String str){
+		return Integer.parseInt(str.trim());
+	}
+	
+	/*
 	 * main method:
 	 * Used for temporary testing only within this file.
 	 */
@@ -37,5 +46,12 @@ public class InputValidation{
 		System.out.println(isValidInteger(" 25 ")); // true
 		System.out.println(isValidInteger(" 2 5 ")); // false
 		System.out.println(isValidInteger("25252525252525252525")); // true but can't convert to int
+		
+		System.out.println();
+		
+		System.out.println(stringToInteger("25"));
+		System.out.println(stringToInteger("25 "));
+		System.out.println(stringToInteger(" 25"));
+		System.out.println(stringToInteger(" 25 "));
 	}
 }
