@@ -15,9 +15,10 @@ public class InputValidation{
 		}
 		
 		// Check if string contains only digits
-		for(int i = 0; i < strInput.trim().length(); i++) {
-			char charCharacter = strInput.trim().charAt(i);
-			if(charCharacter < '0' || charCharacter > '9') {
+		int intCount;
+		for(intCount = 0; intCount < strInput.trim().length(); intCount++){
+			char charCharacter = strInput.trim().charAt(intCount);
+			if(charCharacter < '0' || charCharacter > '9'){
 				return false;
 			}
 		}

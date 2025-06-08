@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
 
-public class Main {
+public class Main{
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
 		
@@ -114,7 +114,7 @@ public class Main {
 		int intP2Wins = 0;
 		
 		// Get player names and setup on-screen information display
-		strP1Name = getPlayerName(con, 1); // player 1
+		strP1Name = getValidPlayerName(con, 1); // player 1
 		con.println("  Welcome " + strP1Name + "!");
 		con.sleep(1000);
 		con.clear();
@@ -123,7 +123,7 @@ public class Main {
 		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
 		con.drawString(strP1Text, 20 + 20, 20 + 15);
 		
-		strP2Name = getPlayerName(con, 2); // player 2
+		strP2Name = getValidPlayerName(con, 2); // player 2
 		con.println("  Welcome " + strP2Name + "!");
 		con.sleep(1000);
 		con.clear();
@@ -346,9 +346,21 @@ public class Main {
 			}
         }
         strThemeName = strDesiredThemeName;
+        con.println();
+        con.println("                                RECORDED THEME NAME");
         System.out.println("DESIRED THEME NAME \"" + strThemeName + "\" VERIFIED"); // CONFIRMATION
+        System.out.println();
+        con.sleep(1000);
+        con.clear();
 		
-		// Get desired theme name
+		// Get desired player 1 color
+		String strDesiredP1Color = getValidRGB(con, "Enter Player 1 RGB Color: ", "PLAYER 1 COLOR", strCreateThemeMenu);
+		
+		// Get desired player 2 color
+		String strDesiredP2Color = getValidRGB(con, "Enter Player 2 RGB Color: ", "PLAYER 2 COLOR", strCreateThemeMenu);
+		
+		// Get desired board color
+		String strDesiredBoardColor = getValidRGB(con, "Enter Board RGB Color: ", "BOARD COLOR", strCreateThemeMenu);
 	}
 	
 	
@@ -389,7 +401,7 @@ public class Main {
 	public static int getValidMenuInput(Console con, int intMax, String strMenu){
 		String strInput;
 		int intInput;
-		while(true) {
+		while(true){
 			con.println(strMenu);
 			con.println();
 			
@@ -418,14 +430,14 @@ public class Main {
 	
 	
 	/*
-	 * getPlayerName method:
+	 * getValidPlayerName method:
 	 * Returns a valid String input from the user for a valid name.
 	 * Used for gathering player name at the start of each Connect 4 session.
 	 * Filters out empty inputs and only whitespace inputs.
 	 * If input is invalid, prompts for input until valid input given.
 	 * Trims whitespace before and after the valid name.
 	 */
-	public static String getPlayerName(Console con, int intPlayerNum){
+	public static String getValidPlayerName(Console con, int intPlayerNum){
 		String strName = "";
 		while(strName.trim().isEmpty()){
 			con.println("\n\n\n");
@@ -449,7 +461,69 @@ public class Main {
 	 * Used to get valid String input from the user for a valid RGB color.
 	 * Validates that input is in format "R, G, B" where R, G, B are integers 0-255.
 	 */
-	public static String getRGB(Console con, String strPrompt){
-		return "";
+	public static String getValidRGB(Console con, String strPrompt, String strHeading, String strMenu){
+		String strInput = "";
+		boolean boolIsValidRGB = false;
+		
+		while(!boolIsValidRGB){
+			con.println(strMenu);
+			con.println("                                "+ strHeading);
+			con.print("                                " + strPrompt);
+			strInput = con.readLine().trim();
+			
+			// Check for 2 commas
+			int intNumCommas = 0;
+			int intCount;
+			for(intCount = 0; intCount < strInput.length(); intCount++){
+				if(strInput.charAt(intCount) == ','){
+					intNumCommas++;
+				}
+			}
+			if(intNumCommas != 2){
+				con.println("                                   [INVALID] RGB format is: (ex. 255,0,128)");
+				con.sleep(500);
+				con.clear();
+				continue;
+			}
+			
+			// Seperate and check for 3 RGB values
+			String strRGBParts[] = strInput.split(",");
+			if(strRGBParts.length != 3){
+				con.println("                                   [INVALID] RGB format is: (ex. 255,0,128)");
+				con.sleep(500);
+				con.clear();
+				continue;
+			}
+			
+			// Validate each RGB value
+			boolean boolAllIsValid = true;
+			for(intCount = 0; intCount < 3; intCount++){
+				if(!InputValidation.isValidInteger(strRGBParts[intCount])){ // checks if value is an integer
+					boolAllIsValid = false;
+					break;
+				}
+				int intValue = InputValidation.stringToInteger(strRGBParts[intCount]);
+				if(!InputValidation.isInRange(intValue, 0, 255)){ // checks if integer is within range
+					boolAllIsValid = false;
+					break;
+				}
+			}
+			if(!boolAllIsValid){
+				con.println("                                   [INVALID] RGB values must be between 0-255");
+				con.sleep(500);
+				con.clear();
+			}else{
+				boolIsValidRGB = true;
+			}
+		}
+		
+		con.println();
+		con.println("                                RECORDED " + strHeading);
+        System.out.println("DESIRED COLOR \"" + strInput + "\" VERIFIED"); // CONFIRMATION
+        System.out.println();
+        con.sleep(1000);
+        con.clear();
+		
+		return strInput;
 	}
 }
