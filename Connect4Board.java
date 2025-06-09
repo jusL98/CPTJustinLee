@@ -87,6 +87,110 @@ public class Connect4Board{
 	}
 
 
+
+	// ************************************************************************
+	// VALIDATION METHODS - to validate a win or tie in the Connect 4 board
+	// ************************************************************************
+	
+	public static boolean checkWin(int intPlayer){
+		boolean boolIsWin = checkHorizontalWin(intPlayer) || checkVerticalWin(intPlayer) || checkDiagonalWin(intPlayer);
+		
+		if(boolIsWin == true){
+			System.out.println("PLAYER " + intPlayer + " WIN DETECTED");
+			System.out.println();
+		}else if(boolIsWin == false){
+			System.out.println("NO WIN DETECTED, CONTINUING");
+			System.out.println();
+		}
+		
+		return boolIsWin;
+	}
+	
+	public static boolean checkTie(){
+		int intC;
+		boolean boolIsTie = true;
+		
+		// Check every column's top row - if one is empty, board is not full and not a tie yet
+		for(intC = 0; intC < 7; intC++){
+			if(intBoard[0][intC] == 0){
+				boolIsTie = false;
+			}
+		}
+		
+		if(boolIsTie == true){
+			System.out.println("TIE DETECTED, CONTINUING"); // CONFIRMATION
+			System.out.println();
+		}else if(boolIsTie == false){
+			System.out.println("NO TIE DETECTED, CONTINUING"); // CONFIRMATION
+			System.out.println();
+		}
+			
+		return boolIsTie;
+	}
+	
+	public static boolean checkHorizontalWin(int intPlayer){
+		int intR;
+		int intC;
+		boolean boolIsHorizontalWin = false;
+		
+		// Checks every combination for horizontal (-) win
+		for(intR = 0; intR < 6; intR++){
+			for(intC = 0; intC <= 3; intC++){ // only need to check up to column 3
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR][intC+1] == intPlayer && intBoard[intR][intC+2] == intPlayer && intBoard[intR][intC+3] == intPlayer){
+					boolIsHorizontalWin = true;
+				}
+			}
+		}
+		
+		return boolIsHorizontalWin;
+	}
+	
+
+	public static boolean checkVerticalWin(int intPlayer){
+		int intR;
+		int intC;
+		boolean boolIsVerticalWin = false;
+		
+		// Checks every combination for vertical (|) win
+		for(intC = 0; intC < 7; intC++){
+			for(intR = 0; intR <= 2; intR++){ // only need to check up to row 2
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR+1][intC] == intPlayer && intBoard[intR+2][intC] == intPlayer && intBoard[intR+3][intC] == intPlayer){
+					boolIsVerticalWin = true;
+				}
+			}
+		}
+		
+		return boolIsVerticalWin;
+	}
+	
+	public static boolean checkDiagonalWin(int intPlayer){
+		int intR;
+		int intC;
+		boolean boolIsDiagonalWin = false;
+		
+		// Check combinations bottom-left to top-right for diagonal (/) win
+		for(intR = 3; intR < 6; intR++){
+			for(intC = 0; intC <= 3; intC++){
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR-1][intC+1] == intPlayer && intBoard[intR-2][intC+2] == intPlayer && intBoard[intR-3][intC+3] == intPlayer){
+					boolIsDiagonalWin = true;
+				}
+			}
+		}
+		
+		// Check combinations top-left to bottom-right for diagonal (\) win
+		for(intR = 0; intR <= 2; intR++){
+			for(intC = 0; intC <= 3; intC++){
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR+1][intC+1] == intPlayer && intBoard[intR+2][intC+2] == intPlayer && intBoard[intR+3][intC+3] == intPlayer){
+					boolIsDiagonalWin = true;
+				}
+			}
+		}
+		
+		return boolIsDiagonalWin;
+	}
+
+
+
 	// ************************************************************************
 	// BOARD HELPER/UTILITY METHODS - to support other methods in Connect 4 board
 	// ************************************************************************
@@ -145,14 +249,14 @@ public class Connect4Board{
 		
 		int intCol = -1;
 
-		boolean blnWasPressed = false;
+		boolean boolWasPressed = false;
 				
 		// Gets valid column from mouse click
 		while(true){
-			boolean blnIsPressed = con.currentMouseButton() == 1;
+			boolean boolIsPressed = con.currentMouseButton() == 1;
 			
 			// Logic runs when left click press (not hold) occurs by validating click wasn't held from previous iteration and was just released
-			if(blnWasPressed && blnIsPressed != true){ // passes if blnWasPressed = true (from last iteration when mouse held) and blnIsPressed != false (mouse just released)
+			if(boolWasPressed && boolIsPressed != true){ // passes if boolWasPressed = true (from last iteration when mouse held) and boolIsPressed != false (mouse just released)
 				intCol = -1;
 				
 				int intMouseX = con.currentMouseX();
@@ -185,11 +289,46 @@ public class Connect4Board{
 				}
 			}
 			
-			blnWasPressed = blnIsPressed; // blnWasPressed turns true when mouse clicked (mouse held down)
-			con.sleep(50);
+			boolWasPressed = boolIsPressed; // boolWasPressed turns true when mouse clicked (mouse held down)
+			con.sleep(25);
 		}
 	}
+	
+	public static boolean isColumnFull(int intCol){
+		boolean boolIsFull = intBoard[0][intCol-1] != 0;
+		
+		return boolIsFull;
+	}
+	
+	
+	public static boolean isValidColumn(int intCol){
+		boolean boolIsValid = (intCol >= 1 && intCol <= 7) && !isColumnFull(intCol);
+		
+		return boolIsValid;
+	}
 
+	public static String getBoardState(){
+		String strBoardState = "";
+		
+		// Loop through each element to print
+		int intR;
+		int intC;
+		for(intR = 0; intR < 6; intR++){
+			for(intC = 0; intC < 7; intC++){
+				strBoardState += (intBoard[intR][intC] + " ");
+			}
+			strBoardState += ("\n");
+		}
+		strBoardState += ("\n");
+		
+		return strBoardState;
+	}
+
+
+	/*
+	 * main method:
+	 * Used for temporary testing only within this file.
+	 */
 	public static void main(String[] args){
 		Console con = new Console("Test", 1280, 720);
 		
@@ -198,29 +337,57 @@ public class Connect4Board{
 		Color clrBoardColor = Color.BLUE;
 		
 		initBoard();
-		int intCurrentPlayer = 1;
+		int intCurrentPlayer = 1; // player 1 starts
 		int intPreviousPlayer = 2;
 		
 		while(true){
 			drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 			
+			// Displays player turn
 			if(intCurrentPlayer != intPreviousPlayer){
 				con.println("PLAYER " + intCurrentPlayer + " TURN");
 			}
+			
+			// Gets column from mouse click
 			int intCol = getColumnClick(con);
 			
-			if(dropDisc(con, intCol, intCurrentPlayer) == true){
-				// switch players if disc drop was successful
-				if(intCurrentPlayer == 1){
-					intCurrentPlayer = 2;
-					intPreviousPlayer = 1;
-				}else if(intCurrentPlayer == 2){
-					intCurrentPlayer = 1;
-					intPreviousPlayer = 2;
+			// Runs win checks and switches players
+			if(isValidColumn(intCol)){ // checks if column is valid
+				if(dropDisc(con, intCol, intCurrentPlayer) == true){ // checks if drop was successful
+					// Checks for win
+					if(checkWin(intCurrentPlayer)){
+						drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+						con.println("PLAYER " + intCurrentPlayer + " WINS!");
+						System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
+						break; // ends game
+					}
+					// Checks for tie
+					else if(checkTie()){
+						drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+						con.println("IT'S A TIE!");
+						System.out.println("GAME OVER: IT'S A TIE!");
+						break; // ends game
+					}
+					// Continues game and switches player if no win or tie
+					else{
+						if(intCurrentPlayer == 1){
+							intCurrentPlayer = 2;
+							intPreviousPlayer = 1;
+						}else if(intCurrentPlayer == 2){
+							intCurrentPlayer = 1;
+							intPreviousPlayer = 2;
+						}
+					}
+					
+					System.out.println(getBoardState());
 				}
 			}else{
-				con.println("COLUMN (" + (intCol+1) + ") FULL. SELECT ANOTHER COLUMN.");
-				intPreviousPlayer = intCurrentPlayer;
+				con.println("COLUMN " + intCol + " IS FULL OR INVALID. SELECT ANOTHER COLUMN.");
+				
+				System.out.println("ERROR: COLUMN " + intCol + " IS FULL OR INVALID."); // ERROR
+				System.out.println();
+				
+				intPreviousPlayer = intCurrentPlayer; // keeps same player
 			}
 			
 			con.sleep(100);
