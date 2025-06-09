@@ -142,10 +142,17 @@ public class Connect4Board{
 		int intHalfPadding = intPadding / 2; // 4 pixels
 		
 		int intCol = -1;
+
+		boolean blnWasPressed = false;
 				
+		// Gets valid column from mouse click
 		while(true){
+			boolean blnIsPressed = con.currentMouseButton() == 1;
 			
-			if(con.currentMouseButton() == 1){ // left click
+			// Logic runs when left click press (not hold) occurs by validating click wasn't held from previous iteration and was just released
+			if(blnWasPressed && blnIsPressed != true){ // passes if blnWasPressed = true (from last iteration when mouse held) and blnIsPressed != false (mouse just released)
+				intCol = -1;
+				
 				int intMouseX = con.currentMouseX();
 				int intMouseY = con.currentMouseY();
 				
@@ -165,14 +172,19 @@ public class Connect4Board{
 				
 				// Validates column
 				if(intCol >= 0 && intCol < 7){
-					int intColumn = intCol + 1;
-					System.out.println("COLUMN " + intColumn + " CLICKED"); // CONFIRMATION
+					int intColValidated = intCol + 1;
+					System.out.println("COLUMN " + intColValidated + " CLICKED"); // CONFIRMATION
+					System.out.println();
 					
-					return intColumn;
+					return intColValidated;
+				}else{
+					System.out.println("CLICK REGISTERED OUTSIDE OF BOARD"); // CONFIRMATION
+					System.out.println();
 				}
 			}
 			
-			con.sleep(10);
+			blnWasPressed = blnIsPressed; // blnWasPressed turns true when mouse clicked (mouse held down)
+			con.sleep(50);
 		}
 	}
 
