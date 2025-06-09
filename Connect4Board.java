@@ -70,8 +70,8 @@ public class Connect4Board{
 		// Finds lowest empty slot (row) in the column
 		int intRow;
 		for(intRow = 5; intRow >= 0; intRow--){
-			if(intBoard[intRow][intCol] == 0){ // places if empty
-				intBoard[intRow][intCol] = intPlayer;
+			if(intBoard[intRow][intCol] == 0){
+				intBoard[intRow][intCol] = intPlayer; // places if empty
 				System.out.println("DISC (" + (intRow+1) + "," + (intCol+1) + ") SUCCESSFULLY PLACED BY PLAYER " + intPlayer); // CONFIRMATION
 				System.out.println();
 				return true;
@@ -83,6 +83,7 @@ public class Connect4Board{
 		System.out.println();
 		return false;
 	}
+
 
 	// ************************************************************************
 	// BOARD HELPER/UTILITY METHODS - to support other methods in Connect 4 board
@@ -131,6 +132,50 @@ public class Connect4Board{
 		con.repaint();
 	}
 
+	public static int getColumnClick(Console con){
+		int intBoardWidth = 694;
+		int intBoardHeight = 596;
+		int intBoardX = 1280 - 20 - intBoardWidth;
+		int intBoardY = 100;
+		int intSlotSize = 90;
+		int intPadding = 8;
+		int intHalfPadding = intPadding / 2; // 4 pixels
+		
+		int intCol = -1;
+				
+		while(true){
+			
+			if(con.currentMouseButton() == 1){ // left click
+				int intMouseX = con.currentMouseX();
+				int intMouseY = con.currentMouseY();
+				
+				// Gets mouse input within board dimensions
+				if(intMouseX >= intBoardX && intMouseX <= intBoardX + intBoardWidth && intMouseY >= intBoardY && intMouseY <= intBoardY + intBoardHeight){
+					int intMouseXFromBoard = intMouseX - intBoardX - intPadding;
+					
+					if(intMouseXFromBoard < 0){
+						intCol = 0; // left edge belongs to column 1
+					}else if(intMouseXFromBoard >= 6 * (intSlotSize + intPadding)){
+						intCol = 6; // Right edge belongs to column 7
+					}else{
+						intMouseXFromBoard = intMouseXFromBoard + intHalfPadding; // columns split by half the padding
+						intCol = intMouseXFromBoard / (intSlotSize + intPadding); // calculates the column based on click
+					}
+				}
+				
+				// Validates column
+				if(intCol >= 0 && intCol < 7){
+					int intColumn = intCol + 1;
+					System.out.println("COLUMN " + intColumn + " CLICKED"); // CONFIRMATION
+					
+					return intColumn;
+				}
+			}
+			
+			con.sleep(10);
+		}
+	}
+
 	public static void main(String[] args){
 		Console con = new Console("Test", 1280, 720);
 		
@@ -175,6 +220,8 @@ public class Connect4Board{
 		dropDisc(1,1);
 		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
 		con.sleep(500);
+		
+		getColumnClick(con);
 		
 		/*
 		drawDisc(con, 1, 1, clrP1Color); // valid

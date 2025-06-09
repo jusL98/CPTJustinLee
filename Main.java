@@ -140,6 +140,8 @@ public class Main{
 		
 		// CONNECT 4 GAME LOOP ----------------------------------------------------------------
 		Connect4Board.initBoard();
+		
+		
 	}
 	
 	
