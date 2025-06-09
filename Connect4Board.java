@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.awt.Font;
 
 public class Connect4Board{
+	static int intBoard[][] = new int[6][7];
+	
 	public static void drawOnScreenInformation(Console con, String strBoardTitle){
 		// Draws rectangular bar
 		con.setDrawColor(Color.WHITE);
@@ -73,7 +75,17 @@ public class Connect4Board{
 		con.repaint();
 	}
 	
-	public static void drawBoard(Console con, Color clrBoardColor){
+	public static void initBoard(){
+		int intR;
+		int intC;
+        for (intR = 0; intR < 6; intR++){
+            for (intC = 0; intC < 7; intC++){
+                intBoard[intR][intC] = 0; // set all values to 0
+            }
+        }
+	}
+	
+	public static void drawBoard(Console con, Color clrBoardColor, Color clrP1Color, Color clrP2Color){
 		// Draws board background
 		int intBoardWidth = 694;
         int intBoardHeight = 596;
@@ -85,14 +97,21 @@ public class Connect4Board{
         // Draws board slots
         int intSlotSize = 90;
         int intPadding = 8;
-        int intVerticalPadding = 8;
-        con.setDrawColor(Color.WHITE);
-        for (int intR = 0; intR < 6; intR++) {
-            for (int intC = 0; intC < 7; intC++) {
+        int intR;
+        int intC;
+        for (intR = 0; intR < 6; intR++){
+            for (intC = 0; intC < 7; intC++){
                 int intX = intBoardX + intPadding + (intC * (intSlotSize + intPadding));
-                int intY = intBoardY + intVerticalPadding + (intR * (intSlotSize + intVerticalPadding));
-
+                int intY = intBoardY + intPadding + (intR * (intSlotSize + intPadding));
+                
+				con.setDrawColor(Color.WHITE);
                 con.fillOval(intX, intY, intSlotSize, intSlotSize);
+                
+                if(intBoard[intR][intC] == 1){
+					drawDisc(con, intR+1, intC+1, clrP1Color);
+                }else if(intBoard[intR][intC] == 2){
+					drawDisc(con, intR+1, intC+1, clrP2Color);
+                }
             }
         }
 
@@ -102,7 +121,7 @@ public class Connect4Board{
 	/*
 	 * intRow and intCol begin at 1 (index starts at 1). intRow's max is 6. intCol's max is 7. 
 	*/
-	public static void drawDisc(Console con, int intRow, int intCol, Color clrPlayerColor){
+	private static void drawDisc(Console con, int intRow, int intCol, Color clrPlayerColor){
 		int intOffset = 0;
 		con.setDrawColor(clrPlayerColor);
 		
@@ -114,7 +133,10 @@ public class Connect4Board{
 		int intDiscY = (100) + 8 + intRow * (90 + 8) + intOffset/2;
 		int intDiscSize = 90 - intOffset;
 		
-		if((intRow < 0 || intRow > 5) || (intCol < 0 || intCol > 6)){ // handles disc trying to be placed outside board
+		con.fillOval(intDiscX, intDiscY, intDiscSize, intDiscSize);
+		
+		/* BELOW VALIDATION NO LONGER NEEDED AS METHOD PURPOSE CHANGED
+		 * if((intRow < 0 || intRow > 5) || (intCol < 0 || intCol > 6)){ // handles disc trying to be placed outside board
 			if((intRow < 0 || intRow > 5) && (intCol < 0 || intCol > 6)){ // handles row and col outside board
 				System.out.println("ERROR: DISC (" + (intRow+1) + "," + (intCol+1) + ") PLACED OUTSIDE OF BOARD. BOTH ROW & COL INVALID"); // ERROR
 				System.out.println();
@@ -134,6 +156,7 @@ public class Connect4Board{
 			System.out.println("DISC (" + (intRow+1) + "," + (intCol+1) + ") SUCCESSFULLY PLACED"); // CONFIRMATION
 			System.out.println();
 		}
+		*/
 		
 		con.repaint();
 	}
@@ -148,11 +171,17 @@ public class Connect4Board{
 		drawOnScreenInformation(con, "Test 4", "Justin", 5, "Joey", 25);
 		con.sleep(500);
 		
-		drawBoard(con, new Color(255,204,24));
-		
-		Color clrP1Color = Color.RED;
+		Color clrP1Color = Color.RED; 
 		Color clrP2Color = Color.YELLOW;
-		con.sleep(500);
+		
+		intBoard[0][0] = 1;
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		
+		
+		intBoard[0][2] = 2;
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		
+		/*
 		drawDisc(con, 1, 1, clrP1Color); // valid
 		drawDisc(con, 2, 3, clrP2Color); // valid
 		drawDisc(con, 6, 7, clrP1Color); // valid
@@ -162,5 +191,6 @@ public class Connect4Board{
 		drawDisc(con, 0, 1, clrP1Color); // row invalid
 		drawDisc(con, 1, 0, clrP1Color); // col invalid
 		drawDisc(con, 0, 0, clrP1Color); // both invalid
+		*/
 	}
 }

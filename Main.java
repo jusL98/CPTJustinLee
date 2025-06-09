@@ -95,7 +95,7 @@ public class Main{
 		
 		Connect4Board.drawOnScreenInformation(con, strBoardTitle);
 		
-		// Draws the blue Connect 4 board area
+		// Draws the Connect 4 board
 		Connect4Board.drawBoard(con, clrBoardColor);
 		
 		String strP1Name;
