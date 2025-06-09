@@ -6,75 +6,6 @@ import java.awt.Font;
 public class Connect4Board{
 	static int intBoard[][] = new int[6][7];
 	
-	public static void drawOnScreenInformation(Console con, String strBoardTitle){
-		// Draws rectangular bar
-		con.setDrawColor(Color.WHITE);
-		con.fillRect(20,20,1240,60);
-		
-		// Draws board title
-		Font boardTitleFont = con.loadFont("assets/Roboto-Black.ttf", 25);
-		con.setDrawFont(boardTitleFont);
-		con.setDrawColor(Color.BLACK);
-		int strBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
-		con.drawString(strBoardTitle, 20 + (1240 - strBoardTitleWidth) / 2, 20 + 10);
-		
-		con.repaint();
-	}
-	
-	public static void drawOnScreenInformation(Console con, String strBoardTitle, String strP1Name, int intP1Wins){
-		// Draws rectangular bar
-		con.setDrawColor(Color.WHITE);
-		con.fillRect(20,20,1240,60);
-		
-		// Draws board title
-		Font boardTitleFont = con.loadFont("assets/Roboto-Black.ttf", 25);
-		con.setDrawFont(boardTitleFont);
-		con.setDrawColor(Color.BLACK);
-		int strBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
-		con.drawString(strBoardTitle, 20 + (1240 - strBoardTitleWidth) / 2, 20 + 10);
-		
-		// Draws player 1 name and wins
-		Font player1TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
-		con.setDrawFont(player1TextFont);
-		con.setDrawColor(Color.BLACK);
-		String strP1Text = strP1Name + ": " +intP1Wins;
-		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
-		con.drawString(strP1Text, 20 + 20, 20 + 15);
-		
-		con.repaint();
-	}
-	
-	public static void drawOnScreenInformation(Console con, String strBoardTitle, String strP1Name, int intP1Wins, String strP2Name, int intP2Wins){
-		// Draws rectangular bar
-		con.setDrawColor(Color.WHITE);
-		con.fillRect(20,20,1240,60);
-		
-		// Draws board title
-		Font boardTitleFont = con.loadFont("assets/Roboto-Black.ttf", 25);
-		con.setDrawFont(boardTitleFont);
-		con.setDrawColor(Color.BLACK);
-		int strBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
-		con.drawString(strBoardTitle, 20 + (1240 - strBoardTitleWidth) / 2, 20 + 10);
-		
-		// Draws player 1 name and wins
-		Font player1TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
-		con.setDrawFont(player1TextFont);
-		con.setDrawColor(Color.BLACK);
-		String strP1Text = strP1Name + ": " +intP1Wins;
-		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
-		con.drawString(strP1Text, 20 + 20, 20 + 15);
-		
-		// Draws player 2 name and wins
-		Font player2TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
-		con.setDrawFont(player2TextFont);
-		con.setDrawColor(Color.BLACK);
-		String strP2Text = strP2Name + ": " +intP2Wins;
-		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
-		con.drawString(strP2Text, 1280-20-strP2TextWidth-20, 20 + 15);
-		
-		con.repaint();
-	}
-	
 	public static void initBoard(){
 		int intR;
 		int intC;
@@ -99,17 +30,19 @@ public class Connect4Board{
         int intPadding = 8;
         int intR;
         int intC;
-        for (intR = 0; intR < 6; intR++){
-            for (intC = 0; intC < 7; intC++){
+        for(intR = 0; intR < 6; intR++){
+            for(intC = 0; intC < 7; intC++){
                 int intX = intBoardX + intPadding + (intC * (intSlotSize + intPadding));
                 int intY = intBoardY + intPadding + (intR * (intSlotSize + intPadding));
                 
+                // Draws empty slot if slot is empty  ([0])
 				con.setDrawColor(Color.WHITE);
                 con.fillOval(intX, intY, intSlotSize, intSlotSize);
                 
-                if(intBoard[intR][intC] == 1){
+                // Draws visual disc if slot is filled  ([1] or [2])
+                if(intBoard[intR][intC] == 1){ // player 1  ([1])
 					drawDisc(con, intR+1, intC+1, clrP1Color);
-                }else if(intBoard[intR][intC] == 2){
+                }else if(intBoard[intR][intC] == 2){ // player 2  ([2])
 					drawDisc(con, intR+1, intC+1, clrP2Color);
                 }
             }
@@ -118,10 +51,14 @@ public class Connect4Board{
         con.repaint();
     }
 
+	// ************************************************************************
+	// BOARD HELPER/UTILITY METHODS - to support other methods in Connect 4 board
+	// ************************************************************************
+
 	/*
 	 * intRow and intCol begin at 1 (index starts at 1). intRow's max is 6. intCol's max is 7. 
-	*/
-	private static void drawDisc(Console con, int intRow, int intCol, Color clrPlayerColor){
+	 */
+	public static void drawDisc(Console con, int intRow, int intCol, Color clrPlayerColor){
 		int intOffset = 0;
 		con.setDrawColor(clrPlayerColor);
 		
@@ -135,7 +72,7 @@ public class Connect4Board{
 		
 		con.fillOval(intDiscX, intDiscY, intDiscSize, intDiscSize);
 		
-		/* BELOW VALIDATION NO LONGER NEEDED AS METHOD PURPOSE CHANGED
+		/* BELOW VALIDATION NO LONGER NEEDED AS METHOD PURPOSE CHANGED TO HELPER METHOD
 		 * if((intRow < 0 || intRow > 5) || (intCol < 0 || intCol > 6)){ // handles disc trying to be placed outside board
 			if((intRow < 0 || intRow > 5) && (intCol < 0 || intCol > 6)){ // handles row and col outside board
 				System.out.println("ERROR: DISC (" + (intRow+1) + "," + (intCol+1) + ") PLACED OUTSIDE OF BOARD. BOTH ROW & COL INVALID"); // ERROR
@@ -163,13 +100,6 @@ public class Connect4Board{
 
 	public static void main(String[] args){
 		Console con = new Console("Test", 1280, 720);
-		
-		drawOnScreenInformation(con, "Test 4");
-		con.sleep(500);
-		drawOnScreenInformation(con, "Test 4", "Justin", 5);
-		con.sleep(500);
-		drawOnScreenInformation(con, "Test 4", "Justin", 5, "Joey", 25);
-		con.sleep(500);
 		
 		Color clrP1Color = Color.RED; 
 		Color clrP2Color = Color.YELLOW;

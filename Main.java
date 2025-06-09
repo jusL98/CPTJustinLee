@@ -82,6 +82,7 @@ public class Main{
 	public static void playGameScreen(Console con){
 		newScreen(con);
 		
+		// PLAY GAME SCREEN SETUP -------------------------------------------------------------
 		// Loads theme from lasttheme data file
 		String strLastTheme = DataManager.getLastTheme();
 		String strThemeData[] = DataManager.getTheme(strLastTheme);
@@ -93,29 +94,52 @@ public class Main{
 		System.out.println("LOADED THEME \"" + strThemeName + "\""); // CONFIRMATION
 		System.out.println();
 		
-		Connect4Board.drawOnScreenInformation(con, strBoardTitle);
+		// Draws initial on screen information with board title
+		con.setDrawColor(Color.WHITE); // white bar
+		con.fillRect(20,20,1240,60);
+		Font boardTitleFont = con.loadFont("assets/Roboto-Black.ttf", 25); // board title
+		con.setDrawFont(boardTitleFont);
+		con.setDrawColor(Color.BLACK);
+		int strBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
+		con.drawString(strBoardTitle, 20 + (1240 - strBoardTitleWidth) / 2, 20 + 10);
+		con.repaint();
 		
-		// Draws the Connect 4 board
-		Connect4Board.drawBoard(con, clrBoardColor);
+		// Draws initial empty Connect 4 board
+		Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 		
 		String strP1Name;
 		String strP2Name;
 		int intP1Wins = 0;
 		int intP2Wins = 0;
 		
-		// Gets player names and setup on-screen information display
+		// Gets player names and draws on screen information with player names
 		strP1Name = getValidPlayerName(con, 1); // player 1
 		con.println("  Welcome " + strP1Name + "!");
 		con.sleep(1000);
 		con.clear();
 		con.setDrawColor(Color.BLACK);
-		Connect4Board.drawOnScreenInformation(con, strBoardTitle, strP1Name, intP1Wins);
-		
+		Font player1TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
+		con.setDrawFont(player1TextFont);
+		con.setDrawColor(Color.BLACK);
+		String strP1Text = strP1Name + ": " +intP1Wins;
+		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
+		con.drawString(strP1Text, 20 + 20, 20 + 15);
+		con.repaint();
 		strP2Name = getValidPlayerName(con, 2); // player 2
 		con.println("  Welcome " + strP2Name + "!");
 		con.sleep(1000);
 		con.clear();
-		Connect4Board.drawOnScreenInformation(con, strBoardTitle, strP1Name, intP1Wins, strP2Name, intP2Wins);
+		Font player2TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
+		con.setDrawFont(player2TextFont);
+		con.setDrawColor(Color.BLACK);
+		String strP2Text = strP2Name + ": " +intP2Wins;
+		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
+		con.drawString(strP2Text, 1280-20-strP2TextWidth-20, 20 + 15);
+		con.repaint();
+		
+		
+		// CONNECT 4 GAME LOOP ----------------------------------------------------------------
+		Connect4Board.initBoard();
 	}
 	
 	
