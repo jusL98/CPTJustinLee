@@ -51,10 +51,11 @@ public class Connect4Board{
         con.repaint();
     }
     
-    public static boolean dropDisc(int intCol, int intPlayer){
+    public static boolean dropDisc(Console con, int intCol, int intPlayer){
 		// Adjusts col input to account for logic (makes index start at 0)
 		intCol = intCol - 1;
 		
+		/* VALIDATION BELOW NO LONGER NEEDED AS THEY ARE CHECKED ELSWHERE ALREADY
 		// Validates input
 		if(intCol < 0 || intCol > 6){ // column check
 			System.out.println("ERROR: COLUMN (" + (intCol+1) + ") INVALID (1-7 only)"); // ERROR
@@ -66,6 +67,7 @@ public class Connect4Board{
 			System.out.println();
 			return false;
 		}
+		*/
 		
 		// Finds lowest empty slot (row) in the column
 		int intRow;
@@ -193,48 +195,38 @@ public class Connect4Board{
 		
 		Color clrP1Color = Color.RED; 
 		Color clrP2Color = Color.YELLOW;
+		Color clrBoardColor = Color.BLUE;
 		
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
+		initBoard();
+		int intCurrentPlayer = 1;
+		int intPreviousPlayer = 2;
 		
-		dropDisc(9,1);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
+		while(true){
+			drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+			
+			if(intCurrentPlayer != intPreviousPlayer){
+				con.println("PLAYER " + intCurrentPlayer + " TURN");
+			}
+			int intCol = getColumnClick(con);
+			
+			if(dropDisc(con, intCol, intCurrentPlayer) == true){
+				// switch players if disc drop was successful
+				if(intCurrentPlayer == 1){
+					intCurrentPlayer = 2;
+					intPreviousPlayer = 1;
+				}else if(intCurrentPlayer == 2){
+					intCurrentPlayer = 1;
+					intPreviousPlayer = 2;
+				}
+			}else{
+				con.println("COLUMN (" + (intCol+1) + ") FULL. SELECT ANOTHER COLUMN.");
+				intPreviousPlayer = intCurrentPlayer;
+			}
+			
+			con.sleep(100);
+		}
 		
-		dropDisc(4,3);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,1);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,2);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,1);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,2);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,1);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,2);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		dropDisc(1,1);
-		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
-		con.sleep(500);
-		
-		getColumnClick(con);
-		
+		// OLD TESTING BELOW
 		/*
 		drawDisc(con, 1, 1, clrP1Color); // valid
 		drawDisc(con, 2, 3, clrP2Color); // valid
@@ -245,6 +237,49 @@ public class Connect4Board{
 		drawDisc(con, 0, 1, clrP1Color); // row invalid
 		drawDisc(con, 1, 0, clrP1Color); // col invalid
 		drawDisc(con, 0, 0, clrP1Color); // both invalid
+		*/
+		
+		/*
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 9, 1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 4, 3);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 2);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 2);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 2);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(con, 1, 1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		getColumnClick(con);
 		*/
 	}
 }
