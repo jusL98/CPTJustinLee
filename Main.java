@@ -53,7 +53,7 @@ public class Main{
 		}
 		// Option 3 Activated - Load Theme
 		else if(intSelection == 3){
-			System.out.println("TEST: Main Menu Option 3 Selected"); // TESTc
+			System.out.println("TEST: Main Menu Option 3 Selected"); // TEST
 			System.out.println();
 			
 			loadThemeScreen(con);
@@ -82,7 +82,7 @@ public class Main{
 	public static void playGameScreen(Console con){
 		newScreen(con);
 		
-		// Load theme
+		// Loads theme from lasttheme data file
 		String strLastTheme = DataManager.getLastTheme();
 		String strThemeData[] = DataManager.getTheme(strLastTheme);
 		String strThemeName = strThemeData[0];
@@ -90,54 +90,37 @@ public class Main{
 		Color clrP2Color = InputValidation.stringToColor(strThemeData[2]);
 		Color clrBoardColor = InputValidation.stringToColor(strThemeData[3]);
 		String strBoardTitle = strThemeData[4];
+		System.out.println("LOADED THEME \"" + strThemeName + "\""); // CONFIRMATION
+		System.out.println();
 		
-		// Draw the top white bar
-		con.setDrawColor(Color.WHITE);
-		con.fillRect(20,20,1240,60);
+		Connect4Board.drawOnScreenInformation(con, strBoardTitle);
 		
-		// Set font and color for the text
-		Font fntTest = con.loadFont("Hack-Regular.ttf", 20); // TODO: maybe change the font by uploading custom bold one
-		con.setDrawFont(fntTest);
-		
-		con.setDrawColor(Color.BLACK);
-		String strGameTitleText = "Connect 4";
-		int strGameTitleTextWidth = con.getTextFontMetrics().stringWidth(strGameTitleText);
-		con.drawString(strGameTitleText, 20 + (1280-20-20 - strGameTitleTextWidth) / 2, 20 + 15);		
-		
-		// Draw the blue Connect 4 board area
-		con.setDrawColor(clrBoardColor);
-		con.fillRect(1280-20-600,100,600,600);
+		// Draws the blue Connect 4 board area
+		Connect4Board.drawBoard(con, clrBoardColor);
 		
 		String strP1Name;
 		String strP2Name;
 		int intP1Wins = 0;
 		int intP2Wins = 0;
 		
-		// Get player names and setup on-screen information display
+		// Gets player names and setup on-screen information display
 		strP1Name = getValidPlayerName(con, 1); // player 1
 		con.println("  Welcome " + strP1Name + "!");
 		con.sleep(1000);
 		con.clear();
 		con.setDrawColor(Color.BLACK);
-		String strP1Text = strP1Name + ": " +intP1Wins;
-		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
-		con.drawString(strP1Text, 20 + 20, 20 + 15);
+		Connect4Board.drawOnScreenInformation(con, strBoardTitle, strP1Name, intP1Wins);
 		
 		strP2Name = getValidPlayerName(con, 2); // player 2
 		con.println("  Welcome " + strP2Name + "!");
 		con.sleep(1000);
 		con.clear();
-		con.setDrawColor(Color.BLACK);
-		String strP2Text = strP2Name + ": " +intP2Wins;
-		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
-		con.drawString(strP2Text, 1280-20-strP2TextWidth-20, 20 + 15);
-		
-		con.repaint();
+		Connect4Board.drawOnScreenInformation(con, strBoardTitle, strP1Name, intP1Wins, strP2Name, intP2Wins);
 	}
 	
 	
 	/*
-	 * viewLeaederboardScreen method:
+	 * viewLeaderboardScreen method:
 	 * Activated when "[2] - View Leaderboard" is selected in the main menu.
 	 * Displays the top 3 players with most wins within a session.
 	 * Displays the next 7 players of the top 10.
@@ -179,7 +162,7 @@ public class Main{
 				}else if(intCount == 10){ // print for #10 (formats 2 digits rather than 1 so alignment is correct)
 					con.println("                                " + "       " + (intCount) + ". " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
 				}
-				else{ // print for #4-9
+				else{ // prints for #4-9
 					con.println("                                " + "        " + (intCount) + ". " + strLeaderboard[intCount-1][0] + " | " + strLeaderboard[intCount-1][1] + " wins");
 				}
 			}
@@ -195,7 +178,7 @@ public class Main{
 	/*
 	 * loadThemeScreen method:
 	 * Activated when "[3] - Load Theme" is selected in the main menu.
-	 * Allows the user to choose a theme to load and apply to change the game colour scheme.
+	 * Allows the user to choose a theme to load and apply to change the game color scheme.
 	 */
 	public static void loadThemeScreen(Console con){
 		newScreen(con);
@@ -232,7 +215,7 @@ public class Main{
 		int intSelection;														
 		intSelection = getValidMenuInput(con, intNumThemes, strLoadThemeMenu);
 		
-		// Set last theme to theme just loaded
+		// Sets last theme to theme just loaded
 		DataManager.setLastTheme(strThemeNames[intSelection-1]);
 		
 		con.println("                                Loading...");
@@ -258,7 +241,7 @@ public class Main{
 		int intNumThemes = DataManager.getNumThemes();
 		String strThemeNames[];
 		
-		// Check if 15 themes and handle deletion if needed
+		// Checks if 15 themes and handle deletion if needed
 		while(intNumThemes >= 15){
 			strThemeNames = DataManager.getAllThemeNames();
 			
@@ -301,7 +284,7 @@ public class Main{
 		}
 		
 		
-		// Create new theme now that there are 14 or less themes existing
+		// Creates new theme now that there are 14 or less themes existing
 		String strThemeName = "";
 		String strP1Color = "";
 		String strP2Color = "";
@@ -315,7 +298,7 @@ public class Main{
 									"                                   Create and save a custom colour theme!" +
 									"\n";
 		
-		// Get desired theme name
+		// Gets desired theme name
 		strThemeNames = DataManager.getAllThemeNames();
 		String strDesiredThemeName = "";
 		boolean boolIsDuplicate = false;
@@ -353,19 +336,19 @@ public class Main{
         con.sleep(1000);
         con.clear();
 		
-		// Get desired player 1 color
+		// Gets desired player 1 color
 		String strDesiredP1Color = getValidRGB(con, "Enter Player 1 RGB Color: ", "PLAYER 1 COLOR", strCreateThemeMenu);
 		strP1Color = strDesiredP1Color;
 		
-		// Get desired player 2 color
+		// Gets desired player 2 color
 		String strDesiredP2Color = getValidRGB(con, "Enter Player 2 RGB Color: ", "PLAYER 2 COLOR", strCreateThemeMenu);
 		strP2Color = strDesiredP2Color;
 		
-		// Get desired board color
+		// Gets desired board color
 		String strDesiredBoardColor = getValidRGB(con, "Enter Board RGB Color: ", "BOARD COLOR", strCreateThemeMenu);
 		strBoardColor = strDesiredBoardColor;
 		
-		// Get desired board title
+		// Gets desired board title
 		String strDesiredBoardTitle = "";
 		while(strDesiredBoardTitle.trim().isEmpty()){
 			con.println(strCreateThemeMenu);
@@ -374,7 +357,7 @@ public class Main{
             strDesiredBoardTitle = con.readLine().trim();
             
             if(strDesiredBoardTitle.isEmpty()){
-                con.println("                                   [INVALID] Theme name cannot be empty.");
+                con.println("                                   [INVALID] Board title cannot be empty.");
                 con.sleep(500);
                 con.clear();
             }
@@ -387,7 +370,8 @@ public class Main{
         con.sleep(1000);
         con.clear();
         
-        // Append new theme to themes data file
+        
+        // Appends new theme to themes data file
 		DataManager.createNewTheme(strThemeName, strP1Color, strP2Color, strBoardColor, strBoardTitle);
 		DataManager.setLastTheme(strThemeName);
 		
@@ -495,7 +479,7 @@ public class Main{
 	/*
 	 * getRGB method:
 	 * Used to get valid String input from the user for a valid RGB color.
-	 * Validates that input is in format "R, G, B" where R, G, B are integers 0-255.
+	 * Validates that input is in format "R,G,B" where R,G,B are integers 0-255.
 	 */
 	public static String getValidRGB(Console con, String strPrompt, String strHeading, String strMenu){
 		String strInput = "";
@@ -507,7 +491,7 @@ public class Main{
 			con.print("                                " + strPrompt);
 			strInput = con.readLine().trim();
 			
-			// Check for 2 commas
+			// Checks for 2 commas
 			int intNumCommas = 0;
 			int intCount;
 			for(intCount = 0; intCount < strInput.length(); intCount++){
@@ -522,7 +506,7 @@ public class Main{
 				continue;
 			}
 			
-			// Seperate and check for 3 RGB values
+			// Seperates and checks for 3 RGB values
 			String strRGBParts[] = strInput.split(",");
 			if(strRGBParts.length != 3){
 				con.println("                                   [INVALID] RGB format is: (ex. 255,0,128)");
@@ -531,13 +515,13 @@ public class Main{
 				continue;
 			}
 			
-			// Validate each RGB value
+			// Validates each RGB value
 			boolean boolAllIsValid = true;
 			for(intCount = 0; intCount < 3; intCount++){
 				if(!InputValidation.isValidInteger(strRGBParts[intCount])){ // checks if value is an integer
 					boolAllIsValid = false;
 					break;
-				}
+				}    
 				int intValue = InputValidation.stringToInteger(strRGBParts[intCount]);
 				if(!InputValidation.isInRange(intValue, 0, 255)){ // checks if integer is within range
 					boolAllIsValid = false;

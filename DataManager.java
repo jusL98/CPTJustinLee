@@ -3,13 +3,14 @@ import arc.*;
 public class DataManager{
 	/*
 	 * getLeaderboard method:
-	 * Returns a sorted leaderboard 2D array of {player, name} based on most to least wins.
+	 * Returns a sorted leaderboard 2D array of {name, wins} based on most to least wins.
 	 * Only returns top 10 scores.
 	 * If no entries in leaderboard exist, array will be empty.
 	 */
 	public static String[][] getLeaderboard(){
-		// Count number of entries in leaderboard data file
 		TextInputFile leaderboardFile = new TextInputFile("data/leaderboard.txt");
+		
+		// Counts number of entries in leaderboard data file
 		String strName;
 		int intWins;
 		int intNumEntries = 0;
@@ -24,7 +25,7 @@ public class DataManager{
 		System.out.println("TEST: Num LB Entries -> " + intNumEntries); // TEST
 		System.out.println();
 		
-		// Create and fill leaderboard array with values from data file
+		// Creates and fills leaderboard array with values from data file
 		leaderboardFile = new TextInputFile("data/leaderboard.txt");
 		String strEntries[][] = new String[intNumEntries][2];
 		int intCount;
@@ -34,7 +35,7 @@ public class DataManager{
 		}
 		leaderboardFile.close();
 		
-		// Sort leaderboard array in descending order (highest to least wins)
+		// Sorts leaderboard array in descending order (highest to least wins)
 		int intCount2;
 		String strNameTemp;
 		String strWinsTemp;
@@ -52,7 +53,7 @@ public class DataManager{
 			}
 		}
 		
-		// Return only the top 10 scores of the leaderboard by creating a new array
+		// Returns only the top 10 scores of the leaderboard by creating a new array
 		String strLB[][];
 		if(strEntries.length > 10){
 			strLB = new String[10][2];
@@ -74,7 +75,6 @@ public class DataManager{
 	 * If theme name not located, returns "INVALID" string values in the array.
 	 */
 	public static String[] getTheme(String strSelectedTheme){
-		// Locate theme that matches strSelectedTheme parameter and fill all values
 		TextInputFile themesFile = new TextInputFile("data/themes.txt");
 		String strThemeName = "";
 		String strP1Color = "";
@@ -82,6 +82,8 @@ public class DataManager{
 		String strBoardColor = "";
 		String strBoardTitle = "";
 		boolean boolKeepSearching = true;
+		
+		// Locates theme that matches strSelectedTheme parameter and fills all values
 		while(themesFile.eof() != true && boolKeepSearching == true){
 			strThemeName = themesFile.readLine();
 			if(strThemeName.equalsIgnoreCase(strSelectedTheme)){
@@ -94,7 +96,7 @@ public class DataManager{
 		}
 		themesFile.close();
 		
-		// If strSelectedTheme does not exist, set all values to defaults
+		// If strSelectedTheme does not exist, sets all values to defaults
 		if(boolKeepSearching == true){
 			strThemeName = "INVALID";
 			strP1Color = "0, 0, 0";
@@ -103,7 +105,7 @@ public class DataManager{
 			strBoardTitle = "INVALID";
 		}
 		
-		// Create and fill array with values of selected theme
+		// Creates and fills array with values of selected theme
 		String strTheme[] = new String[5];
 		strTheme[0] = strThemeName;
 		strTheme[1] = strP1Color;
@@ -131,6 +133,7 @@ public class DataManager{
 		String strBoardTitle = "";
 		int intCount = 0;
 		
+		// Increments count by 1 after reading a theme
 		while(themesFile.eof() != true){
 			strThemeName = themesFile.readLine();
 			strP1Color = themesFile.readLine();
@@ -162,6 +165,7 @@ public class DataManager{
 		String strBoardTitle = "";
 		String strThemeNames[];
 		
+		// Creates an array with a max size of 15 (first 15 themes) or less (if there are less than 15 themes)
 		int intNumThemes = getNumThemes();
 		if(intNumThemes < 15){
 			strThemeNames = new String[intNumThemes];
@@ -169,6 +173,7 @@ public class DataManager{
 			strThemeNames = new String[15]; // Max 15 themes
 		}
 
+		// Fills the array with only theme names
 		int intCount = 0;
 		while(themesFile.eof() != true && intCount < strThemeNames.length) {
 			strThemeName = themesFile.readLine();
@@ -199,9 +204,10 @@ public class DataManager{
 	 * Then, should use load theme to load the data of the last theme following this method call.
 	 */
 	public static String getLastTheme(){
-		// Get last theme from lasttheme data file
 		TextInputFile lastThemeFile = new TextInputFile("data/lasttheme.txt");
 		String strLastTheme = "";
+		
+		// Gets last theme from lasttheme data file
 		strLastTheme = lastThemeFile.readLine(); // only 1 line should exist in the file at any given time
 		lastThemeFile.close();
 		
@@ -217,8 +223,9 @@ public class DataManager{
 	 * Writes the name of the last theme loaded to "lasttheme.txt".
 	 */
 	public static void setLastTheme(String strThemeName){
-		// Writes the last theme set into lasttheme data file
 		TextOutputFile themesFile = new TextOutputFile("data/lasttheme.txt");
+		
+		// Writes the last theme set into lasttheme data file
 		themesFile.println(strThemeName);
 		themesFile.close();
 		
@@ -233,18 +240,19 @@ public class DataManager{
 	 * Appends the new theme data entered in the parameters to "themes.txt".
 	 * Removes leading and trailing spaces from any of the parameters.
 	 */
-	public static void createNewTheme(String strThemeName, String p1_colour, String p2_colour, String board_colour, String board_title){
-		// Adds new theme data into themes data file
+	public static void createNewTheme(String strThemeName, String strP1Color, String strP2Color, String strBoardColor, String strBoardTitle){
 		TextOutputFile themesFile = new TextOutputFile("data/themes.txt", true);
+		
+		// Adds new theme data into themes data file
 		themesFile.println(strThemeName.strip());
-		themesFile.println(p1_colour.strip());
-		themesFile.println(p2_colour.strip());
-		themesFile.println(board_colour.strip());
-		themesFile.println(board_title.strip());
+		themesFile.println(strP1Color.strip());
+		themesFile.println(strP2Color.strip());
+		themesFile.println(strBoardColor.strip());
+		themesFile.println(strBoardTitle.strip());
 		themesFile.close();
 		
 		System.out.println("APPENDED NEW THEME TO THEMES.TXT"); // CONFIRMATION
-		System.out.println("TEST: New Theme Data -> " + strThemeName.strip() + "  " + p1_colour.strip() + "  " + p2_colour.strip() + "  " + board_colour.strip() + "  " + board_title.strip()); // TEST
+		System.out.println("TEST: New Theme Data -> " + strThemeName.strip() + "  " + strP1Color.strip() + "  " + strP2Color.strip() + "  " + strBoardColor.strip() + "  " + strBoardTitle.strip()); // TEST
 		System.out.println();
 	}
 	
@@ -260,7 +268,6 @@ public class DataManager{
 		String strP2Color = "";
 		String strBoardColor = "";
 		String strBoardTitle = "";
-		
 		int intCount = 1;
 		int intNumThemes = getNumThemes();
 		
@@ -307,7 +314,7 @@ public class DataManager{
 		
 		String strTestLeaderboard[][] = getLeaderboard();
 		
-		setLastTheme("red");
+		setLastTheme("Classic");
 		
 		String strTestGetLastTheme = getLastTheme();
 		
