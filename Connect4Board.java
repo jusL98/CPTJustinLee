@@ -50,6 +50,39 @@ public class Connect4Board{
 
         con.repaint();
     }
+    
+    public static boolean dropDisc(int intCol, int intPlayer){
+		// Adjusts col input to account for logic (makes index start at 0)
+		intCol = intCol - 1;
+		
+		// Validates input
+		if(intCol < 0 || intCol > 6){ // column check
+			System.out.println("ERROR: COLUMN (" + (intCol+1) + ") INVALID (1-7 only)"); // ERROR
+			System.out.println();
+			return false;
+		}
+		if(intPlayer != 1 && intPlayer != 2){ // player check
+			System.out.println("ERROR: PLAYER " + intPlayer + " INVALID (1 or 2 only)"); // ERROR
+			System.out.println();
+			return false;
+		}
+		
+		// Finds lowest empty slot (row) in the column
+		int intRow;
+		for(intRow = 5; intRow >= 0; intRow--){
+			if(intBoard[intRow][intCol] == 0){ // places if empty
+				intBoard[intRow][intCol] = intPlayer;
+				System.out.println("DISC (" + (intRow+1) + "," + (intCol+1) + ") SUCCESSFULLY PLACED BY PLAYER " + intPlayer); // CONFIRMATION
+				System.out.println();
+				return true;
+			}
+		}
+		
+		// Column full
+		System.out.println("ERROR: COLUMN (" + (intCol+1) + ") FULL"); // ERROR
+		System.out.println();
+		return false;
+	}
 
 	// ************************************************************************
 	// BOARD HELPER/UTILITY METHODS - to support other methods in Connect 4 board
@@ -72,7 +105,7 @@ public class Connect4Board{
 		
 		con.fillOval(intDiscX, intDiscY, intDiscSize, intDiscSize);
 		
-		/* BELOW VALIDATION NO LONGER NEEDED AS METHOD PURPOSE CHANGED TO HELPER METHOD
+		/* VALIDATION BELOW NO LONGER NEEDED AS METHOD PURPOSE CHANGED TO HELPER METHOD
 		 * if((intRow < 0 || intRow > 5) || (intCol < 0 || intCol > 6)){ // handles disc trying to be placed outside board
 			if((intRow < 0 || intRow > 5) && (intCol < 0 || intCol > 6)){ // handles row and col outside board
 				System.out.println("ERROR: DISC (" + (intRow+1) + "," + (intCol+1) + ") PLACED OUTSIDE OF BOARD. BOTH ROW & COL INVALID"); // ERROR
@@ -104,12 +137,44 @@ public class Connect4Board{
 		Color clrP1Color = Color.RED; 
 		Color clrP2Color = Color.YELLOW;
 		
-		intBoard[0][0] = 1;
 		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
 		
-		
-		intBoard[0][2] = 2;
+		dropDisc(9,1);
 		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(4,3);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,2);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,2);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,2);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
+		
+		dropDisc(1,1);
+		drawBoard(con, new Color(255,204,24), clrP1Color, clrP2Color);
+		con.sleep(500);
 		
 		/*
 		drawDisc(con, 1, 1, clrP1Color); // valid
