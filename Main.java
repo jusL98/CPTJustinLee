@@ -141,6 +141,68 @@ public class Main{
 		// CONNECT 4 GAME LOOP ----------------------------------------------------------------
 		Connect4Board.initBoard();
 		
+		int intCurrentPlayer = 1; // player 1 starts
+		int intPreviousPlayer = 2;
+		
+		while(true){
+			Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+			
+			// Displays player turn
+			if(intCurrentPlayer != intPreviousPlayer){
+				con.println("\n\n\n");  // TODO: maybe display this as a rectangular box (color) with player name in it
+				if(intCurrentPlayer == 1){
+					con.println("  PLAYER " + intCurrentPlayer + " (" + strP1Name + ") TURN");
+				}else if(intCurrentPlayer == 2){
+					con.println("  PLAYER " + intCurrentPlayer + " (" + strP2Name + ") TURN");
+				}
+			}
+			
+			// Gets column from mouse click
+			int intCol = Connect4Board.getColumnClick(con);
+			
+			// Runs win checks and switches players
+			if(Connect4Board.isValidColumn(intCol)){ // checks if column is valid
+				if(Connect4Board.dropDisc(con, intCol, intCurrentPlayer) == true){ // checks if drop was successful
+					// Checks for win
+					if(Connect4Board.checkWin(intCurrentPlayer)){
+						Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+						con.println("PLAYER " + intCurrentPlayer + " WINS!");
+						System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
+						break; // ends game
+					}
+					// Checks for tie
+					else if(Connect4Board.checkTie()){
+						Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+						con.println("IT'S A TIE!");
+						System.out.println("GAME OVER: IT'S A TIE!");
+						break; // ends game
+					}
+					// Continues game and switches player if no win or tie
+					else{
+						if(intCurrentPlayer == 1){
+							intCurrentPlayer = 2;
+							intPreviousPlayer = 1;
+						}else if(intCurrentPlayer == 2){
+							intCurrentPlayer = 1;
+							intPreviousPlayer = 2;
+						}
+					}
+					
+					System.out.println(Connect4Board.getBoardState());
+				}
+			}else{
+				con.println("COLUMN " + intCol + " IS FULL OR INVALID. SELECT ANOTHER COLUMN.");
+				
+				System.out.println("ERROR: COLUMN " + intCol + " IS FULL OR INVALID."); // ERROR
+				System.out.println();
+				
+				intPreviousPlayer = intCurrentPlayer; // keeps same player
+			}
+			
+			con.sleep(100);
+			con.clear();
+		}
+		
 		
 	}
 	
