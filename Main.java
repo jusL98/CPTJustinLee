@@ -292,7 +292,7 @@ public class Main{
 			con.println("                                Deleting Theme...");
 			con.sleep(1000);
 			con.println();
-			con.println("                                THEME " + strThemeNames[intSelection-1] + " SUCCESSFULLY DELETED");
+			con.println("                                THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY DELETED");
 			System.out.println("THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY DELETED"); // CONFIRMATION
 			System.out.println();
 			
@@ -355,12 +355,48 @@ public class Main{
 		
 		// Get desired player 1 color
 		String strDesiredP1Color = getValidRGB(con, "Enter Player 1 RGB Color: ", "PLAYER 1 COLOR", strCreateThemeMenu);
+		strP1Color = strDesiredP1Color;
 		
 		// Get desired player 2 color
 		String strDesiredP2Color = getValidRGB(con, "Enter Player 2 RGB Color: ", "PLAYER 2 COLOR", strCreateThemeMenu);
+		strP2Color = strDesiredP2Color;
 		
 		// Get desired board color
 		String strDesiredBoardColor = getValidRGB(con, "Enter Board RGB Color: ", "BOARD COLOR", strCreateThemeMenu);
+		strBoardColor = strDesiredBoardColor;
+		
+		// Get desired board title
+		String strDesiredBoardTitle = "";
+		while(strDesiredBoardTitle.trim().isEmpty()){
+			con.println(strCreateThemeMenu);
+			con.println("                                BOARD TITLE");
+            con.print("                                Enter a board title: ");
+            strDesiredBoardTitle = con.readLine().trim();
+            
+            if(strDesiredBoardTitle.isEmpty()){
+                con.println("                                   [INVALID] Theme name cannot be empty.");
+                con.sleep(500);
+                con.clear();
+            }
+        }
+        strBoardTitle = strDesiredBoardTitle;
+        con.println();
+        con.println("                                RECORDED BOARD TITLE");
+        System.out.println("DESIRED BOARD TITLE \"" + strBoardTitle + "\" VERIFIED"); // CONFIRMATION
+        System.out.println();
+        con.sleep(1000);
+        con.clear();
+        
+        // Append new theme to themes data file
+		DataManager.createNewTheme(strThemeName, strP1Color, strP2Color, strBoardColor, strBoardTitle);
+		DataManager.setLastTheme(strThemeName);
+		
+		con.println(strCreateThemeMenu);
+        con.println("                                THEME \"" + strThemeName + "\" SUCCESSFULLY CREATED");
+        con.println("                                THEME \"" + strThemeName + "\" LOADED");
+        
+        System.out.println("THEME \"" + strThemeName + "\" SUCCESSFULLY CREATED AND LOADED"); // CONFIRMATION
+        System.out.println();
 	}
 	
 	

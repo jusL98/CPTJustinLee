@@ -94,7 +94,7 @@ public class DataManager{
 		}
 		themesFile.close();
 		
-		// If strSelectedTheme does not exist, set all values to "INVALID"
+		// If strSelectedTheme does not exist, set all values to defaults
 		if(boolKeepSearching == true){
 			strThemeName = "INVALID";
 			strP1Color = "0, 0, 0";
@@ -150,7 +150,7 @@ public class DataManager{
 	
 	/*
 	 * getAllThemeNames method:
-	 * Returns an array of all existing theme names from the themes.txt file.
+	 * Returns an array of all existing theme names from "themes.txt".
 	 * Used for checking duplicate theme names when creating new themes.
 	 */
 	public static String[] getAllThemeNames(){
