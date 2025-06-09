@@ -4,8 +4,15 @@ import java.awt.image.BufferedImage;
 import java.awt.Font;
 
 public class Connect4Board{
+	// Represents the board's state through a 6x7 array.
 	static int intBoard[][] = new int[6][7];
 	
+	
+	/*
+	 * initBoard method:
+	 * Sets or resets the game to the beginning empty phase.
+	 * Fills board with "0"s and/or clears board of existing discs.
+	 */
 	public static void initBoard(){
 		int intR;
 		int intC;
@@ -16,6 +23,13 @@ public class Connect4Board{
         }
 	}
 	
+	
+	/*
+	 * drawBoard method:
+	 * Draws the main Connect 4 board using the theme colors.
+	 * Each time the method is called, it reflects the board's state.
+	 * At the start of the game, the board displays empty slots.
+	 */
 	public static void drawBoard(Console con, Color clrBoardColor, Color clrP1Color, Color clrP2Color){
 		// Draws board background
 		int intBoardWidth = 694;
@@ -51,6 +65,15 @@ public class Connect4Board{
         con.repaint();
     }
     
+    
+	/*
+	 * dropDisc method:
+	 * Returns true if successfully and false otherwise.
+	 * Inserts a player's disc at the lowest point in a specified column.
+	 * If no discs exist in the column, it is placed at the bottom. If other discs exist, it is placed above the top disc.
+	 * Returns false if the column was full.
+	 * The dropped disc is stored in the intBoard array and will be visually displayed when drawBoard is called again.
+	 */
     public static boolean dropDisc(Console con, int intCol, int intPlayer){
 		// Adjusts col input to account for logic (makes index start at 0)
 		intCol = intCol - 1;
@@ -69,6 +92,13 @@ public class Connect4Board{
 		}
 		*/
 		
+		// Checks if column full before proceeding
+		if(isColumnFull(intCol+1)){
+			System.out.println("ERROR: COLUMN (" + (intCol+1) + ") FULL"); // ERROR
+			System.out.println();
+			return false;
+		}
+		
 		// Finds lowest empty slot (row) in the column
 		int intRow;
 		for(intRow = 5; intRow >= 0; intRow--){
@@ -80,7 +110,7 @@ public class Connect4Board{
 			}
 		}
 		
-		// Column full
+		// Column full (shouldn't be reached anyway)
 		System.out.println("ERROR: COLUMN (" + (intCol+1) + ") FULL"); // ERROR
 		System.out.println();
 		return false;
@@ -92,6 +122,11 @@ public class Connect4Board{
 	// VALIDATION METHODS - to validate a win or tie in the Connect 4 board
 	// ************************************************************************
 	
+	/*
+	 * checkWin method:
+	 * Returns true if a win was detected and false otherwise.
+	 * Checks the horizontal, vertical and diagonal win methods by calling all of them.
+	 */
 	public static boolean checkWin(int intPlayer){
 		boolean boolIsWin = checkHorizontalWin(intPlayer) || checkVerticalWin(intPlayer) || checkDiagonalWin(intPlayer);
 		
@@ -106,6 +141,12 @@ public class Connect4Board{
 		return boolIsWin;
 	}
 	
+	
+	/*
+	 * checkTie method:
+	 * Returns true if a tie was detected and false otherwise.
+	 * Checks if any column's top row is empty and if so, board is not full and not a tie yet.
+	 */
 	public static boolean checkTie(){
 		int intC;
 		boolean boolIsTie = true;
@@ -128,6 +169,12 @@ public class Connect4Board{
 		return boolIsTie;
 	}
 	
+	
+	/*
+	 * checkHorizontalWin method:
+	 * Returns true if a horizontal win was detected and false otherwise.
+	 * Checks every horizontal combination for 4 of the same player's pieces in a row.
+	 */
 	public static boolean checkHorizontalWin(int intPlayer){
 		int intR;
 		int intC;
@@ -145,7 +192,12 @@ public class Connect4Board{
 		return boolIsHorizontalWin;
 	}
 	
-
+	
+	/*
+	 * checkVerticalWin method:
+	 * Returns true if a vertical win was detected and false otherwise.
+	 * Checks every vertical combination for 4 of the same player's pieces in a row.
+	 */
 	public static boolean checkVerticalWin(int intPlayer){
 		int intR;
 		int intC;
@@ -163,6 +215,12 @@ public class Connect4Board{
 		return boolIsVerticalWin;
 	}
 	
+	
+	/*
+	 * checkDiagonalWin method:
+	 * Returns true if a diagonal win was detected and false otherwise.
+	 * Checks every diagonal combination (both ways) for 4 of the same player's pieces in a row.
+	 */
 	public static boolean checkDiagonalWin(int intPlayer){
 		int intR;
 		int intC;
@@ -192,11 +250,34 @@ public class Connect4Board{
 
 
 	// ************************************************************************
+	// DISPLAY METHODS - to display the game outcome - win or tie
+	// ************************************************************************
+	
+	/*
+	 * displayWinScreen method:
+	 * Activated when a win condition is detected.
+	 */
+	public static void displayWinScreen(){
+		
+	}
+	
+	/*
+	 * displayTieScreen method:
+	 * Activated when a tie condition is detected.
+	 */
+	public static void displayTieScreen(){
+		
+	}
+
+
+
+	// ************************************************************************
 	// BOARD HELPER/UTILITY METHODS - to support other methods in Connect 4 board
 	// ************************************************************************
 
 	/*
-	 * intRow and intCol begin at 1 (index starts at 1). intRow's max is 6. intCol's max is 7. 
+	 * drawDisc method:
+	 * Draws a disc of a specified player color at a specified location (row,column).
 	 */
 	public static void drawDisc(Console con, int intRow, int intCol, Color clrPlayerColor){
 		int intOffset = 0;
@@ -238,6 +319,14 @@ public class Connect4Board{
 		con.repaint();
 	}
 
+
+	/*
+	 * getColumnClick method:
+	 * Returns the column number (starting from 1) that was left clicked within the board.
+	 * Only continues if a left click occured within the board.
+	 * Only continue if a click and release occured (not hold).
+	 * Issues with click and hold, resulting in the wrong column return were resolved.
+	 */
 	public static int getColumnClick(Console con){
 		int intBoardWidth = 694;
 		int intBoardHeight = 596;
@@ -294,6 +383,12 @@ public class Connect4Board{
 		}
 	}
 	
+	
+	/*
+	 * isColumnFull method:
+	 * Returns true if a specified column is full or false otherwise.
+	 * Specified column (parameter) starts at 1. 
+	 */
 	public static boolean isColumnFull(int intCol){
 		boolean boolIsFull = intBoard[0][intCol-1] != 0;
 		
@@ -301,12 +396,22 @@ public class Connect4Board{
 	}
 	
 	
+	/*
+	 * isValidColumn method:
+	 * Returns true if a specified column is within range of 1-7 AND not full or false if both conditions not met.
+	 * Specified column (parameter) starts at 1. 
+	 */
 	public static boolean isValidColumn(int intCol){
 		boolean boolIsValid = (intCol >= 1 && intCol <= 7) && !isColumnFull(intCol);
 		
 		return boolIsValid;
 	}
 
+	/*
+	 * getBoardState method:
+	 * Returns a string of intBoard (the board state).
+	 * Used for informational purposes only in System print.
+	 */
 	public static String getBoardState(){
 		String strBoardState = "";
 		
