@@ -173,15 +173,33 @@ public class Main{
 					// Checks for win
 					if(Connect4Board.checkWin(intCurrentPlayer)){
 						Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
-						con.println("PLAYER " + intCurrentPlayer + " WINS!");
+						con.clear();
+						con.println("\n\n\n\n\n\n");
+						int intCount;
+						for(intCount = 0; intCount < 7; intCount++){
+							if(intCurrentPlayer == 1){
+								con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP1Name + ") WINS!");
+							}else if(intCurrentPlayer == 2){
+								con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP2Name + ") WINS!");
+							}
+							con.sleep(100);
+						}
 						System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
+						System.out.println();
 						break; // ends game
 					}
 					// Checks for tie
 					else if(Connect4Board.checkTie()){
 						Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
-						con.println("IT'S A TIE!");
+						con.clear();
+						con.println("\n\n\n\n\n\n");
+						int intCount;
+						for(intCount = 0; intCount < 7; intCount++){
+							con.println("  GAME OVER: IT'S A TIE!");
+							con.sleep(100);
+						}
 						System.out.println("GAME OVER: IT'S A TIE!");
+						System.out.println();
 						break; // ends game
 					}
 					// Continues game and switches player if no win or tie
