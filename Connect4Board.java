@@ -53,6 +53,18 @@ public class Connect4Board{
 				con.setDrawColor(Color.WHITE);
                 con.fillOval(intX, intY, intSlotSize, intSlotSize);
                 
+				// Draw column numbers in the top slot of each column using
+                if(intR == 0){
+					Font columnNumFont = con.loadFont("assets/Roboto-Black.ttf", 30);
+					con.setDrawFont(columnNumFont);
+					con.setDrawColor(clrBoardColor);
+					String strColumnNum = Integer.toString(intC + 1);
+					int strP1TextWidth = con.getTextFontMetrics().stringWidth(strColumnNum);
+					int intX2 = intBoardX + intPadding + (intC * (intSlotSize + intPadding))+35;
+					int intY2 = intBoardY + intPadding + (0 * (intSlotSize + intPadding))+20;
+					con.drawString(strColumnNum, intX2, intY2);	
+				}
+                
                 // Draws visual disc if slot is filled  ([1] or [2])
                 if(intBoard[intR][intC] == 1){ // player 1  ([1])
 					drawDisc(con, intR+1, intC+1, clrP1Color);
@@ -316,7 +328,7 @@ public class Connect4Board{
 		}
 		*/
 		
-		con.repaint();
+		//con.repaint();
 	}
 
 
@@ -487,9 +499,9 @@ public class Connect4Board{
 					System.out.println(getBoardState());
 				}
 			}else{
-				con.println("COLUMN " + intCol + " IS FULL OR INVALID. SELECT ANOTHER COLUMN.");
+				con.println("COLUMN " + intCol + " IS FULL. SELECT ANOTHER COLUMN.");
 				
-				System.out.println("ERROR: COLUMN " + intCol + " IS FULL OR INVALID."); // ERROR
+				System.out.println("ERROR: COLUMN " + intCol + " IS FULL."); // ERROR
 				System.out.println();
 				
 				intPreviousPlayer = intCurrentPlayer; // keeps same player

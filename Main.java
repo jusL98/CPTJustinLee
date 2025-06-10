@@ -117,7 +117,6 @@ public class Main{
 		con.println("  Welcome " + strP1Name + "!");
 		con.sleep(1000);
 		con.clear();
-		con.setDrawColor(Color.BLACK);
 		Font player1TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
 		con.setDrawFont(player1TextFont);
 		con.setDrawColor(Color.BLACK);
@@ -155,6 +154,8 @@ public class Main{
 				}else if(intCurrentPlayer == 2){
 					con.println("  PLAYER " + intCurrentPlayer + " (" + strP2Name + ") TURN");
 				}
+				con.println("      CLICK A COLUMN TO PLACE!");
+				con.println();
 			}
 			
 			// Gets column from mouse click
@@ -189,18 +190,22 @@ public class Main{
 					}
 					
 					System.out.println(Connect4Board.getBoardState());
+					
+					con.sleep(100);
+					con.clear();
 				}
 			}else{
-				con.println("COLUMN " + intCol + " IS FULL OR INVALID. SELECT ANOTHER COLUMN.");
+				con.println("      COLUMN " + intCol + " IS FULL.");
+				con.println("      SELECT ANOTHER COLUMN.");
+				con.println();
 				
-				System.out.println("ERROR: COLUMN " + intCol + " IS FULL OR INVALID."); // ERROR
+				System.out.println("ERROR: COLUMN " + intCol + " IS FULL."); // ERROR
 				System.out.println();
 				
 				intPreviousPlayer = intCurrentPlayer; // keeps same player
+				con.sleep(100);
+
 			}
-			
-			con.sleep(100);
-			con.clear();
 		}
 		
 		
