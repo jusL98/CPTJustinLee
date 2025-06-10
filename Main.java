@@ -7,63 +7,66 @@ public class Main{
 	public static void main(String[] args){
 		Console con = new Console("Connect 4", 1280, 720); // https://staugustinechs.ca/arc/arc/Console.html
 		
-		// TODO: create start screen with play button and animation??
 		// TODO: add in secret number (9898) into validInput method and put hints throughout the game of the secret number
 		
 		// TODO: create a quit button
-		// TODO: change Connect4Logo to not include name actually
-		BufferedImage imgLogo = con.loadImage("assets/Connect4Logo.png"); // 500 x 150
-		con.drawImage(imgLogo, 1280/2 - 250, 0);
-		
-		displayBanners(con, "MainMenuBanner.jpg");
+		while(true){
+			newScreen(con);
+			con.clear();
+			
+			BufferedImage imgLogo = con.loadImage("assets/Connect4Logo.png"); // 500 x 150
+			con.drawImage(imgLogo, 1280/2 - 250, 0);
+			
+			displayBanners(con, "MainMenuBanner.jpg");
 
-		// Main menu display
-		String strMainMenuDisplay = 
-									"\n\n\n\n\n\n\n" +
-									"                                ===========================================\n" + 
-									"                                            Welcome to Connect 4!          \n" +
-									"                                ===========================================\n" +
-									"\n" + 
- 
-									"                                                  MAIN MENU                \n" +
-									"                                -------------------------------------------\n" +
-									"                                        [1] - Play Game                    \n" +
-									"                                        [2] - View Leaderboard             \n" +
-									"                                        [3] - Load Theme                   \n" +
-									"                                        [4] - Create Theme                 ";
-		
-		int intSelection;														
-		intSelection = getValidMenuInput(con, 4, strMainMenuDisplay);
-		con.println("                                Loading...");
-		con.sleep(1000);
-		
-		// Option 1 Activated - Play Game
-		if(intSelection == 1){
-			System.out.println("TEST: Main Menu Option 1 Selected"); // TEST
-			System.out.println();
+			// Main menu display
+			String strMainMenuDisplay = 
+										"\n\n\n\n\n\n\n" +
+										"                                ===========================================\n" + 
+										"                                            Welcome to Connect 4!          \n" +
+										"                                ===========================================\n" +
+										"\n" + 
+	 
+										"                                                  MAIN MENU                \n" +
+										"                                -------------------------------------------\n" +
+										"                                        [1] - Play Game                    \n" +
+										"                                        [2] - View Leaderboard             \n" +
+										"                                        [3] - Load Theme                   \n" +
+										"                                        [4] - Create Theme                 ";
 			
-			playGameScreen(con);
-		}
-		// Option 2 Activated - View Leaderboard
-		else if(intSelection == 2){
-			System.out.println("TEST: Main Menu Option 2 Selected"); // TEST
-			System.out.println();
+			int intSelection;														
+			intSelection = getValidMenuInput(con, 4, strMainMenuDisplay);
+			con.println("                                Loading...");
+			con.sleep(1000);
 			
-			viewLeaderboardScreen(con);
-		}
-		// Option 3 Activated - Load Theme
-		else if(intSelection == 3){
-			System.out.println("TEST: Main Menu Option 3 Selected"); // TEST
-			System.out.println();
-			
-			loadThemeScreen(con);
-		}
-		// Option 4 Activated - Create Theme
-		else if(intSelection == 4){
-			System.out.println("TEST: Main Menu Option 4 Selected"); // TEST
-			System.out.println();
-			
-			createThemeScreen(con);
+			// Option 1 Activated - Play Game
+			if(intSelection == 1){
+				System.out.println("TEST: Main Menu Option 1 Selected"); // TEST
+				System.out.println();
+				
+				playGameScreen(con);
+			}
+			// Option 2 Activated - View Leaderboard
+			else if(intSelection == 2){
+				System.out.println("TEST: Main Menu Option 2 Selected"); // TEST
+				System.out.println();
+				
+				viewLeaderboardScreen(con);
+			}
+			// Option 3 Activated - Load Theme
+			else if(intSelection == 3){
+				System.out.println("TEST: Main Menu Option 3 Selected"); // TEST
+				System.out.println();
+				
+				loadThemeScreen(con);
+			}
+			// Option 4 Activated - Create Theme
+			else if(intSelection == 4){
+				System.out.println("TEST: Main Menu Option 4 Selected"); // TEST
+				System.out.println();
+				
+				createThemeScreen(con);
+			}
 		}
 		
 	}
@@ -105,17 +108,19 @@ public class Main{
 		con.repaint();
 		
 		// Draws initial empty Connect 4 board
+		Connect4Board.initBoard();
+		con.setDrawColor(Color.BLACK);
+		con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
 		Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 		
+		// Gets player names and draws on screen information with player names
 		String strP1Name;
 		String strP2Name;
 		int intP1Wins = 0;
 		int intP2Wins = 0;
-		
-		// Gets player names and draws on screen information with player names
 		strP1Name = getValidPlayerName(con, 1); // player 1
 		con.println("  Welcome " + strP1Name + "!");
-		con.sleep(1000);
+		con.sleep(750);
 		con.clear();
 		Font player1TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
 		con.setDrawFont(player1TextFont);
@@ -126,7 +131,7 @@ public class Main{
 		con.repaint();
 		strP2Name = getValidPlayerName(con, 2); // player 2
 		con.println("  Welcome " + strP2Name + "!");
-		con.sleep(1000);
+		con.sleep(750);
 		con.clear();
 		Font player2TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
 		con.setDrawFont(player2TextFont);
@@ -138,101 +143,221 @@ public class Main{
 		
 		
 		// CONNECT 4 GAME LOOP ----------------------------------------------------------------
-		Connect4Board.initBoard();
+		boolean boolWantPlayAgain = true;
 		
-		int intCurrentPlayer = 1; // player 1 starts
-		int intPreviousPlayer = 2;
-		
-		while(true){
+		while(boolWantPlayAgain == true){
+			Connect4Board.initBoard();
+			con.setDrawColor(Color.BLACK);
+			con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
 			Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 			
-			// Displays player turn
-			if(intCurrentPlayer != intPreviousPlayer){
-				
-				con.println("\n\n\n\n\n\n");  // TODO: maybe display this as a rectangular box (color) with player name in it
-				
-				if(intCurrentPlayer == 1){
-					con.setDrawColor(clrP1Color);
-					con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
-					con.println("  PLAYER " + intCurrentPlayer + " (" + strP1Name + ") TURN");
-				}else if(intCurrentPlayer == 2){
-					con.setDrawColor(clrP2Color);
-					con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
-					con.println("  PLAYER " + intCurrentPlayer + " (" + strP2Name + ") TURN");
-				}
-				con.println("      CLICK A COLUMN TO PLACE!");
-				con.println();
-			}
+			int intCurrentPlayer = 1; // player 1 starts
+			int intPreviousPlayer = 2;
+			boolean boolGameActive = true;
 			
-			// Gets column from mouse click
-			int intCol = Connect4Board.getColumnClick(con);
-			
-			// Runs win checks and switches players
-			if(Connect4Board.isValidColumn(intCol)){ // checks if column is valid
-				if(Connect4Board.dropDisc(con, intCol, intCurrentPlayer) == true){ // checks if drop was successful
-					// Checks for win
-					if(Connect4Board.checkWin(intCurrentPlayer)){
-						Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
-						con.clear();
-						con.println("\n\n\n\n\n\n");
-						int intCount;
-						for(intCount = 0; intCount < 7; intCount++){
-							if(intCurrentPlayer == 1){
-								con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP1Name + ") WINS!");
-							}else if(intCurrentPlayer == 2){
-								con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP2Name + ") WINS!");
-							}
-							con.sleep(100);
-						}
-						System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
-						System.out.println();
-						break; // ends game
-					}
-					// Checks for tie
-					else if(Connect4Board.checkTie()){
-						Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
-						con.clear();
-						con.println("\n\n\n\n\n\n");
-						int intCount;
-						for(intCount = 0; intCount < 7; intCount++){
-							con.println("  GAME OVER: IT'S A TIE!");
-							con.sleep(100);
-						}
-						System.out.println("GAME OVER: IT'S A TIE!");
-						System.out.println();
-						break; // ends game
-					}
-					// Continues game and switches player if no win or tie
-					else{
-						if(intCurrentPlayer == 1){
-							intCurrentPlayer = 2;
-							intPreviousPlayer = 1;
-						}else if(intCurrentPlayer == 2){
-							intCurrentPlayer = 1;
-							intPreviousPlayer = 2;
-						}
-					}
-					
-					System.out.println(Connect4Board.getBoardState());
-					
-					con.sleep(100);
+			// Gets start game input
+			String strSelection = "";
+			while(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
+				con.println("\n\n\n");
+				con.print("  START GAME? (Y/N): ");
+				strSelection = con.readLine().toUpperCase();
+				if(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
+					con.println("    [INVALID] Enter (Y) or (N).");
+					con.sleep(500);
 					con.clear();
 				}
-			}else{
-				con.println("      COLUMN " + intCol + " IS FULL.");
-				con.println("      SELECT ANOTHER COLUMN.");
-				con.println();
+			}
+			con.println();
+			con.println("  STARTING IN");
+			con.println("       3     ");
+			con.sleep(750);
+			con.println("       2     ");
+			con.sleep(750);
+			con.println("       1     ");
+			con.sleep(750);
+			con.clear();
+			System.out.println("STARTING GAME"); // CONFIRMATION
+			System.out.println();
+			
+			while(boolGameActive){
+				Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 				
-				System.out.println("ERROR: COLUMN " + intCol + " IS FULL."); // ERROR
+				// Displays player turn
+				if(intCurrentPlayer != intPreviousPlayer){
+					
+					con.println("\n\n\n\n\n\n");  // TODO: maybe display this as a rectangular box (color) with player name in it
+					
+					if(intCurrentPlayer == 1){
+						con.setDrawColor(clrP1Color);
+						con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
+						con.println("  PLAYER " + intCurrentPlayer + " (" + strP1Name + ") TURN");
+					}else if(intCurrentPlayer == 2){
+						con.setDrawColor(clrP2Color);
+						con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
+						con.println("  PLAYER " + intCurrentPlayer + " (" + strP2Name + ") TURN");
+					}
+					con.println("      CLICK A COLUMN TO PLACE!");
+					con.println();
+				}
+				
+				// Gets column from mouse click
+				int intCol = Connect4Board.getColumnClick(con);
+				
+				// Runs win checks and switches players
+				if(Connect4Board.isValidColumn(intCol)){ // checks if column is valid
+					if(Connect4Board.dropDisc(con, intCol, intCurrentPlayer) == true){ // checks if drop was successful
+						// Checks for win
+						if(Connect4Board.checkWin(intCurrentPlayer)){
+							Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+							con.clear();
+							con.println("\n\n\n\n\n\n");
+							int intCount;
+							
+							if(intCurrentPlayer == 1){
+								intP1Wins++;
+							}else if(intCurrentPlayer == 2){
+								intP2Wins++;
+							}
+							
+							for(intCount = 0; intCount < 7; intCount++){
+								if(intCurrentPlayer == 1){
+									con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP1Name + ") WINS!");
+								}else if(intCurrentPlayer == 2){
+									con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP2Name + ") WINS!");
+								}
+								con.sleep(100);
+							}
+							
+							System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
+							System.out.println();
+							
+							Connect4Board.displayOnScreenInformation(con, strBoardTitle, strP1Name, intP1Wins, strP2Name, intP2Wins);
+							
+							con.println();
+							
+							// Display load pause animation
+							int intCount2;
+							con.print("  ");
+							for(intCount2 = 0; intCount2 < 10; intCount2++){
+								con.print(". ");
+								con.sleep(250);
+							}
+							con.clear();
+							
+							boolGameActive = false; // ends round
+						}
+						// Checks for tie
+						else if(Connect4Board.checkTie()){
+							Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+							con.clear();
+							con.println("\n\n\n\n\n\n");
+							int intCount;
+							for(intCount = 0; intCount < 7; intCount++){
+								con.println("  GAME OVER: IT'S A TIE!");
+								con.sleep(100);
+							}
+							System.out.println("GAME OVER: IT'S A TIE!");
+							System.out.println();
+							
+							con.println();
+							
+							// Display load pause animation
+							int intCount2;
+							con.print("  ");
+							for(intCount2 = 0; intCount2 < 10; intCount2++){
+								con.print(". ");
+								con.sleep(250);
+							}
+							con.clear();
+							
+							boolGameActive = false; // ends round
+						}
+						// Continues game and switches player if no win or tie
+						else{
+							if(intCurrentPlayer == 1){
+								intCurrentPlayer = 2;
+								intPreviousPlayer = 1;
+							}else if(intCurrentPlayer == 2){
+								intCurrentPlayer = 1;
+								intPreviousPlayer = 2;
+							}
+						}
+						
+						System.out.println(Connect4Board.getBoardState());
+						
+						con.sleep(100);
+						con.clear();
+					}
+				}else{
+					con.println("      COLUMN " + intCol + " IS FULL.");
+					con.println("      SELECT ANOTHER COLUMN.");
+					con.println();
+					
+					System.out.println("ERROR: COLUMN " + intCol + " IS FULL."); // ERROR
+					System.out.println();
+					
+					intPreviousPlayer = intCurrentPlayer; // keeps same player
+					
+					con.sleep(100);
+				}
+				
+			}
+			
+			// Gets play again input
+			strSelection = "";
+			while(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
+				con.println("\n\n\n\n\n\n");
+				con.print("  PLAY AGAIN? (Y/N): ");
+				strSelection = con.readLine().toUpperCase();
+				if(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
+					con.println("    [INVALID] Enter (Y) or (N).");
+					con.sleep(500);
+					con.clear();
+				}
+			}
+			
+			if(strSelection.equals("Y")){
+				boolWantPlayAgain = true;
+				System.out.println("PLAYING AGAIN"); // CONFIRMATION;
 				System.out.println();
 				
-				intPreviousPlayer = intCurrentPlayer; // keeps same player
-				con.sleep(100);
-
+				con.println();
+				con.println("  RESETTING BOARD TO PLAY AGAIN");
+				con.println();
+			
+				// Display load pause animation
+				int intCount2;
+				con.print("  ");
+				for(intCount2 = 0; intCount2 < 10; intCount2++){
+					con.print(". ");
+					con.sleep(250);
+				}
+			
+				con.sleep(2000);
+				con.clear();
+			}else{
+				boolWantPlayAgain = false;
+				System.out.println("NOT PLAYING AGAIN"); // CONFIRMATION;
+				System.out.println();
+				
+				con.println();
+				con.println("  WINS RECORDED IN LEADERBOARD");
+				con.println("  RETURNING TO MAIN MENU...");
+				con.println();
+				
+				// Display load pause animation
+				int intCount2;
+				con.print("  ");
+				for(intCount2 = 0; intCount2 < 10; intCount2++){
+					con.print(". ");
+					con.sleep(250);
+				}
+				
+				con.sleep(2000);
+				break;
 			}
+			
 		}
-		
-		
 	}
 	
 	

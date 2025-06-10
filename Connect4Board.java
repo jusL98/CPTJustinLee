@@ -280,6 +280,33 @@ public class Connect4Board{
 	public static void displayTieScreen(){
 		
 	}
+	
+	public static void displayOnScreenInformation(Console con, String strBoardTitle, String strP1Name, int intP1Wins, String strP2Name, int intP2Wins){
+		// Draws initial on screen information with board title
+		con.setDrawColor(Color.WHITE); // white bar
+		con.fillRect(20,20,1240,60);
+		Font boardTitleFont = con.loadFont("assets/Roboto-Black.ttf", 25); // board title
+		con.setDrawFont(boardTitleFont);
+		con.setDrawColor(Color.BLACK);
+		int strBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
+		con.drawString(strBoardTitle, 20 + (1240 - strBoardTitleWidth) / 2, 20 + 10);
+		con.repaint();
+		
+		Font player1TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
+		con.setDrawFont(player1TextFont);
+		con.setDrawColor(Color.BLACK);
+		String strP1Text = strP1Name + ": " +intP1Wins;
+		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
+		con.drawString(strP1Text, 20 + 20, 20 + 15);
+		
+		Font player2TextFont = con.loadFont("assets/Roboto-Medium.ttf", 20);
+		con.setDrawFont(player2TextFont);
+		con.setDrawColor(Color.BLACK);
+		String strP2Text = strP2Name + ": " +intP2Wins;
+		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
+		con.drawString(strP2Text, 1280-20-strP2TextWidth-20, 20 + 15);
+		con.repaint();
+	}
 
 
 
