@@ -148,10 +148,16 @@ public class Main{
 			
 			// Displays player turn
 			if(intCurrentPlayer != intPreviousPlayer){
-				con.println("\n\n\n");  // TODO: maybe display this as a rectangular box (color) with player name in it
+				
+				con.println("\n\n\n\n\n\n");  // TODO: maybe display this as a rectangular box (color) with player name in it
+				
 				if(intCurrentPlayer == 1){
+					con.setDrawColor(clrP1Color);
+					con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
 					con.println("  PLAYER " + intCurrentPlayer + " (" + strP1Name + ") TURN");
 				}else if(intCurrentPlayer == 2){
+					con.setDrawColor(clrP2Color);
+					con.fillRect(20, 20+60+20, 1280-20-20-694-20, 50);
 					con.println("  PLAYER " + intCurrentPlayer + " (" + strP2Name + ") TURN");
 				}
 				con.println("      CLICK A COLUMN TO PLACE!");
