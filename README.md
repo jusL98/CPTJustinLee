@@ -8,7 +8,7 @@ This Connect 4 game is written in Java for my culminating Grade 11 Computer Scie
 
 This Connect 4 game was created using my teacher, Mr. Cadawas's arc library, which provides a "Console" window for console output, user input, keyboard/mouse input and screen graphics in a dedicated window.
 
-## Overview
+## Description
 
 **MAIN MENU**
 
@@ -39,7 +39,7 @@ This Connect 4 game was created using my teacher, Mr. Cadawas's arc library, whi
 16. Color themes are stored in the themes data file.
 17. Color themes include the following properties: theme name, player 1 color, player 2 color, board color and board title.
 18. The theme is stored in the lasttheme data file to be used for the colors next time a new session begins.
-18. After the user selects a theme, a clickable button appears on the screen to return to the main menu.
+19. After the user selects a theme, a clickable button appears on the screen to return to the main menu.
 
 **[4] - Create Theme**
 
@@ -57,7 +57,7 @@ This Connect 4 game was created using my teacher, Mr. Cadawas's arc library, whi
 
 25. The secret joke menu is triggered when the user enters 9898 on the main menu, displaying fun jokes as an easter egg.
 
-**Underlying Features**
+**UNDERLYING FEATURES**
 
 - Validation for int inputs (without exceptions)
 - Validation for int input range
@@ -68,49 +68,134 @@ This Connect 4 game was created using my teacher, Mr. Cadawas's arc library, whi
 - Screen clearing
 - Click handling
 
+## Built With
 
-## Technologies Used
+- [Java SE 23.0.2](https://www.java.com/en/): programming language
+- [arc](https://github.com/MrCadawas/arc/): library that provides a Console window with simple input and output methods for learning.
 
-- Java SE 23.0.2
-- <a href="https://github.com/MrCadawas/arc/">arc</a>
+## Quick Start
 
-## Installation
+### Prerequisites
+
+- OS
+- Java SE 23.0.2 or higher installed
+
+### Installation
 
 To install the Connect 4 game, follow these steps:
 
-1. Clone the repository:
+1. **Clone the repository.**
 
    ```bash
    git clone https://github.com/jusL98/CPTJustinLee.git
    cd CPTJustinLee
    ```
 
-2. Ensure that you have java running on your system.
+</br>
 
-3. Download <a href="https://github.com/MrCadawas/arc/">arc</a> and move it to the directory.
+2. **Download [arc.jar](https://github.com/MrCadawas/arc/releases).**
 
-4. Run the program.
+   Once downloaded, place the arc.jar file into the directory within the cloned project.
 
-   ```bash
-   python main.py
+   ```
+   mv /path/to/downloaded/arc.jar CPTJustinLee
    ```
 
-6. **Alternatively, download and run the filesorter.exe file.**
 
-7. Navigate to the target directory and view the sorted files in date folders formatted by YYYY_MM_DD.
+### Setup
+
+3. **Compile the program.**
+
+   For Linux/macOS:
+
+   ```
+   javac -cp .:arc.jar Main.java
+   ```
+
+   For Windows:
+
+   ```
+   javac -cp .;arc.jar Main.java
+   ```
+
+
+### Run
+
+4. **Run the program.**
+
+   For Linux/macOS:
+
+   ```
+   java -cp .:arc.jar Main.java
+   ```
+
+   For Windows:
+
+   ```
+   java -cp .;arc.jar Main.java
+   ```
 
 ## Usage
 
-1. Run the program or run the .exe file.
-2. Configure the settings in the GUI.
-3. Navigate to the target directory and view the sorted files in date folders formatted by YYYY_MM_DD.
-4. Actions are logged in the log.txt file in the target directory.
-5. If backup is enabled, the files (in the unsorted form) were also copied to the backup directory within the target directory.
+1. Run the program.
+2. Navigate the main menu:
+
+   a. [1] Play Connect 4.
+
+   b. [2] View the leaderboard.
+
+   c. [3] Load themes.
+
+   d. [4] Create themes.
+
+   e. [5] View how to play instructions.
+   
+   f. [9898] View the secret joke menu.
+
+
+## Project Structure
+```
+├── CPTJustinLee/
+│   ├── assets/
+│   │   ├── Pixlr Files/               // contains pixlr.com files used to create banners
+│   │   ├── Connect4Logo.jpg           // logo featured on main menu
+│   │   ├── _____Banner.jpg            // decorative banners for each screen
+│   │   └── Roboto-______.ttf          // fonts used
+│   │
+│   ├── data/
+│   │   ├── lasttheme.txt              // stores the name of the last theme loaded
+│   │   ├── leaderboard.txt            // stores players' names and wins
+│   │   └── themes.txt                 // stores theme properties
+│   │
+│   ├── Connect4Board.java             // contains methods that controls the Connect 4 board
+│   ├── DataManager.java               // contains methods to update the txt data files
+│   ├── InputValidation.java           // contains methods to handle input like verifying integers, RGB formats and strings
+│   └── Main.java                      // contains the main game logic to handle screens and gameplay loop
+```
+
+
+## Acknowledgements
+This project was created for my culminating ICS3U1 project.
+
+This project was created using my teacher's arc library. Thanks Mr. Cadawas!
+- [arc](https://github.com/MrCadawas/arc)
+
+<br>
 
 ---
-
+<br>
 Thank you!
 
-<p align="center">
-   <img width="1000" alt="image" src="https://github.com/user-attachments/assets/a766d4cc-24a8-4730-984e-54609e4e5973"/>
+<br>
+
+<p align="left">
+  <a href="mailto:justin.matthew.lee.18@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a>
+  <a href="https://www.linkedin.com/in/justin-matthew-lee/">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
+  </a>
+    <a href="https://github.com/jusl98">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
+  </a>
 </p>
