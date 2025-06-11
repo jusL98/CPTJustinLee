@@ -75,6 +75,13 @@ public class Main{
 				
 				helpScreen(con);
 			}
+			// Option 9898 Activated - Secret Joke Menu
+			else if(intSelection == 9898){
+				System.out.println("");
+				System.out.println("TEST: Main Menu Option 9898 Selected"); // TEST
+				
+				secretJokeScreen(con);
+			}
 		}
 		
 	}
@@ -521,9 +528,9 @@ public class Main{
 		System.out.println("THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED"); // CONFIRMATION
 		System.out.println();
         
-        // Return to main menu button
-		displayReturnButton(con, 1280/2 - 500/2, 720-550);
-		con.println("\n\n\n");
+		// Return to main menu button
+		displayReturnButton(con, 1280/2 - 500/2, 720-160);
+		con.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		con.println("                                RETURNING TO MAIN MENU...");
 		con.println();
 		
@@ -693,8 +700,8 @@ public class Main{
         System.out.println();
         
         // Return to main menu button
-		displayReturnButton(con, 1280/2 - 500/2, 720-525);
-		con.println("\n\n\n");
+		displayReturnButton(con, 1280/2 - 500/2, 720-160);
+		con.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		con.println("                                RETURNING TO MAIN MENU...");
 		con.println();
 		
@@ -769,18 +776,57 @@ public class Main{
 		newScreen(con);
 		displayBanners(con, "SecretJokeBanner.jpg");
 		
-		// Leaderboard menu display
+		// Secret menu display
 		con.println();
 		con.println("                                                 SECRET JOKE               ");
 		con.println("                                -------------------------------------------");
         con.println("                                      YOU FOUND THE SECRET JOKE SCREEN!    ");
         
-		// How to play instructions
+		// Displays funny jokes
 		con.println();
 		con.println("                               Why don't skeletons fight each other?");
 		con.sleep(500);
 		con.println("                                   They don't have the guts!");
+		con.sleep(1000);
+		
 		con.println();
+		con.println("                               What did one plate say to the other?");
+		con.sleep(500);
+		con.println("                                   Dinner is on me!");
+		con.sleep(1000);
+		
+		con.println();
+		con.println("                               What do you call a pony with a cough?");
+		con.sleep(500);
+		con.println("                                   A little horse!");
+		con.sleep(1000);
+		
+		con.println();
+		con.println("                               What did the lettuce say to the celery?");
+		con.sleep(500);
+		con.println("                                   Quit stalking me!");
+		con.sleep(1000);
+		
+		con.println();
+		con.println("                               What does a house wear?");
+		con.sleep(500);
+		con.println("                                   Address!");
+		
+		con.println("\n");
+		
+		// Return to main menu button
+		displayReturnButton(con, 1280/2 - 500/2, 720-180);
+		con.println("\n\n\n");
+		con.println("                                RETURNING TO MAIN MENU..."); // TODO - fix location of this text depending on number of entries in leaderboard
+		con.println();
+		
+		int intCount2;
+		con.print("                                ");
+		for(intCount2 = 0; intCount2 < 10; intCount2++){
+			con.print(". ");
+			con.sleep(250);
+		}
+		con.sleep(1000);
 	}
 	
 	
@@ -882,7 +928,7 @@ public class Main{
 			}else{
 				intInput = InputValidation.stringToInteger(strInput);
 				
-				if(InputValidation.isInRange(intInput, 1, intMax)){ // checks if integer is within range
+				if(InputValidation.isInRange(intInput, 1, intMax) || (intInput == 9898 && intMax == 5)){ // checks if integer is within range
 					break;
 				}else{
 					con.println("                                   [INVALID] Enter a number #1-" + intMax + ".\n");
