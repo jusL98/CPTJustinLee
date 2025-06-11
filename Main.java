@@ -419,6 +419,30 @@ public class Main{
 			}
 		}
 		
+		// Spacers for proper main menu return message
+		if(intNumEntries == 0){
+			con.println("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		}else if(intNumEntries == 1){
+			con.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+		}else if(intNumEntries == 2){
+			con.println("\n\n\n\n\n\n\n\n\n\n\n");
+		}else if(intNumEntries == 3){
+			con.println("\n\n\n\n\n\n\n\n\n");
+		}else if(intNumEntries == 4){
+			con.println("\n\n\n\n\n\n\n\n");
+		}else if(intNumEntries == 5){
+			con.println("\n\n\n\n\n\n\n");
+		}else if(intNumEntries == 6){
+			con.println("\n\n\n\n\n\n");
+		}else if(intNumEntries == 7){
+			con.println("\n\n\n\n\n");
+		}else if(intNumEntries == 8){
+			con.println("\n\n\n\n");
+		}else if(intNumEntries == 9){
+			con.println("\n\n\n");
+		}else if(intNumEntries == 10){
+		}
+		
 		// Return to main menu button
 		displayReturnButton(con, 1280/2 - 500/2, 720-180);
 		con.println("\n\n\n");
@@ -700,10 +724,28 @@ public class Main{
         con.println("                                  Information about how to play Connect 4! ");
         
 		// How to play instructions
-        // TODO: complete help screen
+		con.println();
+		con.println("                                1. Select [1] - PLAY GAME on the main menu.");
+		con.println();
+		con.println("                                2. Enter both of your names when prompted.");
+		con.println();
+		con.println("                                3. Get ready for the game to begin.");
+		con.println();
+		con.println("                                4. Take turns dropping your colored discs");
+		con.println("                                   into available columns 1-7.");
+		con.println();
+		con.println("                                5. Get 4 of your discs in a row to win:");
+		con.println("                                   horizontally, vertically or diagonally!");
+		con.println();
+		con.println("                                6. When the round ends, play again or return.");
+		con.println();
+		con.println("                                7. Try beating the top 10 leaderboard!");
+		con.println();
+		con.println("                                8. You can also customize themes!");
+
         
         // Return to main menu button
-		displayReturnButton(con, 1280/2 - 500/2, 720-525);
+		displayReturnButton(con, 1280/2 - 500/2, 720-160);
 		con.println("\n\n\n");
 		con.println("                                RETURNING TO MAIN MENU...");
 		con.println();
