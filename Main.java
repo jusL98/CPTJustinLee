@@ -715,7 +715,7 @@ public class Main{
 	 */
 	public static void helpScreen(Console con){
 		newScreen(con);
-		displayBanners(con, "CreateThemeBanner.jpg");
+		displayBanners(con, "HelpBanner.jpg");
 		
 		// Leaderboard menu display
 		con.println();
@@ -757,6 +757,30 @@ public class Main{
 			con.sleep(250);
 		}
 		con.sleep(1000);
+	}
+	
+	
+	/*
+	 * secretJokeScreen method:
+	 * Activated when "[5] - Help" is selected in the main menu.
+	 * Displays information to the user about how to play Connect 4.
+	 */
+	public static void secretJokeScreen(Console con){
+		newScreen(con);
+		displayBanners(con, "SecretJokeBanner.jpg");
+		
+		// Leaderboard menu display
+		con.println();
+		con.println("                                                 SECRET JOKE               ");
+		con.println("                                -------------------------------------------");
+        con.println("                                      YOU FOUND THE SECRET JOKE SCREEN!    ");
+        
+		// How to play instructions
+		con.println();
+		con.println("                               Why don't skeletons fight each other?");
+		con.sleep(500);
+		con.println("                                   They don't have the guts!");
+		con.println();
 	}
 	
 	
