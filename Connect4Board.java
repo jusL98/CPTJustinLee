@@ -308,7 +308,7 @@ public class Connect4Board{
 					if(intWinningBoard[intR][intC] == intPlayer && strOutcome.equals("WIN")){ // FOR WIN OUTCOME ONLY - flash only winning pieces
 						drawDisc(con, intR + 1, intC + 1, clrWinnerColor);
 					}else if(strOutcome.equals("TIE")){ // FOR TIE OUTCOME ONLY - flash every piece
-						if(intBoard[intR][intC] == 2){
+						if(intBoard[intR][intC] == 1){
 							drawDisc(con, intR + 1, intC + 1, clrP1Color);
 						}else if(intBoard[intR][intC] == 2){ 
 							drawDisc(con, intR + 1, intC + 1, clrP2Color);

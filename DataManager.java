@@ -70,6 +70,25 @@ public class DataManager{
 	
 	
 	/*
+	 * logSessionToLeaderboard method:
+	 * Writes the two player's names and wins to "leaderboard.txt".
+	 * To be used when a session has ended (chose not to play again)
+	 */
+	public static void logSessionToLeaderboard(String strP1Name, int intP1Wins, String strP2Name, int intP2Wins){
+		TextOutputFile leaderboardFile = new TextOutputFile("data/leaderboard.txt", true);
+		
+		// Prints the 4 values to leaderboard data file
+		leaderboardFile.println(strP1Name);
+		leaderboardFile.println(intP1Wins);
+		leaderboardFile.println(strP2Name);
+		leaderboardFile.println(intP2Wins);
+		
+		leaderboardFile.close();
+		
+	}
+	
+	
+	/*
 	 * getTheme method:
 	 * Returns theme data in an array from "themes.txt" based on the provided theme name.
 	 * If theme name not located, returns "INVALID" string values in the array.

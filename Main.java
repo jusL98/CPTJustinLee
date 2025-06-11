@@ -211,7 +211,6 @@ public class Main{
 							Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 							con.clear();
 							con.println("\n\n\n\n\n\n");
-							int intCount;
 							
 							if(intCurrentPlayer == 1){
 								intP1Wins++;
@@ -219,6 +218,8 @@ public class Main{
 								intP2Wins++;
 							}
 							
+							Connect4Board.displayOutcomeAnimation(con, intCurrentPlayer, clrBoardColor, clrP1Color, clrP2Color, "WIN");
+							int intCount;
 							for(intCount = 0; intCount < 7; intCount++){
 								if(intCurrentPlayer == 1){
 									con.println("  GAME OVER: PLAYER " + intCurrentPlayer + " (" + strP1Name + ") WINS!");
@@ -251,6 +252,8 @@ public class Main{
 							Connect4Board.drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 							con.clear();
 							con.println("\n\n\n\n\n\n");
+							
+							Connect4Board.displayOutcomeAnimation(con, intCurrentPlayer, clrBoardColor, clrP1Color, clrP2Color, "TIE");
 							int intCount;
 							for(intCount = 0; intCount < 7; intCount++){
 								con.println("  GAME OVER: IT'S A TIE!");
@@ -340,6 +343,8 @@ public class Main{
 				System.out.println("NOT PLAYING AGAIN"); // CONFIRMATION;
 				System.out.println();
 				
+				DataManager.logSessionToLeaderboard(strP1Name, intP1Wins, strP2Name, intP2Wins);
+				
 				con.println();
 				con.println("  WINS RECORDED IN LEADERBOARD");
 				con.println("  RETURNING TO MAIN MENU...");
@@ -414,6 +419,8 @@ public class Main{
 				con.println("                                Can you earn a spot?? Good luck!");
 			}
 		}
+		
+		con.sleep(1000);
 	}
 	
 	
