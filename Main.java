@@ -471,10 +471,34 @@ public class Main{
 		con.println("                                Loading Theme...");
 		con.sleep(1000);
 		con.println();
-		con.println("                                THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED");
+		
+		con.clear();
+		
+		strLoadThemeMenu = 
+									"\n" + 
+									"                                                 LOAD THEME                \n" +
+									"                                -------------------------------------------\n" +
+									"                                Pick a theme to load to customize the game!" +
+									"\n";
+									
+		con.println(strLoadThemeMenu);
+        con.println("                                THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED");
+		
 		System.out.println("THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED"); // CONFIRMATION
 		System.out.println();
+        
+        // Return to main menu button
+		displayReturnButton(con, 1280/2 - 500/2, 720-550);
+		con.println("\n\n\n");
+		con.println("                                RETURNING TO MAIN MENU...");
+		con.println();
 		
+		int intCount2;
+		con.print("                                ");
+		for(intCount2 = 0; intCount2 < 10; intCount2++){
+			con.print(". ");
+			con.sleep(250);
+		}
 		con.sleep(1000);
 	}
 	
@@ -633,6 +657,20 @@ public class Main{
         
         System.out.println("THEME \"" + strThemeName + "\" SUCCESSFULLY CREATED AND LOADED"); // CONFIRMATION
         System.out.println();
+        
+        // Return to main menu button
+		displayReturnButton(con, 1280/2 - 500/2, 720-525);
+		con.println("\n\n\n");
+		con.println("                                RETURNING TO MAIN MENU...");
+		con.println();
+		
+		int intCount2;
+		con.print("                                ");
+		for(intCount2 = 0; intCount2 < 10; intCount2++){
+			con.print(". ");
+			con.sleep(250);
+		}
+		con.sleep(1000);
 	}
 	
 	
