@@ -262,18 +262,20 @@ public class Connect4Board{
 
 
 	// ************************************************************************
-	// DISPLAY METHODS - to display the on screen information and game outcome - win or tie
+	// DISPLAY METHODS - to display the on screen information and game outcome animation
 	// ************************************************************************
 	
 	/*
-	 * displayWinScreen method:
-	 * Activated when a win condition is detected.
+	 * displayOutcomeAnimation method:
+	 * Flashes pieces depending on win or tie to make them visible.
+	 * If "WIN" specified in paramaters, flashes 4 winning pieces 8 times.
+	 * If "TIE" specified in paramaters, flashes every piece 8 times.
 	 */
-	public static void displayWinBoard(Console con, int intPlayer, Color clrBoardColor, Color clrP1Color, Color clrP2Color){
-		// Gets winning pieces
+	public static void displayOutcomeAnimation(Console con, int intPlayer, Color clrBoardColor, Color clrP1Color, Color clrP2Color, String strOutcome){
+		// Gets winning pieces (FOR WIN OUTCOME ONLY)
 		int[][] intWinningBoard = getWinningBoard(intPlayer);
     
-		// Sets the correct winning player's color
+		// Sets the correct winning player's color (FOR WIN OUTCOME ONLY)
 		Color clrWinnerColor = Color.BLACK;
 		if(intPlayer == 1){
 			clrWinnerColor = clrP1Color;
@@ -281,43 +283,42 @@ public class Connect4Board{
 			clrWinnerColor = clrP2Color;
 		}
 		
-		// Flashes the 4 winning pieces 5 times
+		// Flashes the 4 winning pieces 8 times
 		int intNumFlashes;
-		for(intNumFlashes = 0; intNumFlashes < 5; intNumFlashes++){
+		for(intNumFlashes = 0; intNumFlashes < 8; intNumFlashes++){
 			int intR;
 			int intC;
 			
-			// Draws winning pieces in white (flash effect)
+			// Draws pieces in white (flash effect)
 			for(intR = 0; intR < 6; intR++){
 				for(intC = 0; intC < 7; intC++){
-					if(intWinningBoard[intR][intC] == intPlayer){
+					if(intWinningBoard[intR][intC] == intPlayer && strOutcome.equals("WIN")){ // FOR WIN OUTCOME ONLY - flash only winning pieces
+						drawDisc(con, intR + 1, intC + 1, Color.WHITE);
+					}else if(strOutcome.equals("TIE")){ // FOR TIE OUTCOME ONLY - flash every piece
 						drawDisc(con, intR + 1, intC + 1, Color.WHITE);
 					}
 				}
 			}
 			con.repaint();
-			con.sleep(300);
+			con.sleep(100);
 			
-			// Draw winning pieces back in original color
+			// Draws pieces back in original color
 			for(intR = 0; intR < 6; intR++){
 				for(intC = 0; intC < 7; intC++){
-					if(intWinningBoard[intR][intC] == intPlayer){
+					if(intWinningBoard[intR][intC] == intPlayer && strOutcome.equals("WIN")){ // FOR WIN OUTCOME ONLY - flash only winning pieces
 						drawDisc(con, intR + 1, intC + 1, clrWinnerColor);
+					}else if(strOutcome.equals("TIE")){ // FOR TIE OUTCOME ONLY - flash every piece
+						if(intBoard[intR][intC] == 2){
+							drawDisc(con, intR + 1, intC + 1, clrP1Color);
+						}else if(intBoard[intR][intC] == 2){ 
+							drawDisc(con, intR + 1, intC + 1, clrP2Color);
+						}
 					}
 				}
 			}
 			con.repaint();
-			con.sleep(300);
+			con.sleep(100);
 		}	
-	}
-	
-	
-	/*
-	 * displayTieScreen method:
-	 * Activated when a tie condition is detected.
-	 */
-	public static void displayTieScreen(){
-		
 	}
 	
 	
@@ -514,9 +515,9 @@ public class Connect4Board{
 	}
 
 	/*
-	 * isColumnFull method:
-	 * Returns true if a specified column is full or false otherwise.
-	 * Specified column (parameter) starts at 1. 
+	 * getWinningBoard method:
+	 * Returns a 2D array of only the 4 winning pieces in a 6x7 grid format.
+	 * Used to help the displayOutcomeAnimation method to flash only the winning pieces.
 	 */
 	public static int[][] getWinningBoard(int intPlayer){
 		int[][] intWinningBoard = new int[6][7];
@@ -622,9 +623,9 @@ public class Connect4Board{
 					// Checks for win
 					if(checkWin(intCurrentPlayer)){
 						drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
-						displayWinBoard(con, intCurrentPlayer, clrBoardColor, clrP1Color, clrP2Color);
 						con.println("PLAYER " + intCurrentPlayer + " WINS!");
 						System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
+						displayOutcomeAnimation(con, intCurrentPlayer, clrBoardColor, clrP1Color, clrP2Color, "WIN");
 						break; // ends game
 					}
 					// Checks for tie
@@ -632,6 +633,7 @@ public class Connect4Board{
 						drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
 						con.println("IT'S A TIE!");
 						System.out.println("GAME OVER: IT'S A TIE!");
+						displayOutcomeAnimation(con, intCurrentPlayer, clrBoardColor, clrP1Color, clrP2Color, "TIE");
 						break; // ends game
 					}
 					// Continues game and switches player if no win or tie
