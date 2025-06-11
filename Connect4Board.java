@@ -262,16 +262,55 @@ public class Connect4Board{
 
 
 	// ************************************************************************
-	// DISPLAY METHODS - to display the game outcome - win or tie
+	// DISPLAY METHODS - to display the on screen information and game outcome - win or tie
 	// ************************************************************************
 	
 	/*
 	 * displayWinScreen method:
 	 * Activated when a win condition is detected.
 	 */
-	public static void displayWinScreen(){
+	public static void displayWinBoard(Console con, int intPlayer, Color clrBoardColor, Color clrP1Color, Color clrP2Color){
+		// Gets winning pieces
+		int[][] intWinningBoard = getWinningBoard(intPlayer);
+    
+		// Sets the correct winning player's color
+		Color clrWinnerColor = Color.BLACK;
+		if(intPlayer == 1){
+			clrWinnerColor = clrP1Color;
+		}else if(intPlayer == 2){
+			clrWinnerColor = clrP2Color;
+		}
 		
+		// Flashes the 4 winning pieces 5 times
+		int intNumFlashes;
+		for(intNumFlashes = 0; intNumFlashes < 5; intNumFlashes++){
+			int intR;
+			int intC;
+			
+			// Draws winning pieces in white (flash effect)
+			for(intR = 0; intR < 6; intR++){
+				for(intC = 0; intC < 7; intC++){
+					if(intWinningBoard[intR][intC] == intPlayer){
+						drawDisc(con, intR + 1, intC + 1, Color.WHITE);
+					}
+				}
+			}
+			con.repaint();
+			con.sleep(300);
+			
+			// Draw winning pieces back in original color
+			for(intR = 0; intR < 6; intR++){
+				for(intC = 0; intC < 7; intC++){
+					if(intWinningBoard[intR][intC] == intPlayer){
+						drawDisc(con, intR + 1, intC + 1, clrWinnerColor);
+					}
+				}
+			}
+			con.repaint();
+			con.sleep(300);
+		}	
 	}
+	
 	
 	/*
 	 * displayTieScreen method:
@@ -281,6 +320,11 @@ public class Connect4Board{
 		
 	}
 	
+	
+	/*
+	 * displayOnScreenInformation method:
+	 * Displays the on screen information. Used after a player has won to reupdate the display.
+	 */
 	public static void displayOnScreenInformation(Console con, String strBoardTitle, String strP1Name, int intP1Wins, String strP2Name, int intP2Wins){
 		// Draws initial on screen information with board title
 		con.setDrawColor(Color.WHITE); // white bar
@@ -446,6 +490,7 @@ public class Connect4Board{
 		return boolIsValid;
 	}
 
+
 	/*
 	 * getBoardState method:
 	 * Returns a string of intBoard (the board state).
@@ -467,6 +512,82 @@ public class Connect4Board{
 		
 		return strBoardState;
 	}
+
+	/*
+	 * isColumnFull method:
+	 * Returns true if a specified column is full or false otherwise.
+	 * Specified column (parameter) starts at 1. 
+	 */
+	public static int[][] getWinningBoard(int intPlayer){
+		int[][] intWinningBoard = new int[6][7];
+		int intR;
+		int intC;
+		
+		// Initializes winning board with zeros
+		for(intR = 0; intR < 6; intR++){
+			for(intC = 0; intC < 7; intC++){
+				intWinningBoard[intR][intC] = 0;
+			}
+		}
+		
+		// Checks horizontal wins
+		for(intR = 0; intR < 6; intR++){
+			for(intC = 0; intC <= 3; intC++){ // only need to check up to column 3
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR][intC+1] == intPlayer && intBoard[intR][intC+2] == intPlayer && intBoard[intR][intC+3] == intPlayer){
+					intWinningBoard[intR][intC] = intPlayer;
+					intWinningBoard[intR][intC + 1] = intPlayer;
+					intWinningBoard[intR][intC + 2] = intPlayer;
+					intWinningBoard[intR][intC + 3] = intPlayer;
+					
+					return intWinningBoard;
+				}
+			}
+		}
+		
+		// Checks vertical wins
+		for(intC = 0; intC < 7; intC++){
+			for(intR = 0; intR <= 2; intR++){ // only need to check up to row 2
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR+1][intC] == intPlayer && intBoard[intR+2][intC] == intPlayer && intBoard[intR+3][intC] == intPlayer){
+					intWinningBoard[intR][intC] = intPlayer;
+					intWinningBoard[intR + 1][intC] = intPlayer;
+					intWinningBoard[intR + 2][intC] = intPlayer;
+					intWinningBoard[intR + 3][intC] = intPlayer;
+					
+					return intWinningBoard;
+				}
+			}
+		}
+		
+		// Check diagonal wins bottom-left to top-right
+		for(intR = 3; intR < 6; intR++){
+			for(intC = 0; intC <= 3; intC++){
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR-1][intC+1] == intPlayer && intBoard[intR-2][intC+2] == intPlayer && intBoard[intR-3][intC+3] == intPlayer){
+					intWinningBoard[intR][intC] = intPlayer;
+					intWinningBoard[intR - 1][intC + 1] = intPlayer;
+					intWinningBoard[intR - 2][intC + 2] = intPlayer;
+					intWinningBoard[intR - 3][intC + 3] = intPlayer;
+					
+					return intWinningBoard;
+				}
+			}
+		}
+		
+		// Checks diagonal wins top-left to bottom-right
+		for(intR = 0; intR <= 2; intR++){
+			for(intC = 0; intC <= 3; intC++){
+				if(intBoard[intR][intC] == intPlayer && intBoard[intR+1][intC+1] == intPlayer && intBoard[intR+2][intC+2] == intPlayer && intBoard[intR+3][intC+3] == intPlayer){
+					intWinningBoard[intR][intC] = intPlayer;
+					intWinningBoard[intR + 1][intC + 1] = intPlayer;
+					intWinningBoard[intR + 2][intC + 2] = intPlayer;
+					intWinningBoard[intR + 3][intC + 3] = intPlayer;
+					
+					return intWinningBoard;
+				}
+			}
+		}
+		return intWinningBoard;
+	}
+	
 
 
 	/*
@@ -501,6 +622,7 @@ public class Connect4Board{
 					// Checks for win
 					if(checkWin(intCurrentPlayer)){
 						drawBoard(con, clrBoardColor, clrP1Color, clrP2Color);
+						displayWinBoard(con, intCurrentPlayer, clrBoardColor, clrP1Color, clrP2Color);
 						con.println("PLAYER " + intCurrentPlayer + " WINS!");
 						System.out.println("GAME OVER: PLAYER " + intCurrentPlayer + " WINS!");
 						break; // ends game
