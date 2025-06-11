@@ -32,10 +32,11 @@ public class Main{
 										"                                        [1] - Play Game                    \n" +
 										"                                        [2] - View Leaderboard             \n" +
 										"                                        [3] - Load Theme                   \n" +
-										"                                        [4] - Create Theme                 ";
+										"                                        [4] - Create Theme                 \n" +
+										"                                        [5] - Help                         ";
 			
 			int intSelection;														
-			intSelection = getValidMenuInput(con, 4, strMainMenuDisplay);
+			intSelection = getValidMenuInput(con, 5, strMainMenuDisplay);
 			con.println("                                Loading...");
 			con.sleep(1000);
 			
@@ -66,6 +67,13 @@ public class Main{
 				System.out.println();
 				
 				createThemeScreen(con);
+			}
+			// Option 5 Activated - Help
+			else if(intSelection == 5){
+				System.out.println("TEST: Main Menu Option 5 Selected"); // TEST
+				System.out.println();
+				
+				helpScreen(con);
 			}
 		}
 		
@@ -174,7 +182,7 @@ public class Main{
 				// Displays player turn
 				if(intCurrentPlayer != intPreviousPlayer){
 					
-					con.println("\n\n\n\n\n\n");  // TODO: maybe display this as a rectangular box (color) with player name in it
+					con.println("\n\n\n\n\n\n");
 					
 					if(intCurrentPlayer == 1){
 						con.setDrawColor(clrP1Color);
@@ -374,6 +382,8 @@ public class Main{
 		con.println();
 		con.println("                                                LEADERBOARD                ");
 		con.println("                                -------------------------------------------");
+		con.println("                                 List of players with the most record wins!");
+		con.println();
 		
 		if(intNumEntries == 0){
 			con.println("                                " + "   You're the first two players ever.");
@@ -410,9 +420,9 @@ public class Main{
 		}
 		
 		// Return to main menu button
-		displayReturnButton(con, 1280/2 - 500/2, 720-225);
-		con.println("\n\n\n\n");
-		con.println("                                RETURNING TO MAIN MENU...");
+		displayReturnButton(con, 1280/2 - 500/2, 720-180);
+		con.println("\n\n\n");
+		con.println("                                RETURNING TO MAIN MENU..."); // TODO - fix location of this text depending on number of entries in leaderboard
 		con.println();
 		
 		int intCount2;
@@ -657,6 +667,40 @@ public class Main{
         
         System.out.println("THEME \"" + strThemeName + "\" SUCCESSFULLY CREATED AND LOADED"); // CONFIRMATION
         System.out.println();
+        
+        // Return to main menu button
+		displayReturnButton(con, 1280/2 - 500/2, 720-525);
+		con.println("\n\n\n");
+		con.println("                                RETURNING TO MAIN MENU...");
+		con.println();
+		
+		int intCount2;
+		con.print("                                ");
+		for(intCount2 = 0; intCount2 < 10; intCount2++){
+			con.print(". ");
+			con.sleep(250);
+		}
+		con.sleep(1000);
+	}
+	
+	
+	/*
+	 * helpScreen method:
+	 * Activated when "[5] - Help" is selected in the main menu.
+	 * Displays information to the user about how to play Connect 4.
+	 */
+	public static void helpScreen(Console con){
+		newScreen(con);
+		displayBanners(con, "CreateThemeBanner.jpg");
+		
+		// Leaderboard menu display
+		con.println();
+		con.println("                                             HELP / HOW TO PLAY            ");
+		con.println("                                -------------------------------------------");
+        con.println("                                  Information about how to play Connect 4! ");
+        
+		// How to play instructions
+        // TODO: complete help screen
         
         // Return to main menu button
 		displayReturnButton(con, 1280/2 - 500/2, 720-525);
