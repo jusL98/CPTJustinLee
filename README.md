@@ -100,8 +100,6 @@ To install the Connect 4 game, follow these steps:
    cd CPTJustinLee
    ```
 
-</br>
-
 2. **Download [arc.jar](https://github.com/MrCadawas/arc/releases).**
 
    Once downloaded, place the arc.jar file into the directory within the cloned project.
