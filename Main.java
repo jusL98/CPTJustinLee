@@ -103,8 +103,8 @@ public class Main{
 		Font boardTitleFont = con.loadFont("assets/Roboto-Black.ttf", 25); // board title
 		con.setDrawFont(boardTitleFont);
 		con.setDrawColor(Color.BLACK);
-		int strBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
-		con.drawString(strBoardTitle, 20 + (1240 - strBoardTitleWidth) / 2, 20 + 10);
+		int intBoardTitleWidth = con.getTextFontMetrics().stringWidth(strBoardTitle);
+		con.drawString(strBoardTitle, 20 + (1240 - intBoardTitleWidth) / 2, 20 + 10);
 		con.repaint();
 		
 		// Draws initial empty Connect 4 board
@@ -126,7 +126,7 @@ public class Main{
 		con.setDrawFont(player1TextFont);
 		con.setDrawColor(Color.BLACK);
 		String strP1Text = strP1Name + ": " +intP1Wins;
-		int strP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
+		int intP1TextWidth = con.getTextFontMetrics().stringWidth(strP1Text);
 		con.drawString(strP1Text, 20 + 20, 20 + 15);
 		con.repaint();
 		strP2Name = getValidPlayerName(con, 2); // player 2
@@ -137,8 +137,8 @@ public class Main{
 		con.setDrawFont(player2TextFont);
 		con.setDrawColor(Color.BLACK);
 		String strP2Text = strP2Name + ": " +intP2Wins;
-		int strP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
-		con.drawString(strP2Text, 1280-20-strP2TextWidth-20, 20 + 15);
+		int intP2TextWidth = con.getTextFontMetrics().stringWidth(strP2Text);
+		con.drawString(strP2Text, 1280-20-intP2TextWidth-20, 20 + 15);
 		con.repaint();
 		
 		
@@ -155,19 +155,8 @@ public class Main{
 			int intPreviousPlayer = 2;
 			boolean boolGameActive = true;
 			
-			// Gets start game input
-			String strSelection = "";
-			while(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
-				con.println("\n\n\n");
-				con.print("  START GAME? (Y/N): ");
-				strSelection = con.readLine().toUpperCase();
-				if(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
-					con.println("    [INVALID] Enter (Y) or (N).");
-					con.sleep(500);
-					con.clear();
-				}
-			}
-			con.println();
+			// Starting game countdown
+			con.println("\n\n\n");
 			con.println("  STARTING IN");
 			con.println("       3     ");
 			con.sleep(750);
@@ -307,7 +296,7 @@ public class Main{
 			}
 			
 			// Gets play again input
-			strSelection = "";
+			String strSelection = "";
 			while(!strSelection.equalsIgnoreCase("Y") && !strSelection.equalsIgnoreCase("N")){
 				con.println("\n\n\n\n\n\n");
 				con.print("  PLAY AGAIN? (Y/N): ");
@@ -420,6 +409,18 @@ public class Main{
 			}
 		}
 		
+		// Return to main menu button
+		displayReturnButton(con, 1280/2 - 500/2, 720-225);
+		con.println("\n\n\n\n");
+		con.println("                                RETURNING TO MAIN MENU...");
+		con.println();
+		
+		int intCount2;
+		con.print("                                ");
+		for(intCount2 = 0; intCount2 < 10; intCount2++){
+			con.print(". ");
+			con.sleep(250);
+		}
 		con.sleep(1000);
 	}
 	
@@ -467,12 +468,14 @@ public class Main{
 		// Sets last theme to theme just loaded
 		DataManager.setLastTheme(strThemeNames[intSelection-1]);
 		
-		con.println("                                Loading...");
+		con.println("                                Loading Theme...");
 		con.sleep(1000);
 		con.println();
 		con.println("                                THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED");
 		System.out.println("THEME \"" + strThemeNames[intSelection-1] + "\" SUCCESSFULLY LOADED"); // CONFIRMATION
 		System.out.println();
+		
+		con.sleep(1000);
 	}
 	
 	
@@ -658,6 +661,53 @@ public class Main{
 		con.drawImage(imgBanner, 20, 20); // left banner
 		con.drawImage(imgBanner, 1280-300-20, 20); // right banner
 		con.repaint();
+	}
+	
+	
+	/* 
+	 * displayReturnButton method: 
+	 * Returns true when clicked.
+	 * Used to create a clickable button that is intended to return the user to the main menu.
+	 * Waits until click detected - cannot be used at the same time as other input waits.
+	 */
+	public static boolean displayReturnButton(Console con, int intButtonX, int intButtonY){
+		int intButtonWidth = 500;
+		int intButtonHeight = 50;
+
+		// Draws button with text
+		con.setDrawColor(Color.WHITE);
+        con.fillRect(intButtonX, intButtonY, intButtonWidth, intButtonHeight);
+        Font boardTitleFont = con.loadFont("assets/Roboto-Medium.ttf", 25);
+		con.setDrawFont(boardTitleFont);
+		con.setDrawColor(Color.BLACK);
+		String strButtonText = "CLICK TO RETURN TO MAIN MENU";
+		int intButtonTextWidth = con.getTextFontMetrics().stringWidth(strButtonText);
+		con.drawString(strButtonText, intButtonX + (intButtonWidth - intButtonTextWidth-50) / 2, intButtonY+5);
+		con.repaint();
+
+		boolean boolWasPressed = false;
+				
+		// Gets valid column from mouse click
+		while(true){
+			boolean boolIsPressed = con.currentMouseButton() == 1;
+			
+			// Logic runs when left click press (not hold) occurs by validating click wasn't held from previous iteration and was just released
+			if(boolWasPressed && boolIsPressed != true){ // passes if boolWasPressed = true (from last iteration when mouse held) and boolIsPressed != false (mouse just released)
+				int intMouseX = con.currentMouseX();
+				int intMouseY = con.currentMouseY();
+				
+				// Gets mouse input within button dimensions
+				if(intMouseX >= intButtonX && intMouseX <= intButtonX + intButtonWidth && intMouseY >= intButtonY && intMouseY <= intButtonY + intButtonHeight){
+                    System.out.println("RETURN TO MAIN MENU BUTTON CLICKED"); // CONFIRMATION
+                    return true;
+                }else{
+                    //System.out.println("CLICK OUTSIDE RETURN TO MAIN MENU BUTTON DETECTED"); // CONFIRMATION
+                }
+			}
+			
+			boolWasPressed = boolIsPressed; // boolWasPressed turns true when mouse clicked (mouse held down)
+			con.sleep(25);
+		}
 	}
 	
 	
