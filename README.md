@@ -1,12 +1,14 @@
-<p align="center">
-   <img width="600" alt="image" src="https://github.com/user-attachments/assets/bca85f09-f24d-4657-92fd-23e8d755b051"/>
-</p>
 
 # Connect 4 Game
 
 This Connect 4 game is written in Java for my culminating Grade 11 Computer Science (ICS3U1) project. The game features the standard Connect 4 gameplay, a leaderboard with sorting, theme loading, theme creation, a help menu and an easter egg screen.
 
 This Connect 4 game was created using my teacher, Mr. Cadawas's arc library, which provides a "Console" window for console output, user input, keyboard/mouse input and screen graphics in a dedicated window.
+
+<p align="center">
+   <img width="1000" alt="image" src="https://github.com/user-attachments/assets/e4c7d3ee-57d4-4f06-8813-0fa04c008dd8"/>
+</p>
+
 
 ## Description
 
