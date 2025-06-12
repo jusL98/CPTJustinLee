@@ -100,8 +100,6 @@ To install the Connect 4 game, follow these steps:
    cd CPTJustinLee
    ```
 
-</br>
-
 2. **Download [arc.jar](https://github.com/MrCadawas/arc/releases).**
 
    Once downloaded, place the arc.jar file into the directory within the cloned project.
@@ -219,10 +217,10 @@ Thank you!
 <br>
 
 <p align="left">
-   <img width="500" alt="image" src="https://github.com/user-attachments/assets/866d3f40-a438-4d48-936e-365f07b41b49"/>
-   <img width="500" alt="image" src="https://github.com/user-attachments/assets/74c205b7-4fee-47f3-8e24-3f6fb6da6ab1"/>
-   <img width="500" alt="image" src="https://github.com/user-attachments/assets/beefe72d-5f47-430c-bff9-75da1a3ad1c0"/>
-   <img width="500" alt="image" src="https://github.com/user-attachments/assets/535534b3-585e-4af8-aa84-4d48fed414ad"/>
-   <img width="500" alt="image" src="https://github.com/user-attachments/assets/8a689b59-07d8-4e6e-bf52-50218ee5b224"/>
-   <img width="500" alt="image" src="https://github.com/user-attachments/assets/1121c3e3-9d0f-43f6-a9f0-7fa0523a1d43"/>
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/866d3f40-a438-4d48-936e-365f07b41b49"/>
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/74c205b7-4fee-47f3-8e24-3f6fb6da6ab1"/>
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/beefe72d-5f47-430c-bff9-75da1a3ad1c0"/>
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/535534b3-585e-4af8-aa84-4d48fed414ad"/>
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/8a689b59-07d8-4e6e-bf52-50218ee5b224"/>
+   <img width="400" alt="image" src="https://github.com/user-attachments/assets/1121c3e3-9d0f-43f6-a9f0-7fa0523a1d43"/>
 </p>
