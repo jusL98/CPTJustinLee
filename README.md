@@ -105,7 +105,7 @@ To install the Connect 4 game, follow these steps:
    Once downloaded, place the arc.jar file into the directory within the cloned project.
 
    ```
-   mv /path/to/downloaded/arc.jar CPTJustinLee
+   mv /path/to/downloaded/arc.jar /path/to/cloned/directory/
    ```
 
 ### Setup
@@ -124,6 +124,8 @@ To install the Connect 4 game, follow these steps:
    javac -cp .;arc.jar Main.java
    ```
 
+   If the above do not work, replace .;arc.jar with "/path/to/cloned/directory/arc.jar;."
+
 ### Run
 
 4. **Run the program.**
@@ -139,6 +141,9 @@ To install the Connect 4 game, follow these steps:
    ```
    java -cp .;arc.jar Main.java
    ```
+
+   If the above do not work, replace .;arc.jar with "/path/to/cloned/directory/arc.jar;."
+
 
 ## Usage
 
