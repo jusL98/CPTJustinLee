@@ -174,11 +174,11 @@ public class Main{
 			con.println("\n\n\n");
 			con.println("  STARTING IN");
 			con.println("       3     ");
-			con.sleep(750);
+			con.sleep(250);
 			con.println("       2     ");
-			con.sleep(750);
+			con.sleep(250);
 			con.println("       1     ");
-			con.sleep(750);
+			con.sleep(250);
 			con.clear();
 			System.out.println("STARTING GAME"); // CONFIRMATION
 			System.out.println();
@@ -339,8 +339,6 @@ public class Main{
 					con.print(". ");
 					con.sleep(250);
 				}
-			
-				con.sleep(2000);
 				con.clear();
 			}else{
 				boolWantPlayAgain = false;
@@ -361,8 +359,6 @@ public class Main{
 					con.print(". ");
 					con.sleep(250);
 				}
-				
-				con.sleep(2000);
 				break;
 			}
 			
@@ -462,7 +458,6 @@ public class Main{
 			con.print(". ");
 			con.sleep(250);
 		}
-		con.sleep(1000);
 	}
 	
 	
@@ -540,7 +535,6 @@ public class Main{
 			con.print(". ");
 			con.sleep(250);
 		}
-		con.sleep(1000);
 	}
 	
 	
@@ -711,7 +705,6 @@ public class Main{
 			con.print(". ");
 			con.sleep(250);
 		}
-		con.sleep(1000);
 	}
 	
 	
@@ -763,7 +756,6 @@ public class Main{
 			con.print(". ");
 			con.sleep(250);
 		}
-		con.sleep(1000);
 	}
 	
 	
@@ -826,7 +818,6 @@ public class Main{
 			con.print(". ");
 			con.sleep(250);
 		}
-		con.sleep(1000);
 	}
 	
 	
