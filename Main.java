@@ -1,3 +1,8 @@
+// Justin Lee
+// Connect 4 by Justin
+// Last Modified: June 12, 2025
+// Version 1.8
+
 import arc.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
