@@ -83,8 +83,8 @@ Connect 4 is packed with many features including a modern graphical UI, fun game
 
 ## Built With
 
-- [Java SE 23.0.2](https://www.java.com/en/): programming language
-- [arc](https://github.com/MrCadawas/arc/): library that provides a Console window with simple input and output methods for learning.
+- [Java SE 23.0.2](https://www.java.com/en/): Programming language for complete functionality
+- [arc](https://github.com/MrCadawas/arc/): Library that provides a Console window with simple input and output methods and a graphical interface for learning Java
 
 ## Quick Start
 
@@ -92,6 +92,7 @@ Connect 4 is packed with many features including a modern graphical UI, fun game
 
 - OS
 - Java SE 23.0.2 or higher installed
+- Terminal or CLI Access
 
 ### Installation
 
