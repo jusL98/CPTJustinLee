@@ -1,3 +1,5 @@
+<a id="readme-top"></a>
+
 # Connect 4 Game
 
 This Connect 4 game is written in Java for my culminating Grade 11 Computer Science (ICS3U1) project. The game features the standard Connect 4 gameplay, a leaderboard with sorting, theme loading, theme creation, a help menu and an easter egg secret joke screen.
@@ -198,14 +200,15 @@ This project was created using my teacher's arc library. Thanks Mr. Cadawas!
 
 - [arc](https://github.com/MrCadawas/arc)
 
+## License
+This project is licensed under the [MIT](LICENSE.txt) License. See LICENSE.txt for more information.
+
 <br>
 
 ---
 
 <br>
 Thank you!
-
-<br>
 
 <p align="left">
   <a href="mailto:justin.matthew.lee.18@gmail.com">
@@ -218,6 +221,8 @@ Thank you!
     <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>
   </a>
 </p>
+
+<p align="right">(<a href="#readme-top">BACK TO TOP</a>)</p>
 
 <br>
 
