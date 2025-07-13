@@ -1,6 +1,6 @@
 <a id="readme-top"></a>
 
-# Connect 4 Game
+# Connect 4
 
 This game is written in Java for my culminating Grade 11 Computer Science (ICS3U1) project. The game features the standard Connect 4 gameplay, a leaderboard with sorting, theme loading, theme creation, a help menu and an easter egg secret joke screen.
 
