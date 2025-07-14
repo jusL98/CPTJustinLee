@@ -174,6 +174,12 @@ To install the Connect 4 game, follow these steps:
 
    f. [9898] View the secret joke menu.
 
+## Contributing
+
+1. Fork & branch off main.
+2. Make your changes.
+3. PRs welcome!
+
 ## Project Structure
 
 ```
