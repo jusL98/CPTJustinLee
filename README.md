@@ -216,7 +216,6 @@ This project is licensed under the [MIT](LICENSE.txt) License. See LICENSE.txt f
 
 ---
 
-<br>
 Thank you!
 
 <p align="left">
