@@ -101,8 +101,8 @@ To install the Connect 4 game, follow these steps:
 1. **Clone the repository.**
 
    ```bash
-   git clone https://github.com/jusL98/CPTJustinLee.git
-   cd CPTJustinLee
+   git clone https://github.com/jusL98/connect-4.git
+   cd connect-4
    ```
 
 2. **Download [arc.jar](https://github.com/MrCadawas/arc/releases).**
@@ -183,7 +183,7 @@ To install the Connect 4 game, follow these steps:
 ## Project Structure
 
 ```
-├── CPTJustinLee/
+├── connect-4/
 │   ├── assets/
 │   │   ├── Pixlr Files/               // contains pixlr.com files used to create banners
 │   │   ├── Connect4Logo.jpg           // logo featured on main menu
